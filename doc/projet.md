@@ -266,7 +266,7 @@ Un interrupteur (style « switch »), placé **tout en haut de la section du lis
 
 Thème **sombre** uniquement.
 
-Le titre en haut de page est simplement **Cartodle**, compact. Le bouton **Réinitialiser** est dans l'en-tête, en haut à droite.
+Le titre en haut de page est **Cartodle**, compact, suivi d'un sélecteur de vues **Jeu | Voisins** (voir section 12). Le bouton **Réinitialiser** est dans l'en-tête, en haut à droite ; il n'apparaît que sur la vue Jeu.
 
 ### Desktop
 
@@ -331,7 +331,41 @@ Fonctionnalités en place :
 
 ---
 
-## 12. Ma façon de travailler
+## 12. Vue Voisins (outil d'aide à la résolution)
+
+Une seconde vue, dans le même fichier, aide à résoudre le puzzle *Les Voisins* (issu du petit outil `Voisins`, intégré à Cartodle). Elle s'ouvre avec l'onglet **Voisins** de l'en-tête, ou directement avec `#voisins` dans l'adresse.
+
+### Règles du puzzle
+- 9 cartes Pokémon à ranger dans une grille 3×3.
+- Deux cartes voisines (côtés uniquement, pas de diagonales) doivent partager au moins un point commun : un **type** (types des jeux, 1 ou 2 par carte), la **génération** (1 à 9) ou la **lignée** d'évolution.
+- Une disposition gagne si chaque carte a un point commun avec chacune de ses voisines.
+
+### Fonctionnement
+- Saisie de 9 cartes : nom, types, génération, lignée. **Taper un nom remplit automatiquement** types, génération et lignée à partir des données de Cartodle (1025 espèces + formes régionales). Chaque champ reste modifiable pour une carte absente des données.
+- La colonne « Liens » donne le nombre d'autres cartes avec un point commun ; elle passe en rouge quand la carte est trop isolée (moins de 2 liens pour un coin, moins de 4 pour le centre).
+- **Sélection des types par pastilles colorées** (couleurs officielles des types des jeux, 18 types, 2 maximum par carte) :
+  - **Desktop** : deux emplacements « Type 1 » et « Type 2 ». Un clic ouvre une palette flottante des 18 types ; choisir un type la referme. Le × vide l'emplacement. Choisir un type déjà présent dans l'autre emplacement le retire de celui-ci. La palette s'ouvre vers le haut pour les dernières cartes. Elle se ferme en cliquant ailleurs ou avec Échap.
+  - **Mobile** : les types choisis sont des pastilles avec un ×, suivies d'un bouton « + Type » (absent quand la carte a déjà 2 types). La palette s'ouvre sous la carte, sans les types déjà pris. Pastilles et boutons de 35 px de haut pour le tactile.
+  - Le remplissage automatique par nom remplit aussi ces pastilles.
+- **Résoudre** explore toutes les dispositions (instantané). La **solution** s'affiche dans une grille 3×3 (bloc « Solution », centré sur mobile), et chaque paire de voisines est listée avec son point commun. Une seule solution est affichée : il n'y a ni flèches de navigation ni compteur « 1/1 ». Si aucune disposition n'existe, un message l'indique.
+- Les symétries sont toujours masquées : une seule disposition est gardée par groupe de 8 symétries du carré (rotations et miroirs), car seule compte la recherche d'une solution. Il n'y a plus d'interrupteur.
+- **Exemple** remplit les 9 cartes de démonstration (Némélios, Mentali, Pyroli, Magmar, Têtarte, Malvalame, Feuforêve, Mesmérella, Abra) et résout : 1 solution.
+- **Vider** remet tout à zéro. Les 9 cartes sont **vides à l'arrivée** sur l'application ; le bouton **Exemple** les remplit.
+
+### Décisions
+- **Génération** : déduite du numéro national de l'espèce. Une forme régionale prend la génération de l'espèce d'origine (Sabelette d'Alola = génération 1).
+- **Lignée** : nom du premier Pokémon de la chaîne d'évolution (Mentali et Pyroli : Évoli ; Mesmérella : Scrutella). Table embarquée `LINEAGE`.
+  - **Exception pour 15 familles à bébé** : la lignée porte le nom de l'évolution juste au-dessus du bébé, et non celui du bébé. Pichu, Pikachu et Raichu donnent tous « Pikachu » ; Magby, Magmar et Maganon donnent « Magmar ».
+  - Familles concernées : Pikachu, Mélofée, Rondoudou, Lippoutou, Élektek, Magmar, Marill, Qulbutoké, Rosélia, Éoko, Simularbre, M. Mime, Leveinard, Ronflex, Démanta (39 espèces).
+  - **Pas d'exception** pour Debugant (lignée « Debugant »), ni pour Togepi, Riolu et Toxizap, dont l'évolution est de la même génération. Phione et Manaphy ont chacun leur propre lignée.
+  - Les formes régionales suivent la lignée de leur espèce (M. Mime de Galar : « M. Mime »).
+- Les formes Méga, Gigamax, etc. ne sont pas gérées par le remplissage automatique (saisie manuelle possible).
+- Types affichés avec les noms des jeux, dont **Électrik** (et non « Électrique », nom utilisé pour le JCC dans les filtres de Cartodle). La comparaison se fait par identifiant interne.
+- Mobile : la saisie est dans une section « Cartes » repliable ; **Résoudre** la referme et affiche les solutions (même principe que les filtres de la vue Jeu).
+
+---
+
+## 13. Ma façon de travailler
 
 Je souhaite avancer progressivement.
 
