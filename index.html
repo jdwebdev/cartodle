@@ -4,6 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <title>Cartodle</title>
 <style>
 :root {
@@ -120,7 +122,7 @@ header { display:flex; align-items:center; gap:8px; }
 body:not([data-view="cartodle"]) #viewCartodle { display:none; }
 body:not([data-view="voisins"]) #viewVoisins { display:none; }
 body:not([data-view="coffre"]) #viewCoffre { display:none; }
-body:not([data-view="cartodle"]) #resetBtn { visibility:hidden; }
+body[data-view="coffre"] #resetBtn { visibility:hidden; }
 header button { padding:3px 10px; font-size:12px; }
 .dex-header,.pokemon-row {
   display:grid;
@@ -1159,15 +1161,18 @@ const Voisins = (() => {
   $("vToggle").onclick = () => setOpen(!document.body.classList.contains("v-open"));
   $("vGo").onclick = solve;
   $("vDemo").onclick = () => { fillDemo(); solve(); };
-  $("vReset").onclick = () => {
+  // Retour à l'état d'arrivée : 9 cartes vides, aucune solution, saisie ouverte (mobile).
+  function resetAll() {
+    picker = null;
     [...rowsEl.children].forEach(r => setRow(r, {}));
-    updateDeg(); clearResults();
-  };
+    updateDeg(); clearResults(); setOpen(true);
+  }
+  $("vReset").onclick = resetAll;
 
   rowTypes.forEach((_, i) => renderTypes(i)); // emplacements / bouton « + Type » dès l'arrivée
   updateDeg(); // les 9 cartes démarrent vides ; le bouton « Exemple » les remplit
   setOpen(true);
-  return { readCards, shared, solveCards, genOf, fromEntry, byName, norm };
+  return { readCards, shared, solveCards, genOf, fromEntry, byName, norm, reset: resetAll };
 })();
 
 // ---------- Vue Coffre : aide au Mastermind (4 pastilles, 6 types, doublons permis, 8 essais) ----------
@@ -1352,6 +1357,9 @@ const Coffre = (() => {
   newGame();
   return { ALL, feedback, fbKey, candidatesFor, bestGuess, state: () => ({ history, cands, cur, over }) };
 })();
+
+// Le bouton « Réinitialiser » de l'en-tête agit sur la vue affichée (Cartodle ou Voisins).
+$("resetBtn").onclick = () => { if (document.body.dataset.view === "voisins") Voisins.reset(); else reset(); };
 
 // Safari iOS ignore user-scalable=no : on bloque aussi les gestes de zoom (pincement) à la main.
 ["gesturestart", "gesturechange", "gestureend"].forEach(ev =>
