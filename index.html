@@ -4,15 +4,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="color-scheme" content="dark">
+<meta name="supported-color-schemes" content="dark">
+<meta name="theme-color" content="#0c0e15">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <title>Cartodle</title>
 <style>
 :root {
   color-scheme:dark;
+  --accent-img:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27100%25%27%20height%3D%27100%25%27%20viewBox%3D%270%200%201%201%27%20preserveAspectRatio%3D%27none%27%3E%3Crect%20width%3D%271%27%20height%3D%271%27%20fill%3D%27%237b8cff%27%2F%3E%3C%2Fsvg%3E);
+  --yellow-img:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27100%25%27%20height%3D%27100%25%27%20viewBox%3D%270%200%201%201%27%20preserveAspectRatio%3D%27none%27%3E%3Crect%20width%3D%271%27%20height%3D%271%27%20fill%3D%27%23ffd60a%27%2F%3E%3C%2Fsvg%3E);
+  --green-img:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27100%25%27%20height%3D%27100%25%27%20viewBox%3D%270%200%201%201%27%20preserveAspectRatio%3D%27none%27%3E%3Crect%20width%3D%271%27%20height%3D%271%27%20fill%3D%27%233ddc84%27%2F%3E%3C%2Fsvg%3E);
+  --white-img:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27100%25%27%20height%3D%27100%25%27%20viewBox%3D%270%200%201%201%27%20preserveAspectRatio%3D%27none%27%3E%3Crect%20width%3D%271%27%20height%3D%271%27%20fill%3D%27%23ffffff%27%2F%3E%3C%2Fsvg%3E);
+  --muted-img:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27100%25%27%20height%3D%27100%25%27%20viewBox%3D%270%200%201%201%27%20preserveAspectRatio%3D%27none%27%3E%3Crect%20width%3D%271%27%20height%3D%271%27%20fill%3D%27%238d93a6%27%2F%3E%3C%2Fsvg%3E);
+  --grey-img:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27100%25%27%20height%3D%27100%25%27%20viewBox%3D%270%200%201%201%27%20preserveAspectRatio%3D%27none%27%3E%3Crect%20width%3D%271%27%20height%3D%271%27%20fill%3D%27%23888888%27%2F%3E%3C%2Fsvg%3E);
+  forced-color-adjust:none;
   --bg:#12141c; --panel:#1b1e2b; --text:#e6e8f0; --muted:#8d93a6;
-  --border:#2e3345; --accent:#7b8cff; --soft:#262c52;
-  --btn:#252a3b; --head:#222638; --hover:#252b47; --rowline:#252a3a;
+  --border:rgba(130,140,200,.2); --accent:#7b8cff; --soft:#262c52;
+  --btn:#252a3b; --head:#222638; --hover:#252b47; --rowline:rgba(130,140,200,.1);
 }
 * { box-sizing:border-box; }
 html,body { height:100%; }
@@ -49,8 +59,8 @@ button {
 }
 button:hover { filter:brightness(1.2); }
 button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
-button.primary { background:var(--accent); color:#0c0e15; border-color:var(--accent); }
-button.selected { background:var(--soft); border-color:var(--accent); color:var(--accent); }
+button.primary { background-color:transparent; background-image:var(--accent-img); background-size:100% 100%; background-origin:border-box; color:transparent; text-shadow:0 0 0 #0c0e15; border-color:transparent; }
+button.selected { color:var(--accent); border-color:transparent; background:linear-gradient(var(--soft),var(--soft)) padding-box, var(--accent-img) border-box; background-size:100% 100%; }
 button:disabled { opacity:.45; cursor:not-allowed; }
 .full { width:100%; }
 .direction { display:flex; align-items:center; justify-content:center; gap:4px; margin:0 0 2px; }
@@ -58,6 +68,8 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .arrow-btn { width:68px; height:40px; padding:0; display:flex; align-items:center; justify-content:center; }
 .filters-toggle { display:none; }
 html { -webkit-text-size-adjust:100%; }
+/* Les couleurs (bordures de groupes, pastilles, types) sont fixes : pas d'ajustement automatique par le navigateur. */
+*, *::before, *::after { forced-color-adjust:none; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
 /* Pas de zoom au double appui (ni au pincement) sur toute la page, quel que soit l'élément touché */
 *, *::before, *::after { touch-action:manipulation; }
 body { -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; -webkit-tap-highlight-color:transparent; }
@@ -69,20 +81,23 @@ input, select, textarea { -webkit-user-select:text; user-select:text; }
   border:2px solid transparent; border-radius:6px; min-height:23px;
   padding:2px 4px; font-size:12px; font-weight:750; line-height:1.1;
   display:flex; align-items:center; justify-content:center; text-align:center;
-  opacity:.38; filter:grayscale(.75); background:var(--tc); color:var(--tf);
+  opacity:.38; filter:grayscale(.75); color:var(--tf); text-shadow:var(--ts,none);
+  background-clip:padding-box; background-origin:border-box; background-size:100% 100%; background-repeat:no-repeat;
 }
 .type-chip.active { opacity:1; filter:none; border-color:rgba(255,255,255,.75); }
-.stage-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; }
+.stage-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:4px; }
 .stage-chip { text-align:center; padding:4px 2px; font-size:11px; }
-.stage-chip.active { background:var(--soft); border-color:var(--accent); color:var(--accent); }
+.stage-chip.active { color:var(--accent); border-color:transparent; background:linear-gradient(var(--soft),var(--soft)) padding-box, var(--accent-img) border-box; background-size:100% 100%; }
 select {
   width:100%; min-width:0; border:1px solid var(--border); background:var(--btn);
   color:var(--text); border-radius:5px; padding:3px 4px; font:inherit; font-size:12px;
 }
-.filter-line.rarity-line { grid-template-columns:30px minmax(0,1fr); row-gap:3px; }
-.rarity-line .line-title { grid-column:1 / -1; margin-bottom:-2px; }
+.filter-line.rarity-line { grid-template-columns:62px 28px minmax(0,1fr); row-gap:3px; }
+.rarity-line .line-title { grid-column:1; grid-row:1 / span 2; align-self:center; font-size:10.5px; }
 .rarity-line .mm { text-transform:none; font-weight:600; }
 .rarity-line select { font-size:13px; padding:2px 6px; }
+.rar-wrap { min-width:0; border-radius:5px; overflow:hidden; border:1px solid var(--border); background-size:100% 100%; }
+.rar-wrap select { background:transparent; color:#e5e5e5; filter:invert(1); border:none; width:100%; }
 select { text-overflow:ellipsis; }
 input[type="number"] {
   width:100%; min-width:0; border:1px solid var(--border); background:var(--btn);
@@ -99,10 +114,10 @@ input[type="number"] {
 }
 .switch::after {
   content:""; position:absolute; top:2px; left:2px; width:16px; height:16px;
-  border-radius:50%; background:var(--muted); transition:transform .2s,background .2s;
+  border-radius:50%; background:var(--muted-img); background-size:100% 100%; transition:transform .2s;
 }
-.checkline input:checked + .switch { background:var(--accent); border-color:var(--accent); }
-.checkline input:checked + .switch::after { transform:translateX(16px); background:#fff; }
+.checkline input:checked + .switch { background:var(--accent-img); background-size:100% 100%; background-origin:border-box; border-color:transparent; }
+.checkline input:checked + .switch::after { transform:translateX(16px); background:var(--white-img); background-size:100% 100%; }
 .checkline input:focus-visible + .switch { outline:2px solid var(--accent); outline-offset:2px; }
 .results-head {
   flex:none; display:flex; align-items:center; justify-content:space-between;
@@ -118,15 +133,16 @@ input[type="number"] {
 header { display:flex; align-items:center; gap:8px; }
 .tabs { display:flex; gap:4px; margin:0 auto 0 0; }
 .tab { padding:3px 12px; font-size:13px; background:transparent; border-color:transparent; color:var(--muted); }
-.tab.active { background:var(--soft); border-color:var(--accent); color:var(--accent); }
+.tab.active { color:var(--accent); border-color:transparent; background:linear-gradient(var(--soft),var(--soft)) padding-box, var(--accent-img) border-box; background-size:100% 100%; }
 body:not([data-view="cartodle"]) #viewCartodle { display:none; }
 body:not([data-view="voisins"]) #viewVoisins { display:none; }
 body:not([data-view="coffre"]) #viewCoffre { display:none; }
+body:not([data-view="connexions"]) #viewConnexions { display:none; }
 body[data-view="coffre"] #resetBtn { visibility:hidden; }
 header button { padding:3px 10px; font-size:12px; }
 .dex-header,.pokemon-row {
   display:grid;
-  grid-template-columns:36px minmax(130px,1fr) 145px 75px;
+  grid-template-columns:36px minmax(130px,1fr) 145px 56px 75px;
   gap:7px; align-items:center;
 }
 .dex-header {
@@ -140,7 +156,8 @@ header button { padding:3px 10px; font-size:12px; }
   cursor:pointer; border-radius:3px;
 }
 .pokemon-row:hover { background:var(--hover); }
-.pokemon-row.reference { outline:2px solid var(--accent); outline-offset:-2px; }
+.pokemon-row.reference { position:relative; background:linear-gradient(90deg, rgba(123,140,255,.30), rgba(123,140,255,.06) 70%); }
+.pokemon-row.reference::before { content:""; position:absolute; left:0; top:0; bottom:0; width:4px; border-radius:2px; background:var(--accent-img); background-size:100% 100%; }
 .pokemon-row.outside { opacity:.3; filter:grayscale(1); }
 .dexnum { color:var(--muted); font-size:11px; font-variant-numeric:tabular-nums; }
 .pokemon-name {
@@ -153,6 +170,9 @@ header button { padding:3px 10px; font-size:12px; }
   padding:3px 5px; min-height:20px; border-radius:5px;
   white-space:nowrap; font-size:10px; font-weight:800;
 }
+.pokemon-cards, .cards-h { text-align:right; padding-right:7px; font-variant-numeric:tabular-nums; }
+.pokemon-cards { display:flex; align-items:center; justify-content:flex-end; gap:3px; font-size:12px; font-weight:700; color:var(--text, #e6e8f0); }
+.cards-ico { flex:none; color:var(--muted); }
 .pokemon-stage { font-size:10px; color:var(--muted); white-space:nowrap; text-align:left; }
 /* ---------- Vue Voisins ---------- */
 .v-view {
@@ -183,14 +203,14 @@ header button { padding:3px 10px; font-size:12px; }
   border:2px solid transparent; border-radius:6px; padding:3px 9px; font-size:12px;
   font-weight:700; line-height:1.2; white-space:nowrap; cursor:pointer;
 }
-.v-pill.on { border-color:rgba(255,255,255,.75); }
+.v-pill.on::before { content:"✓ "; }
 .v-slot {
   display:flex; align-items:center; gap:2px; min-width:0; min-height:30px;
   border:1px dashed var(--border); border-radius:8px; padding:0 2px;
 }
 .v-slot.filled { border-style:solid; border-color:transparent; }
 .v-slot.filled .v-pill { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; text-align:center; }
-.v-slot.active { border-color:var(--accent); border-style:solid; }
+.v-slot.active { border-style:solid; border-color:transparent; background:linear-gradient(var(--soft),var(--soft)) padding-box, var(--accent-img) border-box; background-size:100% 100%; }
 .v-slot-empty, .v-add {
   background:transparent; border:none; color:var(--muted); font-weight:500; font-size:12px;
   padding:4px 8px; flex:1; text-align:center;
@@ -215,7 +235,7 @@ header button { padding:3px 10px; font-size:12px; }
 .v-result-panel.empty { align-self:stretch; } /* vide : même hauteur que le bloc des cartes (desktop) */
 .v-grid {
   display:grid; grid-template-columns:repeat(3,1fr); gap:6px; max-width:420px; margin:8px 0;
-  background:var(--soft); border:1px solid var(--accent); padding:8px; border-radius:10px;
+  border:1px solid transparent; background:linear-gradient(var(--soft),var(--soft)) padding-box, var(--accent-img) border-box; background-size:100% 100%; padding:8px; border-radius:10px;
 }
 .v-cell {
   background:#161926; border:1px solid var(--border); border-radius:8px; padding:6px 4px;
@@ -240,18 +260,20 @@ header button { padding:3px 10px; font-size:12px; }
 .c-slot { padding:0; border:none; background:none; border-radius:50%; line-height:0; }
 .peg {
   display:inline-grid; place-items:center; flex:none; width:var(--peg,40px); height:var(--peg,40px);
-  border-radius:50%; border:2px solid #111; box-shadow:1px 2px 0 #111;
+  border-radius:50%; border:2px solid transparent; box-shadow:1px 2px 0 #111;
+  background-image:var(--grey-img), linear-gradient(#111,#111); background-clip:padding-box,border-box; background-origin:border-box; background-size:100% 100%; background-repeat:no-repeat;
 }
 .peg svg { width:100%; height:100%; }
-.peg.empty { background:#14161f; border:2px dashed #555; box-shadow:none; }
-.c-slot.active .peg { box-shadow:0 0 0 3px #ffd60a; }
+.peg.empty { background:#14161f; border:2px dashed rgba(190,196,230,.4); box-shadow:none; }
+.c-slot.active { background:var(--yellow-img); background-size:100% 100%; padding:3px; margin:-3px; }
 .c-fbs { display:flex; gap:6px; flex:none; }
 .c-fb {
-  width:30px; height:30px; padding:0; border-radius:50%; border:2px solid #000; display:grid; place-items:center;
-  font-size:14px; font-weight:800; line-height:1; color:#111; opacity:.35;
+  width:30px; height:30px; padding:0; border-radius:50%; border:2px solid transparent; display:grid; place-items:center;
+  background:var(--fc-img, var(--grey-img)) padding-box, #000 border-box; background-size:100% 100%;
+  font-size:14px; font-weight:800; line-height:1; color:transparent; text-shadow:0 0 0 #111; opacity:.35;
 }
-.c-fb.g { background:#3ddc84; }
-.c-fb.y { background:#ffd60a; }
+.c-fb.g { --fc-img:var(--green-img); }
+.c-fb.y { --fc-img:var(--yellow-img); }
 .c-fb.on { opacity:1; }
 .c-fbn { display:block; line-height:1; }
 span.c-fb { cursor:default; }
@@ -272,6 +294,56 @@ span.c-fb { cursor:default; }
 .c-err { color:#ff7b8a; }
 .c-bar { display:flex; gap:6px; flex-wrap:wrap; }
 .c-bar button.primary { padding:8px 16px; }
+/* ---------- Vue Connexions ---------- */
+.x-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px 8px; margin-bottom:6px; }
+.x-cell { display:flex; flex-direction:column; gap:3px; min-width:0; }
+.x-info { font-size:10.5px; line-height:1.25; color:var(--muted); }
+.x-info:empty { display:none; }
+.x-info.err, .x-err { color:#ff7b8a; }
+.x-result-panel.empty { align-self:stretch; }
+.x-head { margin:2px 0 4px; font-weight:700; }
+.x-sub { margin:10px 0 2px; font-size:12px; color:var(--muted); }
+.x-group {
+  position:relative; overflow:hidden; margin:8px 0; padding:8px 10px 8px 18px;
+  background-color:#161926; border:1px solid var(--border); border-radius:10px;
+  background-image:linear-gradient(90deg, var(--gc-tint, transparent), transparent 55%);
+}
+.x-bar { position:absolute; left:0; top:0; bottom:0; width:6px; background-image:var(--accent-img); background-size:100% 100%; }
+.x-group.unknown { border-style:dashed; }
+.x-group.unknown .x-bar { background-image:var(--muted-img); }
+.x-gt { margin-bottom:6px; font-size:13px; font-weight:700; }
+.x-gp { display:flex; flex-wrap:wrap; gap:5px; }
+.x-chip { padding:2px 9px; background:var(--btn); border:1px solid var(--border); border-radius:999px; font-size:12px; font-weight:600; }
+.x-act { margin-top:8px; padding:4px 10px; font-size:12px; }
+.x-gp .x-act { margin-top:0; }
+.x-choose { align-items:center; margin-top:8px; }
+.x-hint { font-size:12px; color:var(--muted); }
+.sug { position:absolute; z-index:60; max-height:220px; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
+  background-color:#1b1e2b; border:1px solid rgba(130,140,200,.3); border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.45); padding:3px; }
+.sug[hidden] { display:none; }
+.sug-i { padding:8px 10px; border-radius:6px; font-size:14px; color:#e6e8f0; cursor:pointer; }
+.sug-i.on { background-color:#262c52; color:#cfd6ff; }
+.x-act2 { color:var(--muted); }
+.x-group.locked .x-bar { background-image:var(--green-img); }
+.x-group.locked { --gc-tint:rgba(61,220,132,.16); }
+.x-input-panel.solved #xGrid { display:none; }
+.x-input-panel:not(.solved) #xPillsLeft { display:none; }
+.x-pills-top { display:none; }
+.x-pillgrid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+.x-pill {
+  min-height:40px; padding:6px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  background:var(--btn); color:var(--text); border:1px solid var(--border); border-radius:8px; font-size:13px; font-weight:600;
+}
+.x-pill.on { color:var(--accent); border-color:transparent; background:linear-gradient(var(--soft),var(--soft)) padding-box, var(--accent-img) border-box; background-size:100% 100%; }
+.x-pill:disabled { opacity:.35; filter:grayscale(1); cursor:default; }
+.x-edit { margin-top:10px; }
+.x-locknote:empty { display:none; }
+.x-locknote { margin:6px 0 0; }
+.x-result-panel.stale #xOut { opacity:.4; }
+.x-pickbtn { cursor:pointer; color:var(--text); }
+.x-pickbtn.on { color:var(--accent); border-color:transparent; background:linear-gradient(var(--soft),var(--soft)) padding-box, var(--accent-img) border-box; background-size:100% 100%; }
+.x-pick { margin-top:14px; padding-top:6px; border-top:1px solid var(--border); }
+.x-opt { margin-top:10px; padding-top:4px; border-top:1px solid var(--border); }
 @media(max-width:760px) {
   body { height:100vh; height:100dvh; overflow:hidden; }
   main { display:flex; flex-direction:column; gap:7px; }
@@ -292,10 +364,26 @@ span.c-fb { cursor:default; }
   .filter-line { margin-top:4px; }
   select, input[type="number"], .rarity-line select { font-size:16px; padding:4px 8px; }
   .type-chip { min-height:30px; font-size:14px; }
-  .stage-chip { font-size:13px; padding:6px 2px; }
+  .stage-chip { font-size:12px; padding:6px 2px; }
   .type-actions button { font-size:13px; padding:5px 2px; }
   #validateBtn { padding:10px; font-size:16px; margin-top:6px; }
   .checkline { font-size:14px; }
+  /* Vue Connexions */
+  .x-view .x-input-panel { display:none; }
+  body.x-open .x-input-panel { display:block; flex:1; overflow-y:auto; }
+  .x-view .x-result-panel { flex:1; overflow-y:auto; }
+  body.x-open .x-result-panel { display:none; }
+  body.x-open #xToggle svg { transform:rotate(180deg); }
+  .x-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .x-info { font-size:11px; }
+  /* mobile : les pastilles s'affichent en haut du résultat ; le panneau de saisie garde les champs pour modifier les noms */
+  .x-input-panel.solved #xGrid { display:grid; }
+  .x-pills-left, .x-input-panel.solved .x-pills-left { display:none; }
+  .x-pills-top { display:block; margin-bottom:10px; }
+  .x-pillgrid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .x-pill { min-height:44px; font-size:14px; }
+  .x-act { padding:9px 14px; font-size:14px; }
+  .x-pickbtn { padding:7px 12px; font-size:14px; }
   /* Vue Coffre */
   .c-view { padding:7px; }
   .c-row { padding:6px 6px; gap:6px; }
@@ -331,16 +419,22 @@ span.c-fb { cursor:default; }
   .v-bar button { padding:9px 14px; font-size:15px; }
 }
 @media(max-width:470px) {
-  header { padding:8px 12px; gap:4px; }
-  .tab { padding:3px 8px; }
+  header { padding:8px 8px; gap:2px; min-width:0; }
+  .tabs { gap:0; min-width:0; }
+  .tab { padding:3px 6px; font-size:12px; }
+  header #resetBtn { padding:3px 7px; font-size:11px; flex:none; white-space:nowrap; }
   main { padding:7px; gap:7px; }
   .panel { padding:9px; }
   .dex-header,.pokemon-row {
-    grid-template-columns:31px minmax(90px,1fr) 105px 62px; gap:4px;
+    grid-template-columns:31px minmax(90px,1fr) 96px 44px 54px; gap:4px;
   }
   .pokemon-name { font-size:11px; }
   .type-badge { font-size:9px; padding:2px 3px; }
   .pokemon-stage { font-size:9px; }
+}
+@media(max-width:360px) {
+  .tab { padding:3px 4px; font-size:11px; }
+  header #resetBtn { padding:3px 5px; font-size:10px; }
 }
 </style>
 </head>
@@ -350,6 +444,7 @@ span.c-fb { cursor:default; }
     <button class="tab active" role="tab" data-view="cartodle" aria-selected="true">Cartodle</button>
     <button class="tab" role="tab" data-view="voisins" aria-selected="false">Voisins</button>
     <button class="tab" role="tab" data-view="coffre" aria-selected="false">Coffre</button>
+    <button class="tab" role="tab" data-view="connexions" aria-selected="false">Connexions</button>
   </nav>
   <button id="resetBtn">Réinitialiser</button>
 </header>
@@ -388,15 +483,15 @@ span.c-fb { cursor:default; }
     </section>
 
     <section class="section">
-      <div class="filter-line">
-        <span>Année</span>
-        <select id="yearMin" aria-label="Année minimale"></select>
-        <select id="yearMax" aria-label="Année maximale"></select>
+      <div class="filter-line rarity-line">
+        <span class="line-title">Extension</span>
+        <span class="mm">Min</span><select id="extMin" autocomplete="off" aria-label="Extension minimale"></select>
+        <span class="mm">Max</span><select id="extMax" autocomplete="off" aria-label="Extension maximale"></select>
       </div>
       <div class="filter-line">
         <span>PV</span>
-        <select id="hpMin" aria-label="PV minimum"></select>
-        <select id="hpMax" aria-label="PV maximum"></select>
+        <select id="hpMin" autocomplete="off" aria-label="PV minimum"></select>
+        <select id="hpMax" autocomplete="off" aria-label="PV maximum"></select>
       </div>
       <div class="filter-line rarity-line">
         <span class="line-title">Rareté</span>
@@ -420,7 +515,7 @@ span.c-fb { cursor:default; }
     </div>
     <div id="results">
       <div class="dex-header">
-        <span>N°</span><span>Nom</span><span>Type(s)</span><span>Stade</span>
+        <span>N°</span><span>Nom</span><span>Type(s)</span><span class="cards-h" title="Nombre de cartes selon les filtres extension et PV">Cartes</span><span>Stade</span>
       </div>
       <div id="rows"></div>
     </div>
@@ -438,6 +533,32 @@ span.c-fb { cursor:default; }
       <button id="cUndo">Annuler</button>
       <button id="cNew">Nouvelle partie</button>
     </div>
+  </section>
+</main>
+
+<main id="viewConnexions" class="v-view x-view">
+  <button id="xToggle" class="filters-toggle" aria-expanded="true">
+    <span>Grille</span>
+    <span id="xSummary" class="summary"></span>
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+  </button>
+  <section class="panel x-input-panel">
+    <h2>Les 16 Pokémon</h2>
+    <p class="small v-help">Tapez les noms de la grille : le jeu cache 4 groupes de 4 Pokémon qui ont un point commun. Vous pouvez n’en saisir qu’une partie (au moins 4), par exemple ceux qui vous bloquent : l’application cherche les points communs entre eux.</p>
+    <div id="xGrid" class="x-grid"></div>
+    <div id="xPillsLeft" class="x-pills x-pills-left"></div>
+    <p id="xLockNote" class="small x-locknote"></p>
+    <datalist id="xNames"></datalist>
+    <div class="v-bar">
+      <button id="xGo" class="primary">Résoudre</button>
+      <button id="xReset">Vider</button>
+      <button id="xDemo">Exemple</button>
+    </div>
+  </section>
+  <section class="panel x-result-panel empty">
+    <h2>Groupes</h2>
+    <div id="xPillsTop" class="x-pills x-pills-top"></div>
+    <div id="xOut"></div>
   </section>
 </main>
 
@@ -477,7 +598,7 @@ const TCG = [
   "Plante","Feu","Eau","Électrique","Psy","Combat",
   "Incolore","Obscurité","Métal","Dragon","Fée"
 ];
-const STAGES = ["Base","Niveau 1","Niveau 2"];
+const STAGES = ["Base","Niveau 1","Niveau 2","Autre"];
 
 // Couleurs des énergies du JCC Pokémon (filtres).
 const TCG_COLORS = {
@@ -503,33 +624,28 @@ const GAME_COLORS = {
   steel:"#B7B7CE", fairy:"#D685AD", stellar:"#40B5A5"
 };
 
+// Couleur unie = image SVG (non recolorée par un mode nuit forcé) ; dégradé horizontal idem.
+const _enc = s => encodeURIComponent(s).replace(/'/g, "%27").replace(/\(/g, "%28").replace(/\)/g, "%29"); // url() sans guillemets
+const _solidCache = {};
+function solid(c) {
+  return _solidCache[c] || (_solidCache[c] = "url(data:image/svg+xml," + _enc(
+    "<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 1 1' preserveAspectRatio='none'><rect width='1' height='1' fill='" + c + "'/></svg>") + ")");
+}
+function gradImg(stops) {
+  const s = stops.map((c, i) => "<stop offset='" + (i / (stops.length - 1)) + "' stop-color='" + c + "'/>").join("");
+  return "url(data:image/svg+xml," + _enc(
+    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1' preserveAspectRatio='none'><defs><linearGradient id='g' x1='0' x2='1' y1='0' y2='0'>" + s +
+    "</linearGradient></defs><rect width='1' height='1' fill='url(#g)'/></svg>") + ")";
+}
+// Texte sombre = ombre de texte (conservée en mode nuit) ; texte blanc = couleur normale.
+function ink(fg) { return /^#f{3}(f{3})?$/i.test(fg) ? { color: "#ffffff", shadow: "none" } : { color: "transparent", shadow: "0 0 0 " + fg }; }
+const inkStyle = fg => { const k = ink(fg); return "color:" + k.color + ";text-shadow:" + k.shadow; };
+const bgStyle = c => "background-image:" + solid(c) + ";background-size:100% 100%";
 function textOn(hex) {
   const n=parseInt(hex.slice(1),16);
   const lum=(0.299*(n>>16)+0.587*((n>>8)&255)+0.114*(n&255))/255;
   return lum>0.6 ? "#1a1a1a" : "#ffffff";
 }
-
-const GAME_TO_TCG = {
-  grass:["Plante"],
-  fire:["Feu"],
-  water:["Eau"],
-  electric:["Électrique"],
-  psychic:["Psy"],
-  ghost:["Psy"],
-  poison:["Plante","Psy","Obscurité"],
-  fairy:["Psy","Fée"],
-  fighting:["Combat"],
-  rock:["Combat"],
-  ground:["Combat"],
-  normal:["Incolore"],
-  flying:["Incolore"],
-  dragon:["Incolore","Dragon"],
-  dark:["Obscurité"],
-  steel:["Métal"],
-  ice:["Eau"],
-  bug:["Plante"],
-  stellar:[]
-};
 
 const TYPE_FR = {
   grass:"Plante",fire:"Feu",water:"Eau",electric:"Électrique",
@@ -561,16 +677,47 @@ const state = {
 
 const $ = id => document.getElementById(id);
 
-const YEAR_FIRST = 1999;
-const YEAR_LAST = new Date().getFullYear();
-["yearMin","yearMax"].forEach(id=>{
-  const sel=$(id);
-  for(let y=YEAR_FIRST;y<=YEAR_LAST;y++) sel.add(new Option(y,y));
+// Extensions du JCC sorties en France (API TCGdex en français : Pokémon TCG Pocket et promos compris ; les extensions jamais sorties
+// en France, comme Gym, sont ignorées), classées par date de sortie. EXTENSIONS : [nom, série (index dans EXT_SERIES), année].
+const EXT_SERIES = ["Base","Neo","e-cards","EX","POP","Kits du dresseur","Diamant & Perle","Platine","HeartGold SoulSilver","L'appel des Légendes","Noir & Blanc","Collection McDonald's","XY","Soleil et Lune","Épée et Bouclier","Écarlate et Violet","Pokémon Pocket","Méga-Évolution"];
+const EXTENSIONS = [["Set de Base",0,1999],["Jungle",0,1999],["Wizards Black Star Promos",0,1999],["Fossile",0,1999],["Team Rocket",0,2000],["Neo Genesis",1,2000],["Neo Discovery",1,2001],["Neo Revelation",1,2001],["Neo Destiny",1,2002],["Expedition",2,2002],["Aquapolis",2,2003],["EX Rubis & Saphir",3,2003],["EX Tempête de sable",3,2003],["Promo Nintendo",4,2003],["EX Dragon",3,2003],["EX Team Magma vs Team Aqua",3,2004],["EX Légendes Oubliées",3,2004],["EX Kit dresseur (Latias)",5,2004],["EX Kit dresseur (Latios)",5,2004],["EX Rouge Feu & Vert Feuille",3,2004],["POP Série 1",4,2004],["EX Deoxys",3,2005],["EX Émeraude",3,2005],["POP Série 2",4,2005],["EX Forces Cachées",3,2005],["EX Forces Cachées Collection Zarbi",3,2005],["EX Espèces Delta",3,2005],["EX Créateurs de légendes",3,2006],["EX Kit dresseur (Négapi)",5,2006],["EX Kit dresseur (Positi)",5,2006],["POP Série 3",4,2006],["EX Fantômes Holon",3,2006],["POP Série 4",4,2006],["EX Gardiens de Cristal",3,2006],["EX Île des Dragons",3,2006],["EX Gardiens du Pouvoir",3,2007],["Diamant & Perle",6,2007],["Promo DP",6,2007],["Trésors Mystérieux",6,2007],["DP Kit dresseur (Lucario)",5,2007],["DP Kit dresseur (Manaphy)",5,2007],["Merveilles Secrètes",6,2007],["Duels au Sommets",6,2008],["POP Série 7",4,2008],["Aube Majestueuse",6,2008],["Éveil des Légendes",6,2008],["Tempête",6,2008],["Platine",7,2009],["POP Série 9",4,2009],["Rivaux Émergeants",7,2009],["Vainqueurs Suprêmes",7,2009],["HeartGold SoulSilver",8,2010],["Promo HGSS",8,2010],["HS Kit du dresseur (Léviator)",5,2010],["HS Kit du dresseur (Raichu)",5,2010],["Déchaînement",8,2010],["Indomptable",8,2010],["Triomphant",8,2010],["L'appel des Légendes",9,2011],["Noir & Blanc",10,2011],["Promo BW",10,2011],["Collection McDonald's 2011",11,2011],["Pouvoirs Émergents",10,2011],["BW Kit du dresseur (Minitaupe)",5,2011],["BW Kit du dresseur (Zoroark)",5,2011],["Nobles Victoires",10,2011],["Destinées Futures",10,2012],["Explorateurs Obscurs",10,2012],["Collection McDonald's 2012",11,2012],["Dragons Éxaltés",10,2012],["Coffre des Dragons",10,2012],["Frontières Franchies",10,2012],["Tempète Plasma",10,2013],["Glaciation Plasma",10,2013],["Explosion Plasma",10,2013],["Promo XY",12,2013],["Collection McDonald's 2013",11,2013],["Bienvenue à Kalos",12,2013],["XY",12,2014],["carte alternative A Jaune",12,2014],["XY Kit du dresseur (Bruyverne)",5,2014],["XY Kit du dresseur (Nymphali)",5,2014],["Étincelles",12,2014],["Collection McDonald's 2014",11,2014],["Poings Furieux",12,2014],["XY Kit du dresseur (Scalproie)",5,2014],["XY Kit du dresseur (Grodoudou)",5,2014],["Vigueur Spectrale",12,2014],["Primo-Choc",12,2015],["Double Danger",12,2015],["XY Kit du dresseur (Latias)",5,2015],["XY Kit du dresseur (Latios)",5,2015],["Ciel Rugissant",12,2015],["Origines Antiques",12,2015],["Impulsion Turbo",12,2015],["Collection McDonald's 2015",11,2015],["Rupture Turbo",12,2016],["Générations",12,2016],["XY Kit du dresseur (Pikachu Libre)",5,2016],["XY Kit du dresseur (Suicune)",5,2016],["Impact des Destins",12,2016],["Offensive Vapeur",12,2016],["Collection McDonald's 2016",11,2016],["Évolutions",12,2016],["Soleil et Lune",13,2017],["Promo SM",13,2017],["SM Kit du dresseur (Lougarox)",5,2017],["SM Kit du dresseur (Raichu d'Alola)",5,2017],["Gardiens Ascendants",13,2017],["Collection McDonald's 2017",11,2017],["Ombres Ardentes",13,2017],["Légendes Brillantes",13,2017],["Invasion Carmin",13,2017],["Ultra-Prisme",13,2018],["Lumière Interdite",13,2018],["Collection McDonald's 2018",11,2018],["Tempête Céleste",13,2018],["Majesté Des Dragons",13,2018],["Tonnerre Perdu",13,2018],["Duo de Choc",13,2019],["Détective Pikachu",13,2019],["Alliance Infaillible",13,2019],["Harmonie des Esprits",13,2019],["Destinées Occultes",13,2019],["Destinées Occultes Coffre Étincelant",13,2019],["Collection McDonald's 2019",11,2019],["Éclipse Cosmique",13,2019],["Promo SWSH",14,2019],["Épée et Bouclier",14,2020],["Clash des Rebelles",14,2020],["Ténèbres Embrasées",14,2020],["La Voie du Maître",14,2020],["Voltage Éclatant",14,2020],["Collection McDonald's 2021",11,2021],["Destinées Radieuses",14,2021],["Destinées Radieuses Coffre Étincelant",14,2021],["Styles de combat",14,2021],["Règne de Glace",14,2021],["Évolution Céleste",14,2021],["Célébrations",14,2021],["Célébrations Collection Classique",14,2021],["Poing de Fusion",14,2021],["Stars Étincelantes",14,2022],["Stars Étincelantes Galerie de Dresseurs",14,2022],["Astres Radieux",14,2022],["Astres Radieux Galerie de Dresseurs",14,2022],["Pokémon GO",14,2022],["Collection McDonald's 2022",11,2022],["Origine Perdue",14,2022],["Origine Perdue Galerie de Dresseurs",14,2022],["Tempête Argentée",14,2022],["Tempête Argentée Galerie de Dresseurs",14,2022],["Zénith Suprême",14,2023],["Zénith Suprême Galerie Galaroise",14,2023],["Écarlate et Violet",15,2023],["SVP Black Star Promos",15,2023],["Évolutions à Paldea",15,2023],["Collection McDonald's 2023",11,2023],["Flammes Obsidiennes",15,2023],["151",15,2023],["Faille Paradoxe",15,2023],["Destinées de Paldea",15,2024],["Forces Temporelles",15,2024],["Mascarade Crépusculaire",15,2024],["Fable Nébuleuse",15,2024],["Couronne Stellaire",15,2024],["Puissance Génétique",16,2024],["Promo-A",16,2024],["Étincelles Déferlantes",15,2024],["Collection McDonald's 2024",11,2024],["L’Île Fabuleuse",16,2024],["Évolutions Prismatiques",15,2025],["Choc Spatio-Temporel",16,2025],["Lumière Triomphale",16,2025],["Réjouissances Rayonnantes",16,2025],["Aventures Ensemble",15,2025],["Gardiens Astraux",16,2025],["Crise Interdimensionnelle",16,2025],["Rivalités Destinées",15,2025],["La Clairière d'Évoli",16,2025],["Foudre Noire",15,2025],["Flamme Blanche",15,2025],["Sagesse Entre Ciel et Mer",16,2025],["Source Secrète",16,2025],["Méga-Évolution",17,2025],["MEP Black Star Promos",17,2025],["Méga-Ascension",16,2025],["Flammes Fantasmagoriques",17,2025],["Embrasement Écarlate",16,2025],["Parade Onirique",16,2026],["Héros Transcendants",17,2026],["Merveilles de Paldea",16,2026],["Équilibre Parfait",17,2026],["Chaos Ascendant",17,2026],["Nuit Noire",17,2026],["30ᵉ Anniversaire",17,2026],["Collection Classique 30ᵉ Anniversaire",17,2026],["Règne Delta",17,2026]];
+const EXT_FIRST = 0, EXT_LAST = EXTENSIONS.length - 1;
+["extMin","extMax"].forEach(id=>{
+  const sel=$(id); let grp=null, cur=-1;
+  EXTENSIONS.forEach((e,k)=>{
+    if(e[1]!==cur){ cur=e[1]; grp=document.createElement("optgroup"); grp.label=EXT_SERIES[cur]; sel.appendChild(grp); }
+    grp.appendChild(new Option(e[0]+" ("+e[2]+")",k));
+  });
 });
-$("yearMin").value=YEAR_FIRST;
-$("yearMax").value=YEAR_LAST;
-// PV (filtre informatif) : de 30 à 380 par pas de 10.
+$("extMin").value=EXT_FIRST;
+$("extMax").value=EXT_LAST;
+// PV (filtre actif) : de 30 à 380 par pas de 10.
 const HP_FIRST = 30, HP_LAST = 380;
+// Cartes par espèce (API TCGdex, extensions sorties en France) : CARDS_RAW[n° - 1] est une suite de blocs de 6 caractères en base 36,
+// 5 pour la clé et 1 pour le nombre de cartes (35 au plus par bloc, plusieurs blocs sinon). Clé = ((extension × 36 + tranche de PV) × 2048 + masque
+// des types de la carte) × 4 + stade. Types : bit 0 = Plante … bit 10 = Fée (même ordre que TCG ; une carte a presque toujours un seul type).
+// Stade : 0 Base (Basic et Baby), 1 Niveau 1, 2 Niveau 2, 3 Autre (VMAX, VSTAR, Méga, BREAK, V-UNION, Level-Up, Restored, et cartes sans stade).
+// Tranche de PV k = 30 + 10k PV (moins de 30 PV rangé avec 30, 380 PV et plus avec 380). Les cartes sans PV ou sans type (Dresseur, Énergie) n'y sont pas.
+const CARDS_RAW = ["006bo11l2bo11l8n812n5z813cg78241k3o15sxz8277oqs18skqs1bs16s1igemc1jibyc1l31ms1mbguc1nde6c1pnkec1r8gec1rxqmc2sznyc1t5zic2tcb2c1ux72c1wbxtw2wi9dw1x0ves1","00iyt11lrlx13cz5x1429dx15abyd15tamd15tgxx1781dx18sxdx1bsk5h1jiux11po3d11ry9l12t6c5h1uxjph1wcgsl2x1kp11","0189211m49233e7ev142yo615tzwm178wzq18tzba1btfra1d8phj2dro5g2dsjrb1h3rpj1h4nbb1i5p1g1i6knb2ijx1j2jjwue1l0etj3m8npg1m8npj2me3no1mg16v1n3dvo1om6121poyys1pphxi1s2hae3t4eme1t7kee1t83d22tdvye1uyrye1uzax21wh7gm3wnj0m1x2mme1x416u3","00cnc10pgjs11l8nc22gufc13cg7c34xc7c15sxzc15sy00165l3c177ifc18347c1chhqg1h1u6g1i3l6w1jc0eg1kk9ag1kwjrc1kwweg1l31mw1lm6mg1lsi6g1mbaiw1mbgug1n72mg1nde6g1pne2w1r8a2w1r8geg1rr8qw1rxqmg2sadqg2t5t6w2tc4qw1ukdmw2wi9e01wuwi01x0vew1xdv601","00vm110pmvd11lrm112h72h13csuh14xouh15tamh15tan5165xqh1781e1183n611chudl1h26tl1i3xu11jcd1l1kkfm11kx91l1lmpl51lsoi11n7f9l1pnx1l1rrrpl1ry9l52saqdl2t6c5l1ukwll2wiscp1wvfgp1x18211xe7t51","01kwa10q5u221fsp411m49611mgwa22i2oa13edqj15u71e15zz7k166tca178wzu184cga18ta1418tmob1cj2mi1cpe6i1d8phn3egydk3ehnnv2ehvk32h3f2i1h3rpn1h4gzv1i562y1i5p1k1i6ebv2iht6y1iht6z1ijkei1ijkej2ijx1k2ijx1n1jf66j2klu6i1kyayy1l55hm1ld1xn3lpcej1lvnyj1m8npk1m8npn2md8221me3ns3mf5l71mg16z1mx2bs1myzuz1n3dvs1n5bez1n8tu21nulmz1omioa1p0wzs3p1yx72pp5ag1ppbm21q8aa21qr2mg1qs4js1qt6h71rd0qy1rd14y3rvzsy4s2ayy3seygy2t7e2y1t7x1m4tqpe21umhhm3wn6dm3wzthm4x2gay2x3oju3xis5m2yghsa1","006c010pmvk11l2c011l8nk12n5zk13cg7k25mmfk15sro015sxzk177ifk189m3419o6j41chbf41cnmz41d03rk1kwjrk1kwweo1l9d741mbguo1nd7v41pnkeo1r8geo1rxkb42szhn41t5t742tc4r41ux0r41wi9e81x11qo1","00pap10pt7511lrm913cz6915tamp15tgy91781e9189yq919oj691cho291d0mq91kx91t1l9jip1pnx1t1ry9ld2t65u91uxde91x1edt1","0189e10pziq21m49e33e7f715b7ki15u0si15u68i178qoi18auc219pes21cipzm1cp1jm1d1onm1d8phv2dro5s2dsdg31h3rpv1h4h031i5p1s1i6ec32ije371kyhaq1lciz72m8nps1m8npv3me3o01mg1771om61e1poyz41ppbma1s2az63t48b61t7e361t7x1u2tdpn61uyln61uz4lu1x2gb61x3uvm3","006bo1129z811l2bo13cg7817dnno18ydc41eehvo1h1b7o1i38jo1i9qf81imdj81jbnr81l90jo1lm0as1mnrb81orlz81rxdz82t5mv81uqiv81","00pad112mmd11leyt13cz5x17e6md18z8xx1ef0ud1h1u6d1i3rid1ia9dx1jc6px1l9jid1lmj9h1moa9x1os4xx1ry39h1t65tx1ur85h1","070ue112sxy11lrly23dbt217f28618t3pg18zy861eg2rq1h2w3q1ib4zq1jcw061lalfq1ln8jq1mpc7a1mwjd02mygw72osu861rysjq1t6v461td6o61urr461","006bo1123no13cg7814kp3817dtz818m96s19ntvo1cts781diw3o1dpdz81ektfo1fglj81i38jo1joav81kwdfo1kwjr81n0kqs1n6jno1o25fo1rxdz81t5mv81uk7b82xwav81","00vlx112mmd13csud14kvet17ecxx18mltx19oj5x1cub5x1dpqmd1fh4hx1i3xtx1jottx1kx2px1n0xdx1n78xx1o2upx1rxwxx1t65tx1ukq9x2xwttx1","00vly112sxy13d5hi14lf5y17evwm18n4sm19p24m1cv0g61d8cuf1d924n1dqm861fhts61i4n461jpj461kxybq1n1zba1n84jq1o3qbq1pdds43rysjq1t6v461umb5y3y0v7q2","006io11l2io13cge815g4kg15mgao177im81a0ni81a6z281eeups1f44xs2kwjy81kwq9s1rr8xs2rxe681sa1a81t5tds1tuxa81v3chs1wo8hs1","00j5t11lf5t13ct1d15gnj5177v9d1a16gx1a7i0x1ef7cx1f4hkx2kwq9t1rrrwh2rxx4x1sak8x1t660x1tvmkh1v3p4x1worgh1","077cy21lrsy23dc021429ky15h7aa178qv61a1vr61a87b61eg2yq1i5iww2i6eir2kxyiq1q2o742rv4023rysqq1se2o21t71mq2tx14y2v4kqq1v5a0y1wptdu1","0007410pgqo11kw7413ca2o1775z419u5mo1cgsn41ctm2o1gutj41i38qo1i9khs1jbhts1kdf5s1l8uf41pn1ts1rx7uo1t5gqo1uk7i81uwutc1v9hq81xpt6o1","00j5t10pn2913ct1d177v9d18sr9c19uuwx1chblt1cu51d1gvitd1gw83n1i3ldt1iaz291jcwe91kg8ar1l9jpd1poge91rxqtd1t660x1ukwsh1uxwqp1va70h2xqosh2","06oe811l2io12416o13cge815sruo17qha819o0e81faghs1g629s1i9wxs1isvls1l9dds1nw0e81rxe681t5tds1vz4lc1wblds2","0711d11llhd224k5d13czcx15t4bl17r08x19ojcx1d74sh1fazgh1g6rk11iafwh1la2o11nwpoh1ry3gh1t6io11vzh8h1wcao11","0j4zo10pmv811l8n81247b815z9jc17e0cg1dpqo01e2ds01jic001l9jk01lm0cg2n0rgg1rxr0g1sgjcw1t5tkw1tc54w1ukkcg1v9ukg1vfzsw1","0jhmt10pt6t21llad224jyd15zsi117eczl1dq3b51e2qf51jj7lt1laf5t1ln29t1n1n291s19fl2shrlt2t6iv51ul9mp1vawht1vgp351","006cg106o8010ctgg20czs030vyg011l8o01247c012n6001364o013cg8013vew0141k4g14qv4015gaw015gbnk15gh7k15mmg0165esg16iejk16oq3k17qnfk183gv418fxnk18lwkg28m2w018seg018ywbk195e7419huzk29ubs01adgrk1ajsbk2blpnk1chbfk1d6fc01d6lnk2d7twj3dpkbk1el63k1erhnk1g623k1gip7k1gp0rk1h1nvk2h8c2o2hx9nk1i38kg1i3ew01i3l7k1ig8bk5ig8bn2igen4aigen71igra81igrab2ihzj71ije3k1ije3n1isvfk2j5ov41jbu3k1ji5nk1joh7k1kzvvn3l3km81l9jj41lfork1lfv341lm6n41m55b42mbajk3mbgv41mdkps5mdr1c1mfi8z4mfokj2mhm3k1n96hs2nbacj2nd7vk1o8tnk1of57k1ohfds1ohlpc1ojj8j2olag01ou8tc1p0e1s1pne3k1pnkf41ptpnk1q017k1q6crk1q8mxs1qaqsj2qcun41qphr41qvmzk1r83s01r8a3k1r8gf43raqlc1rerz41rgvts1rl3j41rxkbk2sadr42sgpb41t5t7k1t6v4w4tc4rk3tkwtc4torvk1tv3fk1u3p5s1u3vhc1ue23k1ulfkw3ux0rk1wk6xs2wpa8w1x76zk1xdov41xfz1c3y8y002y94bkby9an4dy9gyo4ybehs4yf38g1yilnk1","00vmp10k0m920pzj51194ip11f9r411lrmp2252xt12noyp13cz6p13wahv15goap15gtup165xr516ixi916p92917r6e9183ti918465f18ggm918mluo18t3q918zfa919idy929uuqp19v7dt1akhlt1bm8m91dq3a91es0m91gj8691gjxgj1h26u92i4aht1ih3xd2iiv4x1iiv4z1itr1d2jcppd1jksgz2jpctd1laf4x1lgkdd1lj76o1lj76r3lon4z1m60wx1miuch1oa1wh1p0kdc2q134x1qdq8x1rg0812rym8x1sb9cx2shr8h1t6iht1tcnq91tw5cx1uel291uyfc13x82ld1xeqsh1","006f41247eo14kp3k16oq6818seio18ywe81chhts1gipa81i3la81iz6z41jusr41l9jls1m4zr41orse81rxke81smum81t5zls1ux0r41wbrls1wo8e81x0vi81x77282ylri81","0jo1t124k1t14l8xt16p94x18t3sx18z91d1chugx1gj88x1ih3wx1ihb0h1iiosz1j02kx1jvuoh1la8w11m61oh1osubl1rymbl1snwjl1t6ikh1uxq1d1wcn7l1worcx1x1egx1x7q0x1ymn411","06uis13cg7815z40016ojsw18m98g1a0ncw1ctykg1fgrwg1kwq4g1rxkow1t5tkw1v9ukg1vyygw1y94ow1ylrsw1","070ud13cz5x15zmyp16p2rl18mlvl1a16bl1cuhj51fhav51kx9351ry3nl1t66811va77l1vzb411wig3l1y9nnl1ymarl1","07dhi23dojm1605xe16ps1u18nb5u1a21xe1cv6te1fi6gy2ihzk21kyhc21rzi821t785e2vbls21w0d1e1ynpc21","006bo11rk7813cg7815z3ls177osg18m2ww1a0ncw1ctykg1hqy4g1i3l8g1kwq4g1rxkow1t5tkw1v9ukg1vyygw1","00iyt11rwud13csud15zmkh1781fl18mlvl1a16bl1cuhj51hrarl1i44751kx9351ry3nl1t6cjl1vadj51vzhfl1","011xi11sg0211sm8223dojm160i6a178x1e18nhj61a28aq1cvd6q1hsj0i1i564i1i5p371kyhc21rd14y1rzi822t7egy2veewy3w0jcy1","006io10vym811l8u813cge814826816c35s177oxs18yq681a6z281cnn5s1erksg2f47wg2gvfgg1h1r0g1i3bpc1iza4g1l9gcg1lm3gg2m4vsw1mnxog1n6wcg1oy3wg1q018g1rakao1rr8sg1rxkcg1smukg1t5t8g1tc4sg1ue24g1uszeo3v3ccg1x770g1xdikg1xfsqo2xqc002","0711d21llhd23dc03148l4x16cm4h18z94x1a7i0x1co64h1es3r51f4qv52gw4qp1h29z51izzep1laby91ln5dt1mota91n7lmp1oyt6p1q0qip1rur7l1ry9mp1snwht1t6iip1uerep1v41mp1wmh4x1x7wap1xekht1xuq0x3","00cnc11ex3c11l8nc11rk7c12thjc13vevc14xc7c15z9kw165l3c16oq2w189frc189m2w18ypzc19o6iw1a6yvc1c4oaw1fgruw1hx9mw1i3l6w1iz6z41jbu341jusr41kqej41kwq2w1lsbv41m4yz41mhseg1mnxmw1n0kqw1orymg2qcumg1qeyhc2qfu372rr8qw1rxqmg1sn0ug1t5mvc1timmg1ux0r42vyy2w1wbrig2x76z41xwnig1y9amg1","00vm111fmdl11lrm121s36122tu6h12u6tl13vxu115zm81165xqh16p2q118a51l18zf9l19ophl1a7o5l1akb9l1c579l1fhatl1h3le31i4ah51i4zrf1ih7291j1tsj3jcpox1ksy6b3kxfd51kxou91luyoj1m5xq91mio091mozk91mqe4o2osnwp1osu891qdjwp1rsao92s12q12snwg91t6c5l1td0cx1tji891uxwcx1vznd51wcn491x8rv53xxj491y9zwp1","06ups11exa812n66812thq813cge815sy6817e0hs18ywhs1ajshs1blw5c1dpngg1dpts01f47wg2hkw001hxcsg1jokcg1kqo001l34sg1l9mo01lm9s01m84xs1m84xv3mufk01orscg1res001rxqtc1sadxc1t5tds1tbym81torwg1ukdts1ux0xs1wuqdc1yf9q81","077cx21f3lt11fg8x12udc113czcx15tngh17ejgh18zfgh1bm8sh1dqcqp2f4x6p2hleyp1jpm9t1krjlt1laby91loq9v1mvb5t1osu9t1rfha91s0wld2sb3291sdjpd1t6io11t77y93ul3412uxq811uyfi91wvlz52","0j4zo10pgjo118f7o12thj813p3b814kp3816ojsw18segw19o08w1cnadc1cngow1faa0w1h1hkw1i9qgw1isp4w1l96ww1nw0lc1qcc1s1rx81s1s3pxc1st05c1t5n9c1udw5c1v9hxc1vys5c1xw4xs1","0jhmt10pmv9218rut12tu6d13pfyd14l1qd16owg119oj7l1cnznl1famo11h1u811ia9fl1it83l1l9pvl1nwjk11qcv0h1rxxc11s48w11stj411t5zwh2uef411va0w11vz4sh1xwu811","06o7810pmv810vs3o11l8n811rk7812thj81481z815g4k017wmbo17wsow19u5fo1ch5381gc7b81jbnr81l96v81l9d6s1m4yys1pzuv81qp5381rr2f81rxkas1sa7es1t5t6s1u7qis1vyrr81wudj81x0p381xdiis1","06uit10pmv910w4qt11llad11rwud12tu6d148emd15gnk117x5ad17xbnl19uupx1cho1x1gcq9x1jc6px1l9ptx1m5blx1q0dtx1qphqd1rrldx2rxqmd1sadqd1t65tx2u835x1vzapx1wuq6d1x181x1xe1hh1","0775y20pt6u21lxxi21sft222v2fa15h0zm17y0w619vk061cipza1gdlvq1jd8na1larra1m84qu1m84qv2q1m2u1ryyva1sblza1t77ra1ww4qu1x29za1xhwjq1","06hvo118f7o11rk7813cg7816oq2s18sef818ypz81gip6s1h1nus1i9wqs1kwwec1lm6mc1mu96s1q07ic1qvtac1rxqmc1t5zic1uqvic1","06uit118rut11rwud13csud16p91h18sxdx18zf9h1gjeh11h2d511iascl1kxfd11mvb451q13451q7eo51rym851t6v451urr451","06hvo11eqro13cg78177if81a0nb81fagas1l9d6s2qcoas1rxqmc1t5t6s1","070ud21fg1x13csud1781dx1a169x1faz9h1l9w5h1lbtol1lbton2qd79h1ry39h1t65tx1","0003k10pgn411l2f413cgao15sy2o177iio189fuo1a0h341dpe2o1h1hmo1hk9z41i38n41i9r7k1j5czk1jun7k1kq8zk1l96yo1l97nk1mhm681mu2yo1o2buo1rr2io1rxe2o1t5myo2tiark1uwv7k1v3d341w59q81wo2rk1xdim81","00pdt10pmyp21lldt23cz9d15tapt1787sx18a54x1a16dd1dq3cx1h26wx1i448x1iamtd1jutj51kqy9t1l9qm91l9w8x1mi54x1mus8x1o314x1rrrsx1ry3cx1t5zlt1tjcox2uxkht1v4lc13w5sox1wphc11xe7wh2","06oe810pgqo11l8u812n66813cge814kpa8153ny815gc1s17wsu818skxs18ywhs19hv5s2ajshs1bfe9s1blw5c1chbls1g629s1gcdts1gipds1h1o1s1hkt1c1hqy9s1hx9ts1ia3gg1ig8ow2j5p8g1jbu9s1kqeww1kwwlc1l9dds1m55og1mdekg1mfif71mht6o1mnyf41n73eo1npvr41orytc1orzeo1qpiio1rxqtc1stclc1t5tds2tc4xs1ux14w1v3cow2v9udc2wo8hs1wuqdc1x70u82x77cw1x77r41xdp1c1xs3cw3y94hs2y94ow2y9beo2","0711d10ptdt13czcx148xz514l88x15goox17xbsx18z94x1bm8sh1gcwsh1h270h1hrh8h1iag3l1igxs31jcd8h1kqxvl1kxfk11la2o11lbtvl1lbtvn2m7fup1m7fur2oso3l1rbsox1ryg3l1su1vl2t6cch1uxqf51v41z51vd6gx2worgh1x7wg11x7wn51","0czrk10jbbk10pmvk11ex3k11rk7k1247bk12mzo015gaw0177or4189m341a0tn41chbf41chhqo1gvcb41ia32o1igemo1kwq341l3ea81lj0uo1lj0ur3lm0b41m4yz41o8zyo1paqz41rxqmo2t5t741v9u6o2w59n41wi32o1wo8b41xdouo2","0jnyp10pt7511fg2911rwup224jyp15gnj51787pt18a51t1a1clt1cho291chudt1gw1ld1gwqvn1iafpt1kxlox1m5ukx1o9vkh1pbg9d1ryfwx1t6c5t1w5slt1wiyoh1wor9t1xekgh1","06bnk10pgn411rdz413cgao15gavc17du2o18seio19o0ao1ctsao1hqy681joha81kwjuo1nw6m81orse81r1ym81relq81rxke81sa7i82t5ta81tbyio1tige81tux6o1v9u9s1vyruo1xju681y2mio1","070xt10pta911s39d13csxt15gnih17ejcx18t3sx19opkx1cuhkx1hrh4x1jp08x1kx94x1nx8jl1oshoh1r2hkx1rfhc11rymbl1saqgx2t6c8x1tjc011tvg5d1vajk11vzh4x1xk6td1y3og11","00iyw11ex3c11rk7c11rqiw1247bc13cmiw14r0nc14xiiw177v2g18mfig18skqw18z2mg1bm2a02gvimg1i3rig1ia9e01l9pu01moaa01os4y01pb3pc1pu2a01q07ls1qd79k1r24ug1r2hhk1r8t1k1rxwy01sn79c2t5zig1ux72g1v3img1va0i01woemg2ym4202","0189510dceh11fsp511s9hl224qa113d5hl14s8wb14y1hl178e1518myh518sxe118t3pk18zrwp1bmrk91bmxvt1d8cuj1gw7wp1i4tft1ib4zt1l43k91larrd1mp5vt1ot0jt1pcby91q19j51q7l351qe2vd1qfnuo2r5tl52r9ibt1rz56x1so2v51t71ft1t7e2x2uy8zt1v4kjt1v4x6x1vb2fd1wpa891yncax1","006c01123o011l8nk13cg7k1481zk17wmc019o07k1erhn41i3l741i9wr41l96vk1l9d741q01741rxkb41smuj41t5t741vyy341w59n41wo8b41","00iz5112mmp11llap13cz69148emp17xbm919oj691erua91i3xu91iafpt1l9w5t1q0k5t1ry39t2snjtd1t6c5t1vzh1t1w5ma91wor9t1","011xu112zcy21m49e23dogi149abm17y78219pes21esw7m1i4zrm1ibhn61lay361q1shu1rzbiq1sos2a1t7e361w7dky3wpt761","0001s10pglc11l2dc16ojsw1rxe0w1sa14w1smhxc1t5t8g1ukdog1wbeww1","00j0h10pmwx11llc11rxwzl1sak3l1sn77l1t65vl1ukqbl1wbxvl1","00vnm10pt8i21m4aq25tgzk16pfeq18mlvk18myir1hmds03hn9dv2mdkqo1n96io1qdwlc1rco5e1s1yde3selhe1so94y1t71he2ullxe1wczsy1wjbcy2","00cqo10pmyo11eqv411l8qo12thmo14r0qo165l6o16c32816v1q8183am81a0tq81d0a681ero1s1fzwxs2h1u9s1i3rls1iz7281izdds1n0r5s1q07ls1rxqps1t5zls1ukdq81ux75s1x7dds1","00vpd10pta911fg5d11lrpd12u0ld14rjpd16645d16cfpd16vedd183n9d1a1cox1d0t4x1es0ox1g09kx2h26wx1i448x1izwch1n1gg11q0qkh1ry9oh2t6ikh1ul30h1uxq4h1x7q0x1","018ci10pzlu21fssi11mgzm22upvm14s8zm166tfm16dbb6184iv6184vib18mykg1a21z61a2ema1d1oqq1d1v2a1d86ma1d8pkz1et2ma1gehkw2h38ua1i5chu1i5vgj1j0y9u1jf69v3l4sxu1ld20z4mcvia1md85e1n2ide1pdk743pfhqb2q1m6a1rzo8y1t7e6a1t7x4y3tdpqa1ulyma1uylqa1uz4oy1x8rya1","06hvo11rdvo11rk7813cg7814r0n817wsn81a0gzo1erbb81iz6ys1kdres1l96v81nw0781rxkas1t5t6s1wo8as1xdiis1","070ud11rwud13csud14rdad17xblx1a169x1eru9x1izjlx1ke41x1l9ptx1nwj5x1ry39h1t6c5h1wor9h1xe1hh1","0775y21s9hi23di4m14rw9217y0w61a1p8m1espvq1j0lja1kf5za1larra1nxreu1rz56u1t77ra1wpmva1xf3eu1","0iyog11rk7k12thjk14r0nk17wsnk1a0tn41fglkw1fgrwg1iz6z41kwq4g1l9d741o8tn41rxkb41t5t741ukjyo1w59n41","0jhn511rwup22tu6p14rdap17xhxt1a1clt1fhh6p1j02kx1kxfep1la2hd1o9vkh1rym8h1t6osx1ul2xd1w658x1","0jbeo118fb411l8qo12go7412guio14r0qo16oq6816v1q818sku81eeum81h1ny81izdb41joh7k1kwq3k1kwwf41l9jls1lm6ps1os51c1rxx1c1t5zls1tv9ts1uqp7k1ux7341woeps1","0jhq9118y9t11lrpd12hdhd24rddt16p94x16vkox1efjwh1h2d8h1j02ld1jp6ht1kxfdt1la8w11lmpoh1oso011qq7411ryg011t6ikh1tvssh1ureht1uxwdd1woxoh1","0jude11m4ci22i2rm12is1s14s8zm178x3618n4w01egfia1h38ua1h3rsz1j0y761jrtb73kytya1lbh4y1lnxxe1otw8y1s2b2a2t7khu1twupu1ust2a1uyrz61wpzlu1","006bs10pmvc11l2bs11rdvs13cg7c14kp3c16c2yw18347c1a0tmw1eeuiw1h1nuw1hqy2w1i3l6w1kwweg1m55ag1mbgw01mhsg01nq1c01paqyw1qcumg1rxqmg1sgpag1sznyg1t5t6w1tv3ew1v9u6g1wo8aw1x770g2","070uh10pt6x11llah21rwuh13cz6114l1qh16cfm1183n6118mfig1a1cll1efdhl1h26tl1hrh1l1kxfd51m5o951mbzt51mdxds1mibep1nqkap1o54xs2pbg951qddl51ry9l51shekp1t0jk91t6ih52tvsp51vajgp2wpt6x3x7wap1","0jbcw10pmww10vygw11rk7k12n60w13cg8w14820w14kp3k17e0b418ywb419ui341a75741bs7io1gvimo1h1hkw1izdc01kqkuo1l9jio1lj0uo1lj0ur3lm6mo1mbgw01nwcw01o2og01pnkeo1r24uo2reybk1rxwzk1sadqo1szubk1t5zk02u1lao1vz4g01w59n41wi9fk1y2z401y9gy81","0jhoh10pt8h21fg3l11s36913cmkh148ky917ecy918zf9t19v11t1bsqhd1gw1ld1i5p1s1i6ec31j02m91laf4h1mwwe81nxf5t1pog0h1r2ntd1rysld1sawpd1t71hd1wj51d1y411d2y7jgh1","006cg10pgkg1124g021reo011rk8012go4g12gug0235ycg13cg8014kjk014kp4014r0o0165l4016bxfk1834801834zk18s84g1a0nc01cnmzk2gip7k2i3ew01jutj42k14bk1lfork1lscn41m4yzk2parr41r1yjk1refc01rr8rk1rxkbk1t5t7k1tc4rk1tigbk1u7qjk1ue2v42vyy3k1wbrj41x0p401","00izl10juap20pt7l2195a911rxmp22h73512hdep136nmp13cz6p14l2ip14l82p14rdb5165xr516ca2p183n6p183ny91a16ap1cnzmp2gj1up1i3xup1jvcht1k1na91lg7q91lsvlt1m5bmp1pbapt1r2hi91r8zdt2rrrq91ry3a91t65up1tj5lt1u836p1ueltt1vzaqp1wc4691x182p1","00cu8118lq813ct1c13vrpc177oxs183h1c18ywhs1chbls1djf9c1i3rpc1kx2ww1lmd4w1moadc1nq7pc1o2utc1oygow1ry3gg1sn11c1t5tds1tc4xs1vfzls1w5g5c1","00cu811re2o12tbeo13ca2o13v8qo16oq9s18sem819uby81cnn5s1dpqtc1gipds2h1o1s1i3f281i3lds1l9jpc1rxqtc1sadxc1t5tds1wo8hs1","0711d11rx1d12u0ox13ct1d13vrpd16p2wx18sxkx19uuwx1co64h1dq3gh1gj8ch1h270h1la2o11ou8zk1ry9s11saww11t660x1wol4x1","00iz411ex3k13cg7k15z3eo16oq3418skr41hkz681i3xu81l9pu81q07io1qphqo1rxwy81t65u81wuwi81xqia81","00vm911fg2913cz6915zsox16p91t18ta1d1hlogh1i4n4h1laf4h1q134h1rysk11t6v4h1wvs412xrdw11","0jbb810pgjo11rk7812guf814qubo177osg189m4g19ui4g1blw001cu4w01fn9s01ia9fk1jc7401kwwsg1kx2rk1lg1s01m5c001mum801oygw01r2bk01rxxc01t5zwg1tcbgg1ux7gg1va0w01x18g01x7k001","0jnyd20pt6t11rwud22hq1014rdad1781fl18abep19v7ep1bmla91cunup1fnz291iaypt1jenlv3kxse91kxydd1ld1z74m6dxd1mvo5d1ozcht1r3dhd1rz5kx1t71tt1uysch3vb94x1x241t1x82yp2","0iyog11l8nk13cg7k15z3b4177ifk1dpkb41gvcb42h1nv41i9wr41mhseo1orymo1rxqmo1t5t741ux72o1x11qo1","0jbbl11lrm923csup15zm9t1781e91dq9ld1gw1ld1h2d5d1iayoh1miuc11ot0k11rysk11t6v4h1uxwcx1x1r0x1","0001s10jbcw11eqtc11l2dc13cg8w14qudc16bwow18348w1a0ncw1d6fcw1giiww1h1hkw1i38lc1joaww1l90lc1l9d8g1mhm4g1o2bsw1pzolc1rxe0w1sa1hc1sgjcw2t5t8g1udvsw1uwugw1wuqkg1xdp8g1xqccg1","00j0h10jbcx21ex4x11llc113csw114rdc116c9c1183n7l1a10011givk11h1u811i3rk11jonk11l9jk11mhsg11o2url1q07k11rxwzl1sakg11sh2bl1t65vl1tcb411ueerl1uxdfl1wimf51wv9j51xe8751xqvb51","0jubm21f9s211lxz623e7gj14rwaq16cyma18466a18mfk01a21xe1d98hv1fcdvk2fd9hf2gjxhe1h2w5e1jpphe1kzvwj4lalhe1mc66a1mcchu1mihqa1o3qde1oufi81owd1f2q135u1q7epu1rysle1sbg1u1skxdu2t71he1t7qrm3ufgoy1uy91e1uyybm1wn0g21wznk21xim823xre9u1yczr42ygo5e1","0120w10w4u811rqm8124qdc13cz9c148l1c16cm0w183tkw19opkw2cunwg1i4akg1kegsg1krgjk1lgkg01logw31m5uo01nx2801oso001pog3k1rymbk1s4xvk1t6ow01td0g01vzngg1wcn7k1x1ksg1ymtfk1","00cow10pmww11rk8w23cg8w14kp4w17e0cg18ywcg1ero001gvio01i3l8g1ia3401it1s01l9jk01o90001qcuo01r24w02rxwzk1stcg01t5zk01va0jk1woeo01ym43k1","0k0n520pt8h21s37l23cz7l14l1s117eczl18zfb51es0n51gvvb51iase91la8u91o9pa91qdjy91r2u691ryfy91su1q91t6iip1vaw5d1woxmp1ymtdt1","0jbbk11l8nk13cg7k15sro017e0b41fammo1h1u6o1l9jio1mhyq82rxqmo1t5zio1w5fyo1","0jhn511lrm923cz6915thqh17ej9t1fb5ld1lalg11miuc11p0x001p2uj71ryyvl1t6v4h1w6bkh1","006cg10pgkg11rdwg11rk8012tb8g13cg8013vew014kisg14r0o0177ig0183ajk3a0h0g1ch5401ctyjk1dpe001g623k1i3l7k1ji5nk1kdl401kwjs01llu001ls5k01mnrc01n6wbk1orsbk1pakn81qvgn81rerz41rxkbk1sa7fk1t5t7k1u7qjk1ukjz41uqvj41vfzfk1xfg2o1","00vmp107di920pt7l11rwv522tu7513d5ib13vrj514l1r514rdb51781ep183n6p183ti918mfj41a16ap1a1cm91akhlt1cho2p1cuhi91dq3a91g6l291i3xup1jiom91kg1lv3kx9291lmplt1lum1v1mdxc41mogm91n7fa91o31291osba91pb9xh1q2o041rf4m91ry3a91saqe91t65up2u836p1ukwm91ureht1vgc2p1","06o7811eqtc11rdvo11rk8w13cg8w15gayo16oq2s17wsow18yq0w1ctfk41czr441g5pfo1ig1z81joav81jumf81k0rno1kwjr81lfigw1n6was1oxxj81qpbgg1rxkas1sa7gg1t5mv81tbyf81thxc42ti9z81tux381u1eys1ux0qs2wbl6s1xdikg1y94as1","0775x11f3gh11s35x21s37l13cz7l15gtxd16p91h17xbnl18zfb51cunt11g74051i3xtx1jrbwj3jw2kh1k2vid1kyiv52lh3cx1ljdhg1ljdhj3megas1n8av91ozif91pqjus2qqjpd1ryyv91sbfpd1t71fp1t7ked2tdpmt1tjojp1tmpkx4twbnp2u2tj91uy8zp1uylmt2uyryd1wczr92wjhmt1xex4x1yap6t2","06hz411l2f411rdz412n62o13cgao14kp6o17wz281a0h341c4ups1givls1jonls1k14e81l9da81lfou81lm0e81nwcxs1rxqps1szo1s1t5ta82uqvls1ux0u82x7dds1","06um911rwxt13cz9d14l8xt17xi0x1a1cox1c5doh1gjekh1gk3ur1hlbwh1iiosr1jp6h51k26891kxs1t1la8w11lgqpt1nx2811rymbl1t0jnl1t6ikh1t77up2urr5t1uxq4h1uxwcp2uyfep1x7w951","0jhq821f3i811lf281488e817xbpc195klc19uutc1a7hxc1es0ow1h26ww1kxfgg1mio3k1rymbk1t65xc1ukqdc1x7jpc1","00pds11f3i811rqm811yl4w148eps17x5ds189shs195e9s19uohs1a7bls1es0ow1h26ww1i448w1kx94w1mio3k1o9pc01rymbk1t65xc1ukwow1wpgn43x7jpc1","07dog11s3cw13czcw15zfwg1781kw17qtxc18a58g1a1csg1es0sg1jvi801l3r401l9wcg1lge801nx2bk1q0wzk1ry9s01sh8g02t6ccg1u83cw1ukqgw1vzaww1w5mgw1","00cn810pgjo11l8n811xvr813p3b814kp3817e0cg18m98g18yq0w1a6yww1cnn0g1cntc01hkmkg1i3l8g1l9jk01lm0cg1m4z0g2mo4cg1njjsw1npvcw1o2osg1qpi4g1rxkow1t5zwg1tva4g1uqpkw1v9ukg1","0jhmt10pt6t21lrlx21yepx13pfyd14l1qd17eczl18mlvl18zfb51a7o751cocap1d7ayp1hli691laf5t1ln29t1m5oap1mp69t1nks1t1nr3lt1o3qpt2rygap1t6p6p2tvzep1urxtt1vawht2","070xs12n62o22nce812tny813vla816c32818sr5s1dpx1c1fh4lc1g039c2gpdhc1h20lc1jc6tc1l9pxc1l9w8w1mi54w1mibgg1q0qkg1ry9og1t070g1t65xc1u839c1","07jwh12np1d12nvr512u6wx13w48x16cm0x18t3sx1dq9oh1fhh8h1g0fwh2jcps11la8w11mio3l1q137l1rymbl1t0wap1t6v7l1u8m811","01l3411fmkg11ly4g11sg0011z47413d5og148rgg16pfk018a58g18zfgg1bsqo02fb5s01i4nb41j02rk1kr4001ln8qo1oso3k1pomio1r2ubk1ryg3k1snwn42t6vb41td6v41vznk01","00cn811rqis13cmis14r6ys17e6mc183guc1a7bic1cho1w1fh4hw1ftrlw2h20hw1hrapw1i3xtw1jc6pw1kqr5w1l9ptw1m55ac1qpo1w1rxwxw2sn75w1t65tw1u7wuc1vzapw1wbxtw1x7jlw1xdv5w2","07dog21rx1c13czcw17r6kg1a16gw1d0zk01egykg2ehu6b2hlon41ib56o1iiccj1kl5341kxyio1lgx6o1ln2f41mciyo1mvhmo1osuf41r9iio1rb9q81rsh6o1s0jy82t6io01vapz42vznk01wft343wm4n41x82rk1x9b0g3xgi681yacqo1","0j50010vyfk11rdw011rk7k12go4012gufk15gavc15z3b427wsnk19o07k1ctyj41fgrv41jbu341kjqc01kjwnk1nj6s01nw6j41pzuvk1r8a341rxkb41s3vv41st6342t5t741vyrrk1x70nk1","0jhn510wb2p11rwup12h72p25gnih15zm9t27xbm919oj691cub691fh4i91jc6q91kklxt1nwpht1q0du91rxwy91s4ett1stp1t1t5zip1vzaq91x7jm91","06hw0118f8011l8nk11rdw011xvrk13p3bk16c2z4171d7418sefk1gip741heaz42l9d741mhseo2rxqmo1smo7k1t5t741u18nk1y2z2o2","070up118y6p11rwup11y8ep13pfyp16cfm9171pu918t3pt1gj85t1hetxt2la2hd1mihox1ryfwx1sndht1t6ihd1u2akx1y3ocx1","006c0118f8012thjk13p3bk14kp3k27wsnk18m2vk18ypzk1blpn41dpkb41fgrv41gip741gp0r41guzo01i3l741joh741kwjrk1lltzk1orsb41oy3v41rxkb41sa7f41t5mvk1uwufk1v9u6o1xqbyo1","00iz5118y8112u0jl13pfyp14kw7l14l2j517xbm918mlu918zf9t1bm8lt1dq39t1fhav51gj85t1i445t1i4tg31jp05t1kx2rl1loahf1osb9t1oymv51pd15c2pjcpc1ry39t1saqdt1t6c5t1t71g12uxjpt1uy9011vad5d1xuwb53","06hxc21rk8w23cz7n26owg018mfk018sr401a7bk01cu4w01dq03k1fh7nk1giyo01h1xc01hl2bk1kfccj3kx2rk1kyb0j1l3ebk1lmmf41moaa81mulu81nq7m81nwj681q0k741qpo281ry3b42sh1z41t65vk1ukwn41ur8741uxdfk1x7dao1","070uc212gas11f3es11rk7811rqis11yepw13cmis1488as17qtqc183ais189sec19ui2s19uoec1bsdtw1chhqc1kdxqc1kqr5w1lmpl01lsi6c1moa9w1pb3lw1pb9xg1qpo1w1rrldw1rxqmc1sak1w1sh1xg1t5zic1vz4ec1","00pc0118rv411lez411rqkg148emo15zfuw177v4018z2o01ero001h1u801jion41kx9341lg1fk1lmpmo1oshmo1q0qio1qddmo1qjp6o1s00sw2sndhs1t65vk1v3ozk1vzark1w5fyo1wcgu81y3i2o1","00pb410d63k10wb3411lezk11yl28124dnk148en415zfy816c9b4177v34189sf41a0zz41cho2o1eruao1gvin41h85r42i3rj41jc6qo1jv5eo1kqr6o1mogm81nwj6o1oygio1ry3a81sh1y81t00m81t5zj41tv9r41u836o1va6u81ymae81","00cnc10jnyg10wb2g11leyw11yl1k14rdag16oweg177v2g18sr2g19ocug1a0zyg1a7big1c50y01erua01h20i01i3xu01jv5e01lg1e01lmj9k1moglk1oymtk1ry39k1sak201t65u01tvg201u83601ukjyg1ur1u01x7jm01ymadk1","06uis21rqis12tu6c14rdac15zfy81781dw18t3pg19uoec1bm29w1gjeh01h2d501iasck1kra4k1kxs041lo45j1o9vk41rym841snq4k2t6c5g2u2gw41ukwlg1vaps41vgidg1vzh1g1wor9g1wq5tw3","06ups11llhc13ct1c14239c15tatc17xbsw189slc19opog1dqg3k1h2jnk1ic0sj3kxyio1lgkjk1mv4zk1o3qio1qq77k1rftvs1rftw01rftz42rymf41sbfns1sbfo01sbfr41t0jr41t6io01tjojs1tjok01tjon41tvsw01ul98o1uxq801vawao1wpn283wvs741x7wg01xkjgg1xxpmo2ymzuo1","0000g10pa8g1188wg11kw0g12ghsg13c3kg13oqog15fz0g16o74g182rkg18s1sg18ydcg19b0gg2a6m8g1c45cg1d62og1gbuog1h14wg1hwqog1i328g1ikg0j1jbb4g1jny8g1kjk0g1kw74g1l0xsj3l2iog1llhcg1mneog1okxsg1pmv4g1r1fkg1re2og2rx1cg1t5a8g1tukgg1v94wg1vyf4g2wnpcg2yewwg1","0189d10pzip219h5c12hq1d13dus313pslt15gtu015h0yp16ps0h184is118ahow1904k129cro12a8dg11c5wk11d7tw12d8phv1gdlw12gxg5s3gyi372h2w411i4tg11ij7rl1jdez51jrmz73klu6p1kyaz51lozrn1mq1ht1obms02odkb72oln2p1ppbm91r668h2rgpht1rzuhd1t7e352tx79t2vbrpt1w06c12w11xt1wpmvl1wqv4h3","0jua821yxow14rjm817ecy8189yq818zf9s195qts1bm8ls1bmexc1d0zdc1dqfww1gwe8g1ic6xf3kl4wg1krggg1kxyc01lgkcw1ln28g1mcis01miuc01mk8wg2mm6fn2nshsg1nufbn1o3dow1osu8g1ozc401pog0g1pul8w1qwv801rb3801rs4cw1ryfww1sb30w1t0pw01t2as02t6ihc2tdjbk1uxwcw1vajgw2vgopc1xssgg1yack02","0jbi823cmps14kves14kvew24kvf424kvfk24kvgg14kvi814kvls15a5og17wz5s1a0h6o1chhxc1d6s5c1kq22o1l31ts1nlh4w1no3yb1nrsow1nufib1pnklc1qphxc1qvthc1rxkhs1sa7ls1t5zpc2wi39c1x0vls1y9atc1","06oe810pgqo112a6811rke81247i8147vuo14kpa814kpvk159zi817qnls28m32819uby82a6z281ajshs2brv281bs1ds1ctyps2e8j5s2erbi81gcdts1heb5s1hx9ts1i9wxs1ig26b1ig8hv1ihzpf5ijx8j1jusxs2kqeps1l0f0j3lm0hs2lsc1s1m4z5s2mbaps7mbtog1mdkw01mfif71n72tc1njjls1o905c1orm681p4lxc1paku81pne9s1qrs3k1r83y81r8a9s2raqrk1rrf9c1rxqtc1smoe82stclc1szhts1t5tds4tc4xs1tia681tos1s1tv3ls1u18u81u3vnk2u7qps1ue29s1vfzls2vgikg3vyy9s2wo2681y9atc3ylxxc2","0776920pt7511fg29124jyp148emp14l2j514lxcj15abyp165xqo17r6dt18ms5t19v11t1a7o5t1aknwx1bswsx1cuu4x1gcwlt1h3rpv1iiv4j1ln28h1m5ukx1mc64x1mdxcg2mfuvn1n7rwx1obggg1oddzn1p5b0x1r9ic11rysk11t71g11tw5ch2u2n811u5a1d2vh1ch2w06c11","070v520pmw111f9r5124jz5148en514l2jl14lkpv15abz5165xr417r02p18mlup19uuqp1a7hup1akba91bsk691cuhi91dxn371gcwm91h3f372iiotf1lmja91m5o9t1mbztt1mdkps2mfi8z1n7llt1ob3ts1od1cz1p54pt1r95pd1ryfxd1t6c691u2ald1u4xep2vgie92vzh291wpmw13ymn1d1","070uh20pmvd11fg21124qa1148emh14l2ix14lr0r15abyh165xqg17r6dl18mfig18mlu119v11l1a7o5l1akb9l1bsk5l1cunt51gcwll1h3le32ih3wp1iiv4b1m5ukp1mc64p1mdxc82mfuvf1n7rwp1obgg81oddzf1p5b0p1r9ibt1rysjt1t6v491u2n7t1u53pl2vgv0p2vhkax3vztop1x8rux1","0007410pgqo11exa811re2o23cge814826814kpa817du681951q81a0ni81d0a9s1gcdts1i3lds1jbu9s1l97281l9dds1o2i9s1q01ds1rxkhs1s3w1s1t5n282u7qps1v9o1s1vyy9s1x0vls1","0j501112a2p11eqs1124jyp14rdap15gnk1165xqp17qtqp1hkz6b1kx94x1ry9ld2t6c5t1x7pxt1","0jnyq112t1e11f9qq12598y14rw9e15hcua166n0y17rj0y1hlogh1hm13n1kxyf61qeyhc2rz5761t77rm1x8ljm1","0iyrl1129zl124dn514r72915gnj5165ri917r05d1hkz9f1kx94x1ry3cx1t6c8x1x7q0x1","0jhqa212z9u21fg5c125yj614s2o215h6hu166n4217rpfm1hm7i91ky4qq1rzblu1t77uq1x8lmq1","0jhq9218ry912534114rdhd15gnih17r08x18mlxc1bsk8z1d8j9f1d98jn1hlon71kxyip1libnl1libnn2q2o3k3q3jpf2rysqp1t6io11twi2p3v41s11v4qyp1","07dog23d5og15zshw16csg018myo028nhmr1a7uo01ci0w01coveo1d7u2o1dkav41eg2yo1gjrb41h2wao1hm1a81iiio31ijx8j1l0f0j3lay9s1lnlds1mciyo1mcpa81mcvls1mj75s1mkfeo2mmj9f2mpips1n84qo1o3qio1otjpc1poz5s1q1m9s1q7xts1qr2tc1r9v5s2ra1hc1rz5ds1sbshs1solxc1t7e9s2tdji81tk1ds1u4xkw1ufgu81usa9s1vhqtc3xrx1c1yavpc1","0dceo10jnyo22behc13di4w17rcpc18sr2o18ta1c1bmrkg1cpkib2g740g2h2psg1iha8g1ikg741kfoyb3kxlow1lq8773lu9eb1mcchs2o54xs3o9vls1p0qps1pjpds1pog0g1qdjww1rym8g1t6ihc1t77rk3urksw2vapsg1vhdzk1wiyog1woxlc1ya68g2","011y810dcf410juao21s36o22behs13di5c17rcps18sr3418ta1s1bmrkw1cpkir1g740w1h2psw1i4gtc1ih3xc1iha8w1ikg741kxlpc1ln28w1lq8773mc6802n7rxc1o4yo03o9pc01oln341p0kg01pjj401pog0w1r95pc1raqlc1s00tc3snwgw1t6ihs1t71gg3vapsw1vh7og1wiyow1woxls1x7w9s1ya68w2","0dceg10jnyg22beh413di4o17rcp418sr2g18ta141bmrk81cpki31d7nk81hlog81iha881ikg741krgg81kxs081lq8773mccg81mccu82o5bls3o9vy81oz5s81p0xds1pjw1s1pog081rym881t6ih41t77rc3tdjbc1vcgzs3vhdzc1wiyo81woxl41wvls81ya6882","006io10pgqo11eqyo11l2io12gum814kp4025z37o17wmio1a0ni81caosg2ctts01g5xc01i9ybk1kk4jk1kkav41kwrnk1kwxz41lfqbk2qcw741rrgn41rxlvk1t61341vg0zk1xdwqo1","00vsx10ptdt11fg8x11llhd12h79d14l1r525zm6d17x5hd1a16gx1cb7r52cu6f51g6gap1iaha91kkttt1kxam91lg9a91lgflt1qdf5t1rrzlt1ryb5t2t6k1t1vgjy91xe9dt1","0dp8i10k74220pzpe21fsw211m4g222ilts14llia1610qu17ydqa18ta801a28ea1ccmbm1cvkzm1etn282g7ojm1g7uv61i5p8g2ibpj61ijlz71kngn72kyiv61lhhj61lj2f61lj2f72mebk02mf75v1obuo02pqf402prapv2qeh361rw0zm1rzpqa1t7lz62tqkn61vi4ua3wne9u1xj01u4","00j0g10dcg021f9s011llc021yreo14l2iw15gnj415gtvk16jghv17r6f417xbnk17y0xv1alpvn1bnn7n2d7nls2d8j7n3gkmrk6glc1v2glooz2i4thc1i5p342iha9s2iha9v1iiiir1ijx371jkfur4l49xc1laf5s1ljdj41ljdj72lo4771lum2r1me3pc2mfolf4onebk1ozc5c1pq79c2pr96r3qqjpc1qzi2r1r9idc1rc56o2ryslc1s6vc01t0pxc1t6v5s1t7e4g4td6ps1tdpog1vdiyo4wj51c1xhdmo2yaclc1yc3sw3","0czsw21l8ow24rdc014rpz715gaww15h07715mz4015zm6o177osg1a0tog1ajscg1c5q9v2d6s002d7nlv1hkg8w1i38lc1ig8cg1ijx371jhmps1l9d8g1ljdj41ljdj72lmczk1mwd341of58g2olzr41otw743ow6df3qaqtf1qrfb41qvn0g1radz41rzo743scbb42t5t8g1tv3gg1twbpc4w6hxc1whwsg1y94cg4yavk03yjtxf1","0vs3o10vyf811l2bo11l8n812thj81481z815z3b416ojr818ywas1a6yv81gvcas1h1hj81kqeis1kqkuc1nde6c1vyy2s2wbric1wi32c2xdouc1","0wb2d10whdx11llad148emd15zm9t16p2px18zf9h1a7o5h1gvv9h1kr3t11vzh1h1wcgsl1xe7t11","0wu1221m492348xl2149t6v160bk216pybq1904jq190h6u196squ1a8dfq1gwx6u1krzeu1w0iyu1wdcee1wjnye1wn6di1xis5i2","0vs3s10vyfc11eqrs11l2bs11l8nc1247bc12thjc1481zc15z39c16oq2w18ywaw1a6sjs1gip6w1kqeiw1kqkug1mbaiw1nde6g1paqyw1v9u6g1vyy2w2wi32g1","0w4qx10wb2h11f3ex11llah124qa1148emh15zm8116p2q118z8y11a7hu11gj1u11kqxhl1pb9xl1vad551vzaq11","0wu1621fg2211m4963264ui1493wq149t6z16056q16ploq1904ju190ave196mfe1a8dfu1gka2y1iht6y1ks5qi1mdxds1pcbwi1pddts2pe9fn2vble22w0cne1","0vs4010vyfk11ex3k11l8nk22thjk1481zk15z38g16ojrk1716vk18ywb419bjf42a75741fagb41hx9n41jibyo1kk2z41nd7v41orymo1sgpao1vyy342wi9e81xdv681","0wb2p10whe911f3f511lrm9148ky915zm7516p2q918z8y919bw292a7hu91fasy91jiolt1kklxt1oshld1sh1xt1vzh1t1xe7td1","0wu1e10x6oi11fg2a11m49e11mgwi249a8i149t77160hsy16pyc21904k2190avm196mfm1a8dg21fc1761jjwuq1klu6q1otpua1radxu1simtu1w0iz61wncpe1xiyhe2","0vsao112a6811rke814r0u8177oxs17kc1s18yq681eeoe81f3ym81mu9ds1uqpds1vyy9s2x775s1","0w4xt11rx1d14rjsx1787wh18z94x1efdoh1mv4zl1urrb52vzh8h1x7wg11","0vym814826816bwu818yq681951q81ctyps1gipds1jbu9s1lfoxs1mhslc1paku81pgwe81sgphc1szo5c1u1rsw1ue29s1vyry82","0w4xt11f3ls148etd16cm4h18zfgh195r0h1cuhoh1d7u2r1gj8ch1jcd8h1lg7wh1mc6bl1mihvl1pbgg11r8zk11sherl1t07411u24g11uerk11vznk11","0vs3o11eqro15z40017wsn818ypz81dpkas1jbu2s1o2i2s1ptpms1szhms1vyy2s1x76ys1","0w4qt11f9qd15zmyp17xblx18z8xx1dpwxx1jcd1h1o311h1r8t1h1t00lh2vzapx1x7jlx1","0vs3o1129z811rdvo11rk781481z816ojr818ypz81gc7b81kdl381kq8781mu9kw1njjsw1pne2s1pzv9c1qcoas1smuis1vyygw2x0p381xq5ms1ylrsw1","0w4qt11f3et11rwud248emd16p2px18z8xx1gcjyd1kdxqd1kra4l1mv56p1p5bep1po9ol1q0kjl1qd79h1sndhh1vzb411x1edh2xr18l1ymh351","19ati11f9qe12u6ti13qhvr14lf5y16pfeq189yrk19p26a19pete1al0le1cov9e1d8cw31fbole1ib51e1lalhe1mderk2mfimb1mwdfk2nlnnk1nnrib1nxf5u1q8gzk1qdwxu1s54hu1suepu1uey2q1ve29u4w0w023wj5du1xxptu2yfsjk1","0vyg0118lk011rk7k11rk8012n60012thk024820014r0o0165l4017wso017wyz419o6jk1chbfk1cu4v41fgy741ia3341kdrfk1kqejk1m4yzk1mhm3k1mhsf41o8zz41ptvz41qcobk1sa7fk1sznz41vz4f41","0wb351194ip11fg2p11s36911s36p22noyp12u0ip148kyp14rjmp16642p17xhxt17xhy919opi919p25d1cuhi91fhh5t1iasdd1ken1d1kra5d1m5uld1mio0x1o9vkx1qdq8x1sb9cx1t0jkx1w0izl3","0cn4w10vlsw11kw0w22410g13v8kg15a5nk15gbnk165l4016odgg18348018fl0g18ydcw1v94ww1vyf4w2x6o0w1","0cnb410vlz414826816bqio18ydj4194p341a6mf41l9gcg1m87wj1okxz41r7r5s2rqpts2s9ohs1vyf5s1","0cnb4111xj412thq815sy6817du6818ydj41m4z5s1m87wj1w4qv41y8lj41","0cnb410vsao11eqyo11re2o12thq815z38017du6819u5mo1cgyyo1cnaio1g5slc1hx05c1l9a0w1m87wj1pakow1rr2gw1tbygw1tia0w1u7k8w1vyy4g2xdc8w1","0w4xt11f3lt11rqpt25zfv517e6td19uuwx1cnzsx1g6hvl1l9szl1mbn7l1pb3nl1rrrr51tizb51u837l1vzh351xe1j51","0vlts1123pc1247cw13p3cw14820w15z3ls177c5c19o08w1g5phc1g5vsw1kq1xc1m4z0g1mnxog1pn7sw1s3pkw1sa14w2vyrsw1wo8cg1","0whfl112mo1124k0113pg01148kzl15zmkh1781fl19opj51g6l351kr3up1m5bnl1mozlt1po9q91r8zep1s4l6p1sawqp2vzarl2woxmp1","0vs4g112a0011ex4011l2cg11rdwg12gug014820014xc8015z3eo177ig017k5k0189m3k18yjog19hicg2a6skg1c4obk1hqy3k1kq8801kqejk1kwq3k1mu97k1o2of41o8tnk1qvmzk1r1yjk1r8a3k1v9nvk1vyy3k1woen41xwnj41","0w4rl118y7511f3fl11lrmp11s36p12hdep148kyp15zmdd1781ep17koip189yqp18z8yp19i7mp2a7hup1c50yp1hrh291kqr6p1kx9291mbti91mus691o37dt1o9cm91osba91puext1qjiu91r2hi91r8t292va6u91vzh291wora91xx0691","0wheq119aua11f9r611m49u21sftu22ilnk149a8y160hz6178x0i17lk4i18auci18zy8y190aw21a874y1al6w21c62w21geb6o2gf6sj2hsco21krzfm1kzvvn3mvu3m1n9j4w2o49b61oaejm1ra1b61rd0rm1vb2g21w0izm2wjnz61wpmw21wqv4y3xy8f62","0wb2e11s9hi22ud52148r9i15h6he17xo9219vdom1ci70m1gdfk61qqdc61rsgzq1u8yrq1w06bq2","0czrk10vs4011l2c011rk7k1247bk14kp3k16c2z418ywb419bjf42chhqo1fh1c01gpa801hr18g1jbu341kqo001orlzk1reryo2sgpc01sznyo1tigcg1ue2342vyy341xdow02y9ao01","0wb2p11fg2911rwup224jyp14l1qp14l8up16cfm918zf9t1chudt1fhdz51fhkap1hrqj51jcw0h1kr6yp1osu8h1rfnkh1shr9d1t0jkh1tji9t1uerdd1vztox1xh7b51yacld1","0w4u8118ry811rqm82488e816p2tc17r05c19opkw1gvvcw1ih4001izwcg1kra801lt18g1mibgg1pbmo01q0ww01rfhc02ueetc2vajk01vzh4w1worcw1xxcw01","135le249t7717y0wi19p8gi1espw21j0f821q1frm1w0cnm1","0vyf8111xc411l2bo11rdvo1775s418ydc41c45c41hqlfo1kpvk41kq1vo1o8gzo1refb81sa1381vyrr81w53b81","0w4qt118rut11rqit177oqt18ywat1c4oat1hr4ed1kqeit1o8tmt1reryd1sadqd1vz4ed1w59mt1","0wb2e118y6e11rwue2787pi18zf9i1c579i1hrh1i1kqkue1o9cli1rf4li1saqdi1w00061w70ue3","0vsao118feo11rke814826816oq9s17qnls29o0e81a0tts1c4ohs1hqy9s1ig8hv1m4z5s1pne9s1q01ds1s3w1s2smups1u7qps1vfzls1vyry81wo8hs1wuqdc1","0vs3o11eqro147vno177c3o18yjno1m4sn81qcbno1qoyro1smhvo1vylfo1w53b81x0p381","0wb2d11fg1x148emd1781dx18z8xx1m5hxh1mbthh1qd79h1snjt12vzh1h1w5slh1x1kp12","12gas2488as17x5ac18sr2c2a0nb81c4umc1fammc1hr4ec1juz2c1lfv2c1n78xw1njw1w1paqys1qphqc1r8a2s1u7k781v9u6c2vyy2s2","0vyfk1129zk11rdw011rk7k14822o15z37o177or418ypzk1cu4uo1gcdq81kk9ao1l9jls1lsi6o1n72ps1r8a341r8agw1rem0w3rr94w1rrfgg1sa7sw2uk7pc1uqpkw1vz4eo1w53pc1wuk8w1xjugw2","0wb2p118y6p11s369148ky115zshx1787pt18ms5s18zlld1cuntd1gd9c11kl4wh1laf7l1ltdsh1n7ybl1r9c0h1tptvl1w06c11","12mo1112szl11f3gh11s37l224qbl1493yb14l2kh17r03l18mlvk19v13519v7ep1a7o751akbb51bsk751cuhj51gx9vk2icdab3iioub1ijqrn1kqxj51lj77n1luseb1mc6691mdr281oba683od7pf1ow6df1rbyv51rs4e91u2am91u53r52vgoqp2w0cox3wlf7l1x8lkx1y9zy91ycmrk1","12n0h112tc111s3k1224qo11494ar14l2wx17r0g119v1fl19v7r51a7ojl1akhz51bsqv52cuo751d7bb51hmkg02icdmr3iip6r1ijxfn1kraip1ljdvn1lusqr1mc6ip1mdreo1obaio3od81v3olngg1p6wao1p8ttv1rc5j51rs4qp1tpnup1u2ayp1u5af52vgp352w0d1d3wllvl1x8lxd1ya0ap1yctfk1","0vytc118fls124e0w13iygw148f0g16oqgw177itc18srgg19uigw19uosg1c4v0g1fagow1izdog1juzgg1l9jwg1lfvgg2nwd8g1q01kw1qcoow1r8agw1rem0w1sa7sw1u7qww1va0w02vyygw2wof0g1wuk8w1xdvk01y9hc01","0whfl11f3gh11s37l248eo114l82917eczl18z8zl19v7ep1a7hvl1bsk751gw1ld1jcw1t1krggh1o3ke91o5bls3o72tf2riaf52t0jlt1u2n811vztq91w6hw11","0czsw118lkw14r0ow16c30g17wz0g183akg189fsw19o08w19ui4g1a758g1gip8g1joh8g1l9d8g1par0g1qcocg1res001tc4sg1u7qkg1vyy4g1w53cw1wo8cg1wuq801x0p4w1xdikg2","0cthc1123pca18f9c218lkw11eqtcc4ejwgs6bwow46ojsw477igw577osg17du0w37e0cg17q4hs17qh4w17wsow47wz0g27x5c017xhz418yq0w29ubsw1a0ncw1gcdog1kqekg3mdef41qes743qg0g32ue24g2vyy4g2y9gzk1","12zb4224qbk14rjnk15gnk015n5fk16643k16cfnk18zfb4195qv41chuf41d808z1fbby81gjeio1h2ji81jcw1s1kra681mkf9c2o9vls1r95q81vaji81vzh342x7wao1","0w4sg11f3ls12h74014rdc016owlc18z2tc1fazgg1kqxj41n7fb41qpuf41rfb401sh1z41snjuo1vzark1","123no11eqro12go3o1481z817wsn819ui2s2a756s1eeuis1kqeis1n6was1r1yis1r8gec1reryc1sadqc2sgpac1v9u6c1vyy2s1","12tq921f3et12he69148fep15abyd17xipt18mmm819uvi919v1tt1a7oxt1efkld1krawx1n7z0h1r318h1riadh2sdw5h2shs011vaww11w07411","11xj41247i814r0u816oq9s189m9s18yq6819o6ps1chbls1dp7uo1g629s1gvchs1kdla81mu9ds1orshs1qvn5s1res5c1sgj5s1u1f5s1uqvpc1vyry81xdp1c1","0w4u811ex6o14822o15zfvk17wsqo17wz2819uohs1chhts1fage81g68hs1izdds1l9da81nwcxs1oryps1q01a81s429s1u7qm81vyy682wuq9s1","0x14x11fn5s11sgld2253pd149tz716czcx184jk118n5kw19p98h19plvl1cvk751ht2ps2hu4qr2kg2dd1ksj5t1lhmdd1m6xa92na96o2nyhhd1ou2kh1ppipt1q1zi81s60ht2w0jr51we2gx2x2h351x3pc13yo1oh1","0vym8118lq814826817e0hs18yq681a6z281dji801e8sg02elfk01giyo01hkw001ia6801igbgg1kqo001l3b401mulvk1oryo01rrlfk1vyy4g1wuq801x770g2","0wb9d148etd17ejgh18zfgh1a7och1dk16p1e9bep2gju9t1iavi91krpxd1mvhhd1osu9t1p0qps2rsh1d1w001t1wvs5d1x88xt1","18rv411lez4177v2o18z2mo1ef7681jiols1mi51s1o31fk1os4y81pb4002vzaq82xx0jk1","0dd6p112tq921faip11s3y9249b0j17r75t183zt118mltw19v1tt19v85d1cie4h1gxam82gy6832kgf0j3krh8h1luzgj1mp6o11mwwsg2myubn2qqkg11rso3l2sbmrl1sk8ht2vzo5d2ygikg1","0vyf8118fb41488as177oqs18ywas1957y81hkz5w1kqeis1ksc1z3moa9w1n72ps1rrldw1w00043wbxtw2x7jlw1","0w4qs11f3es12tu6c15zm6g16cflw18ms5g18z8xw1ci0p01etf5w2euarr2jcpok1krgg41lge4g1m677o1mp5vo1o3k041pbmkk1r30g41rftvo2snwg41uerd01vzh1g2wyex02ymzno1","0w54w118s8w11rqww11yf4016c3cw17wzcw19uigw1blq0w1cu58g1eeuww2hqygw1jc0sg1juzgg1kdrsw1lfvgg1m55ao1o2oeo1oyakg1paxog1rescg1sae4g1stceo1u1fcw1u7qww1va0w01vyygw2wi3gg1xdouo1yfg8w1","123uo147vuo16oq9s19o6ps1a6z281d0glc1givpc1m4z5s1mufpc1o905c1paxhc1vyy9s1w59ts1","12t4x21f3lt148l4x16pfk119ow0119p2bl1a7uo11d1iip1gjxmp1m6dq91mvny91oa8e91pbzep1w00751w6i2p1","18ljc11ex3c12gufc13p3bc247vns17e0aw19ui2w1djle01dpqmg1fgy6g1kdxqg1kqr601m5bm01n72mg1os4y01q07ig1sgvm01sn7601u7wug1va0i01vz4eg1w5ma01xdv601","194i111f3ex12hq1413pma1248ky117ej9l19v7d51dqfwp1fhngp1fhts91keadl1kt1cb3m60w91n84jt1ot0jt1q19ft1shkw91sqj9l2u8sg91vaw3t1w00091w6bk91xeqrt2","0vs40118fb411ex3k17wyz41834ao1a0tn41cnmz41gipa81joh741paqz41u7qj41uqvls2vz4hs1wuq6o1","0whe9119awx11fmdt17xo9d183tkx1a1ixd1coc9d1gjekh1jp6hd1pb9xt1u8m4x1urekh1vzngh1wv95d1","129zk11lez412tu6o1488b4177v2o17ki6o18ywb41dpqmo1gvoy81ia9e81kklxs1moabk1nq7nk1oryo01vzaq81w59og1","18f8011eqs011rk7k1481zk16oq34189m3419o07k1d0a341gip742joh741nw6j41s426o1uqp741vyy341xwnio1","194i911f3f511s369248ky916p2q918a51t19oj691d0t1t1gj85t1jp6hd1mc64x1nx24x2p5b0x1s4rgx1urksx1vzndd2xxcsx1","18s1s17e6mo17ki6o18z2mo1cho281izpxs1kqxhs1o311s1rf4ls1vz4eo2wc4cg2x7jm81xx05s1ymakg1","0w4r411f3f415z9k016p2q818z8y81hrndc1krggg1mc64w1mihow1osnww1pbmkw1tjbww1v3v9s1vzndc1wcgsw1ymn0w1","0w5j4118sn411lfr422h7uo13pgqo14l2io166hhf17e7eo183ny818sy6819uvi81a7im81chou81ci1hc1co6ps1drim82fb6dc1g6rk01iat4w1kxmgw1mvbwg1osv0g1rsbgg1snx8g1tci681tjcow2u83y81vak8w1vaqkg1w0dfk3xtou82y3vgg1","1241s1129zc21er5s11l91c11rk7c11rklc12gutc12n5zc3481zc17dtzc17wt1c19uc5c2a6z9c1c4oow1d0agw1johkw1kqeiw1nw6ww1r24ug1rr2tc2rrfgg1stceg1u1log1ue22w1v9u6g1vyygw1x0vew1","12n0h218ykh11f3ex11rx8h21s36112h7gh12nimh12nj0p148emh17ejnl17xbm118a51k18mm8019v1fl19ve2p1a7ojl1c5dz51d0zr51gkmq02glc0b2jpd6p1kra4p1mcj5t1mww082nxf5t2p5o1t1r30g91rbz7l1rshdt1ruxvl1su8092u2ha91uerd52vaw3t2vzu2p1x1edl1","0wnpu119atu11smbm11ssgi22iln415hdl6160uiq17y78219pes22cveo21d7vgi1fi1oi2hmlmo2ij7rn1jd8nm1kn2fn2nxrf61pinf61q1m361rco421s5gr61sxk422w0vma3x94ia1","0vs7411eqv411rdz411xvuo13p3eo141qio15gayo177ou818z2ps1a75a81cnzpc1kdxts1kqr9c1mbgxs1n72ps1qd11c1sak5c1tit1c2ue2681vz4hs1w5g1s2x7dds1xwtxc1","0wb5t11f3i911s39d11yetd13pmdd15aidd15gtxd178e4h18zloh18zybl1a7ukh1covb51kezr51krmv51mcvi91n8ha91omirl1qe9a91sbse91tk1a91uf43l1w0pdt3w6bnl1x8y9t1xy2691","18ydd11f3lt11rx1d148etd14l1xd17e6td195kox1a16gx1d0mwx1gcqgx1jc6wx1l9q0x1o318h1q0kch1r8t8h1s4f0h1u83cx1va70h1vzawx1x1ekh1","0w4xs118s1s148etc177v9c17kidc19od1c1gvvgg1krabk1oso3k1pbgg01vzaww2","0ctmo112a6821rqps14826815zfwg177v9c19uolc1a7bpc1givpc1kqrcw1o96gw1orytc1pu2gw1qcutc1qj6dc1vz4lc2wuwow1x775s1","11xfk11r7nk147vr417wz2818ydfk1a6mbk1l9da81vyf7k1wb2bk1x6o3k1","0d668112ge821rqm8148eps17xbpc18ywe81a75a81es0ow1kqr9c1l9w8w1n7fcw1oyt8g1u839c1vzatc1xe7wg2","188xs11r7ls1481zk15z37s177igw18ydds194oxs1thxds1vyf5s1","0vlsw11r7kw12410g14820015z3b416bqcg1a0aow1s3cww1vyf4w1","0vls811kw0824qubs16odfs1a0ao81a6m881s3cw82vyf482x6o081","0wb9c11rqps1488hs1787wg183h1c18zfgg1cuo001djy801efk001jp6o01krmyo1pbmrk1qwirk1s4xz41u2neo1w65fk1wcnb41woxs01","19tz511ssn5249zpf16pyip18ao751904qp2bt9mp1d7nr51fboqp1j0ydd1ks5xd1o5udc3ot0qp1ppurl1qmc5c1r3jlt1rmi9u1sr2f52w0j5t2","18rvk1194io12o1ls13pzb4142334148kyo1781eo195kio19pl4829pxrk2a7o681btyqr2gjr4w1iha8w1ii5ur1jj7kw1krggw1n7rxc1p0kdc1qy3hc1vzh281w6hwg3wcn4w1xl2cg1ygbhc1yo7xc3","18ruw1194i011rwug22o1l414232g148ky01781e0195ki019pl4829pxqw2a7o5k1bu51n2gdfk81gdlvs1ihgjv1jk9hn3krmrs1m677s1nxers1o9vk81p13bc1qqdc81qymfc1rsgzs1sbfns1vztoo1w6o7c3xex3c1xl8nc1","18rv4118y6o11rwuo22avio12o1lc14232o148ky8177v2o195ki819pxqw29pxrk2a7o5s1d0zdc1gwe8g1hf09c2ih3ww1kra4w1ksidv3mvb4g1nqwwg1obggg2qy9sg1u2gwg1vzndc1w6o7k3wvs401xl8nk1","123r411eqv411l8qo11rdz413ilj413veyo14822o14kp3c15z9k015z9mo16ojuo1834ao19o0ao19o6m81hkgao1hkmm81kdri81kq8ao1kqem81kwwhs1mufls1pne681res1s1rrf5s2u1lds1ue2681uqvls1v9u9s1vyy681","12mpt11f3i911lldt11s39d13j4ht148ept14l1qh15zm7515zm9t16owht183n9d19ocxt19oj9d1hkz9d1ke45d1kqkxt1kx2td1mulxd1pnx4x1r8mtd1rf4ox1rrlhd1u1y0x1ueetd1ur88x1vad8h1vzatd1","135z621fgg011fmgy11mhaa21ssua23kjcy149zwj14ly4q1610rm16q51e184phe19plhe19py4i1d8d8i1gehvk2gfjsz2hme4i1kfpc21ktr0j3kyo021ljk741ljk773meadc1mwd4y1nz6dc3ous5c1ppibm1rgpvm2rw5r62u6cci1uftdu1uszr61vbrsy1w0poi2ygi6a1","0wnwg119av411s3cw148kzk148xs31787wg1904k0295qts1a7uhc2alwcj1cpr0j2d7nr41gebcw2hlon41hm7lv1ihgqo1ksow33kxyio1mciyo1me3uo1mvhmo1n84qo1ogdmo1qfhmo3qgjk33u48ao1w0j5s4x89341x8s1s1ya6f41yfsow1","19atk119b0g148ky01493wo15b18o1787pk190avc295ki01a7uh42c6fij2d7nk81d86iz1gxgcg2ihgjs1iiih72je4972krmyo1lum171ogdfs1qfny82tjojs1vcnbc4w0iyw4wpa881x8ruw1xghzc1xxpfs1yacjs1","18lj8118lkw11ex3812aiv812tukk1429fk148emc15t4as16oq2s1a0tms1a10001ci70n2d6ryc3igemc1igeo31ijx1j1kqxhg1l0etj3lg1dw1mjpxg1n6was1njpqc1o4s902o6w3r2ou2h01szu9w1twbno3v4kjo1w5fyc1wbxtw1yf9j81","1xpfo22acjo22guf813vev815mg5c15srno15srpc17dtz81834781ctyis1d6lms1fgrus1fteys2gp0qs1kdl381kdxqc1kqeis1nd7us1wi32c1","1y8ed11yepx12avid12h72d13vrid15mz2d15tamd15tao117ecxx183n5x1cub5x1fh4hx1ftrlx2ke41x1kqr5x1","1yrd211z40612ox6u13jnd213wah215ni1215uiwy17epl218464m1cv6rq1d8j5z1fi03q1fi6fa1geb5w2gf6rr2kf5za1ktdzb3","1xpfs11xvrc12acjs22gufc12zt3c13vevc15g4js15srns15sxzc165l3c17dtzc189m2w1bruvc1bs16w1d6lmw1erhmw1fgljc1fgruw1gp0qw1hx9mw1kdl3c1kdxqg1kk2yw1mu96w1nd7uw1uqp6w1v9u6g1whwqw1wo8aw1","1y8eh11yeq112avih12h72h1305qh13vrih15abyh15gnih15mz2h15tgy115th1d16642117ecy1189yq11bsdu11erua11fh4i11ke4211kkfm11mus5l1ur85l1vad551woky11","1yrd611yxoq12ox6y13jtoq13wgsq15h6h615upab166gp617f8ju18aubu18sxe018tgcr1btfre1d8j631d98gb1esw7e1fi6fe1kgx6z3klnuy1mw6q21o54w82o72ff3qlmo81qnk7f1uv9je1vble22wpmve1wqv4a3","1xvrk22aivk22gufk13vevk15mmfk15sxzk27e0b418skr41d6ln41fgrv41gp0r41kdrf41kdxqo1nd7v41orymo1wi32o1x76z41","1y8ep11yeq912avip12hde913vrip15ac1t15tamp15tapt17ej9t18sxe91fhatt1keadt1osb9t1x7pxt1","1yrde11yxoy12oxaa13jnde13wgsy15u6bm15up7717f8k218tt021d8phv1d9es31fi6fm1ficr61kfimq1otpua1x8rv61xa6fm3","1xpts11xw5c22n01s22n6dc23p3pc14kphc15g4xs165lhc17wt1c189g5c1dj94w1fagow1fn3sw2kwwsg1n730g1parcw1qvncw1sgpog1sn18g1u7qww1xdp8g1","1y8sh22nj0h22npc123pgch14l2wx15h6v7165y4h17xibl18a5fl1djs3l1faznl1fnt352kxfr51n7sap1pbmyp1phyip1shla91snwu91u89vl1xeku92","1xpmo12416o135yio13v8qo17du681fgs1s1gp0xs1mhssg1n0rgg1nq1og1orsow1rrf9c1wo8hs1wuqdc1x77cw1xdp8g1","1y8ld124k5d136hhd13vrpd17ed4x1fhb0h1mibr51n1af51nqkn51osbnl1rs4jl1woxs11wv9c11x7k011xe1vl1","1xvr812guf813p3b814r0n816bwn8189fr81c4oas1g622s1kqeis2q016s1wo1z81xdiis1","1y22t13pm9x16cflx189ypx1c50xx1g6epx1kqr5x1q0dtx1wokxx1xe1hh1","1yepy13jnd213pyx216cs9218ao061c5q861g7abq1krmrq1q19fq1wpgjq2xeqrq2","1y8ed14rdad16cflx189ypx1c50xx1g6epx1kqkud1q0dtx1wokxx1xe1hh1","1yl1i14sljb16d4w618aude1c5wle1g7abq1g7gna1krt3a1q1fra1wpgjq1xex3a2","241001247bk13p3bk25sxzk177ifk189fr82cnmz41fgrus1fteys2gp0qs1kdrf41mnxms1o8tn41uqp741wo8b41wuq6c1","24dn5124jyp13pfyp25tamp177v2p189ypx1cnzm91fh4hx1ftrlx2ke4291moglh1o9clt1ur85t1wor9t1wv2th1","24wlu13pyxe25ttl6178e1e18ao061cov821fi03q1fi0421kf5zm1l4g7a1mpoue1oa87m1us3rm1wpmvm2wwb2e2","240zo22tb7o13owzo14qubo15srno165ero16bwn818lwjo1blczo1eeo781gv5z81hqrr81kdero1kdres1n6was1o8nb81pzuv81sgiys1wbl6s1wo1z81","24q9x22tukh13pfyd14rdoh15thc1165y4h16cg0118mm811bm2o11ef75x1gvpc11hr4ed1keadh1n78xx1o96o11q0dtx1sh1xh1wcah11wokxx1","25fk622ujuq13q58m14s2yq15uj9f1676df16d5aa18nhtu1bmy9u1d807a1eg93a1gwr9e1hsd1i1kgx6v3n8h6u1oaewy1q1see1si3uu2wdcee1wpmva1","1xpmo12gum813ox6o13vf2814kiyo15z37s17wsu81ch5a81dpe681g5vy81h7ta81iz75s1n6whs1v9o1s1x775s1","1y8ld12h79d13j4ld13pg5d13vrpd14l1xd15zm6h17xbsx1dq3gh1g6l8h2izq4h1n7fgh1vadc11x7jsx1","1xpg012410013p3bk15sro017dtzk1g62341i9wr41kdrls1mo3yo1res5c1sadxc1uqp741","1y8ep124jyp13pfyp15tan517ecy91g6rdd1iam1d1ketj51mozkh1r9c751rfnr51sb9j51urr4h1","1xvsw3247cw13veww14kp4w15z9jc15z9kw165l4w177osg17kbwg189m4g1blpog1cnn0g1gcgsg1gip8g1giscg1jbx8g1kqbcw1lsf0g1m4z0g1o2i4g1paxc01qcocg1r24w02sads02t5t8g1u7qkg1vfzgg1wbrk01x770g1xdow01","1y8g1224k0113vrk114l1s115zm6h15zm81165xs11781fl17kojl189yrl1bm2bl1cnznl1gctfl1gj1vl1jc9vl1kqubl1lsrnl1m5bnl1mbn7l1o2url1pb9z51qd0zl1r2hj52rl9vl1saqf52t65vl1u837l1vgc3l1wcaip1x7jnl1xe7up1","1yreq125yki13waiq14llj61610qy166gqq178kea178x1f18ao1u1bmlaa1bswua1fisjk2fjhtv2gdp1e1h3ojn1h4dtv1hsyrk3hto3n2jewoz3krpxe1lcyrn4lvegz1mdxds1n37ls2n554z2o3woy1on1my1pih4y1q19hc1qe98i1qkksi1r6cle3selhe3t6oua1vgv2a1wguv64wn6f61x8f9e1x9ttu3xis761yi5ts1","2thj813irrk13p3b815g4jo16ojr818sef81d03r81fglj81ft8n81i9qf81kdl381mnrb81rr8qs1s3pj81uwuf81yll381","2tu6d13j4ed13p9mt15gnid16owed18sxdx1d0mpx1fh4hx1iafph1keadh1moglh1rry111s4l511uxjph1ymn0l2","1xpfo1240zo13owzo13v8jo177if818skqs1erhms1fgrus1h1nus1ji5ms1lfoqs1orsas1oxxj81r1yis1sgiys1v9nus1wo8as1","1y8ed124jyd13pmdd13vxtx178e1118t3sx1es70h1fhh511jj18l1lgqrl1osu851ouf441oyzgl1r2u4l1shkw51vaps51woxl11","1xpmo12416o13ox6o165eyo16ojy8189fy81c4ohs1erhts1extds2kdrls1lfim81lfv9c1o905c1res5c1tighs2x7dhc2","1y8ld124k5d13pmgx165xxd16p2wx189ywx1c514x1es0sh1eycch2ke48x1lg7wh1o9csh1rf4sh1tizgh1x7wg11","1z47613qbr6166tj616q4ua18b75u1c69du1et2pu1kfite1l55oi1lhssi1oaxoi1pqdq82rgpoi1tndhe2x8yde1","2go3o12guf823p3b817wmbo18s83o1c4bno1g5pfo1kq1vo1n6jno1wbev81","2h72d23pfyd17xblx18sxdx1c4oat1g68ed1kqr5x1n6wat1wbxtx2","2ghs513p3cx17wyyt18skqt1c4och1g5j451kq1xd1n6dds1wbl8h2","2thq813vf2815sy6817du6818skxs1cnthc1faghs1hkmps1kdrls1kdxxc1n6whs1s42dc1wo8hs1","2u0ox13vy0x15tatd17ed4x18sxkx1co64h1fazgh1hl5oh1kegw11n7ls11s4lc12worgh1","2upz613wnb615updv17f8qq18tt6q1cp1qa1fbv2a1hm1aa1kfchu1n8npe1s5n9e1wptdu1","1xvuo33p3eo13veyo14kp6o17e0e819uohs1chhts1cub9c1erudc1ia9hc1imwlc1osbcw1q0dxc1rf4ow1ux75s1wbxxc1wi9hc1wol1c2x185c1","1yetd11yl4x13q5c313vxxd14l82117epoh19v7gh1cv0jl1esjnl1ib5351ot6yp1q1fup1rg0ap1uy2rl1wd6691wpgn51x1xfl1","2416o14kpa816bqio1m524g1w4qv42yl8n42","1y26813p9q813vrls15gha817x5ds189m681c511c1fh4lc1hr4hs1izjpc1m5bpc1moadc1oymww1rrrsw1sn79c1tc4u81u7wxs1ueetc1va0lc1x11ts1xqoow1","1xpmo21xvy81247i812zta814r0u815sy68165la817wsu8189m9s1chbls1cngu81dj8xs1dpe681fglq81fzke82goum81kdrls1mu9ds1orshs1sgj5s1ux0xs1wo2681xdips1","1y8ld11yewx124qgx130c8x14rjsx15tngj165xxd17xbsx18a58h1chukh1dpx4x1fh4ox1g03cx2igrgh1keakh1muyo11oshs11sherl1uxjwh1wol4x2xe8011yfmdd1","24e0w13pa0w15ghkw15t4ow165rgg177p4w183aww18srgg19uigw1bs7wg1cu4w01d6s001dpxc01gckcg1iz7cw1kdy4g1kqr7k1lg1s01ljk741ljk773mjk002n730g1o90001q0dvk1rescg1sae4g1sgpog1uxdfk1vg64g1wokzk1wuww01ym4g01","24ef415ghz415t534165s7417e7eo18sruo19uiv41a75z41cu5mo1d89oj1d8yyr1gvpq81joum81kdyio1lhn281lhn2b2m562o1mi5ts1nwq9s1osbb41q0k741qf4u82qg6rn2qlge81r8tts1rrshs1rry2o1sh2ps1t60ao1ue96o1vg6io1vz56o1wfaps2x7ke81x95a83xe29s2xr1a81","1xq8011xwjk22483k12n62o24r1fk15g5c015syrk165lvk16okjk18m3nk19ucjk1a0uf41c4p341d0av41fn3i81johz41l9dz41mugao1o2p6o1qpiio1sn1mo1v3jeo1","1y96p11yfi9124kqp12nipt12np1d14re2p15gum915thq9165yip16p3i918mmm919v1tt1a17291c581t1d0ttt1fnmgx1jp79d1l9wxt1muz9d1o385d1qpv5t1snqwx2v42dd1","1yygy125zb612oepu14s3cy15upz7166nsy16pz4218ni821a28zm1c63nm1d1pfm1fiwhs2fjyf72foi2q1jqfia1lbbia1mw16q1o4mpu1p143k1p2vb71qrg1u1soz5u1v54aq1","2guio12thkw12thmo13veyo15sy2o165ev416bwqo18sksg1fglmo1gouio1kdxts1lfou81mo41s1q07ls1qcocg1r1ym81sgpds1szo1s3ue2681v3ce81v9u9s1x77281xdoxs1","2u0ld23wgw315th1d16645d16cm0x18t3r51fhawx1fhh8h1keagx1lgkg11motc11obgjk3q0ww11qdq9t1r2hkx1shkzl1t0dc11t305d2uergh1v3vcx1vapvl1x7wch1xekjl2","1xvs032n6003364o013p3c023v8kg13vew0153ns015g4kg15sy0016oq3k17qnfk189fs01c4obk2fglk01fgrvk1g623k1gp0rk1h7zfk2kdl401mu97k1n6wbk1q017k1ue23k1v9nvk2wbrj41y2z341","1y8f522nj1d12noyp13pfz513pyxv13vrj513vxup15gtup15tgyp16p2qp17r02p18a52918sxeo1c57a92dyioz1fcduo2fd34z3fhh5t1g6l291h8ie92ih3xd1ken1d1mv4td1n7y8x1q134x1uel291vapsx1wgbvl2y3uox2","2gug012thk013irs013p9nk13vl7k153u3k159zc0177ork17qnfk18skrk1957vk19o6jk1bs17k1ernz41jibz41kdxr41oryn41s42742x7db41","2gug012thk013irs013p9nk13vl7k14xijk159zc0177ork17qnfk18skrk1957vk19o6jk1bs17k1ernz41jibz41kdxr41oryn41s42742x7db42","24dms13vl6s14kves17e6mc1a0zyc1dpqmc1fgy6c1kdxqc1sn0uc1y9gxw1","24dms13vl6s14kves17e6mc1a0zyc1dpqmc1fgy6c1kdxqc1sn0uc1y9gxw1","2h0qs14r6ys16c9ac177v2c183gw018skqs19o6is1c4umc2eeuis1juz2c1mhsec2q07ic1sgiys1u7wuc1v9u6c1x76ys1","2thj813vev815sxz817wz0g1fagcg1h1nwg1kdrgg1szocg2","2u0hx13vxtx15tgxx17xhz51fbby91ketdt1t0q9t1","1xpg012mzo012n5zk23p3pc15g4n4165f5s177itc18lwxs1a0npc1cnmz41fmxhc1i9x4w1iz0nk1l9dkw1m4t1c1n0kr41o8nbk1ormdc1r83rk1rr2fk1sgcnk1v3cb41wuqkg1yly4g1","1y8ep12nimp12nj0x13pzb715gnlt165y4h1781s118msjl1a1czl1co5xt1d98ub2fips02fnmrl1iasqp1izpxt1la96p1n1gcx1o9vkh1oshz51rsaoh1shkwh1v3v9t1wzawx3ymtq91","1yeq8124qa814rjm817ej9s18sxe81a1cls1c5dlc1j08wg1ketcg1m60wg1n7llc1qdjww1qqdcg1urxg01woxlc1y41001","1z40h126u4x14s8wh17ggsx18uolt1a2xht1c74sx1fk3yo2ikg0j1j1ngx1kgkk11l0xsj3m7fgx1n4ftc1n9csx1qf4sx1qs4k11utuz52wqosx1y8f0x2","1xvrc12go3s12gufc12n5zc12zmrs13owzs13vevc25gavc15sxzc17wyyw18sr2g19o6iw1chudk1fn9qg1gvoy01jotu01lg7pk1pnqq01rrrpk1sak201wbxu01xdv602","1yl1l12hde112noy113psll13vxu113wn4b15h05l15tgy117xo9518ta1418tmo91cijnt1d9l3f2fivpk2fnz0p1gwkjt1jpvrd1lh3bd1posnd1rsnbd1sbfnt1wgi6h2xex3d1","2hde012npc813jatc14rjm015gtu017xbm0189yq019oj601bsk5k1efjt41iasco1jj18o1ketc81m5uko2mk8w82oz5s81q0wso1r36rs1so2rs2urxfs1vgop41ymzns1","2gugw23p3cw13veww253nsw15sy0w17wsow1a0ncw1ch54w1dpkcg1e27gg1hkmkg1joaww1kdrgg1nw6kg1rrf401ux0sg1wbrk01","2hdfl13pmbl13vrk113vxvl1540g115tgzl17xhz51a1cn51ci7291dq9mp1hlbup1jpj5t1ketdt1nxetd1rsapt1uxwe91wcn5t1","2to1s14r75s177v9c17kidc18sr9c1chhxc1fh4ow1ia9kw1qd7gg1s48ow1woetc1x7dhc1","2413412guio24r0qo15gav815z39c265l6o177iio18m2yo1chbi81erhq81fgry81kk3281m4sqo1m4z281mu9a81njji81oy3y81tige81wuq9s1","2h79d22hdkx14rjsx15gttx15zm8126648x1781hd18mfpd1chpmp1ervup1fh62p1kkh6p1m5bpd1mulxd1oymwx1tizcx2wv2wx1","2brb612hq8212i2v614ss1v15hdl215nurm1610si167chv178qrm18nbb618nnyb1al8g21cirk21d8kqo1esrgi1fi8021klj421m84ua1m84ub2mvu6a1ozoua1p0ykg2tmuf62wjhqa1ww4ua2","247b822n6dg13vev8141k3o15sxz8165l3817dtz8189fr81cu4uc1gip6s1joh6s1kdres1njpqc1nwcuc1r1yis1x76ys2ylxqc1","24q9x12npc513wgsn15th1d165y4h17edc118a51h1cuhhh1gjev51jpcsl1ken0l1nx8g51r36rp1x88w51ymznp1","2goao13ox6o13v8qo15z380165eyo17dnuo1899mo189fy81a0h6o1c4buo2g5pmo1gicqo1h1beo1job281kjwu82ls5q81n0em81o8ni81qci681qvgu81rr2m81s3pq82tia681w53i81wo2681ylla81","2hdkx13pg5d13wao316055d16648x17ed4x18a58h18sxkw1a1csh1ak0751c4w751chjb51d74sh1g6gap1g6l8h1h270h1hmk8w2hnitf2jp0ch1kkh6p1kml1f3lsq2p1lutxf1n1gjl1o9e691qdk3l1qjvnl1qw7i91rsc8x1s7fup3tjjsx1w6d4x1woxs11wqiip3ymn7l2","24k5c12nitc13vrpc15gnpc165xxc17e6tc189yww1a7i0w1fnmkg1kxfk01m5og01o3dvk1r2hog1r2ubk1tizgg1w5mgw1xfz7k1","24q9w12noxw13vxtw15gnic165xqc17eczk189yrk1a7o741fnmf41igxmo1jcjeo1lt16o1o3e2o1q0x6o1r30u81rfhmo1w5mo01wvm681","24dog13p9q814r70g17e0e818sr401a0tq81co60w1dpx1c1jcd4w1ke43k1mus741pnx341qpuf41qw5z41rrrr41uxjr41wcgw01wisg01xee801","24k1s13pg0014rdds17e6ps18sxfk1a101s1co60w1dq3cw1fh4lc1g039c2jcd4w1keaf41mus8w1pnx4w1qpugw1qw60w1rrrr41uxjsw1wcgw01xee801","2gufk13p3bk15gayo16ojrk1fgljk1iz7281mo41s1paqz41rrf5s1sadts1ue2341vg5ts1","2hjpt13psox15gtxd16p91t18mlxc1fhh5d1fhngx1j0fb51mpcap1pbswh1rsnep1uf40h1vh7r51","2go4012gufk22mzo012n5zk23ox0015g4k015gavk17wsnk18sefk1fgrv41jonio1nwcuo1oya6o1qphqo1sn7681vyy341wbxu81woemo1","2hde922noy912npch13pgch15hcsz17xhxt18sxs01fhb7l1jpcsx1nxes11ozc411so2s11vzndd1wcttt1woxld1","247eo12n60w12n62o22thkw12thmo13p3eo13veyo15gaww165l4w17du2o18segw1c4oe81fmx4w1gcdog2kdri81mhm681mhshs1nw6kg1orse81oxxkw1qci2o1qpbi81rrf401v3ce81v9nwg1xwnls1","2np1d12npdt12u0jl12u0ld13pmdd13vxxd15gtvl166tdv17ed1d18t3r51c57cx1fnmf51gd2yp1ken411mio3l1nx8ht1olthd1osubl1oyzi91qdk011rsapt1v41oh1vaptt1xxj7l2","24q9x24rjlx15gu8116641x17xblx1d0mpz1m5hxh1t06x12","252x212ox6u14rw9215h7nm166n0m17y0w61d1c051m6juu1t12iu1","24qdd24rddt15goap165xtt17xbpd1hratf1m5i0x1qd7cx1","25fnm13kpdu14sy9v15hdoi166tfm17ydmq1hsj291m6jya1qe9aa1","2t4wg13v28g25yww817dhcg18s1sg1c45cg1eebkg1fg8wg1jny8g1kjk0g1mtq8g1o8aog1qc5cg1s3cwg1smbkg1thxcg2v94wg1w4qog1","2ud5d13w45t13wtg315zytl17ej9t18sxe918t3ps18t3pt1c5jwx1efjtd1fhngx1jpj4h1kl4wh1mqkgg2mvb4h1o9vkh1qdwk11qk8411s4xsh1snwgh1tm51t3vaw411w6bkh2","2tnv412to1s12tu6g12tu6o14kvls14l1qg14l1qo25gb2817wz5s17x5ag17x5ao2izdhc1o2oeg1o2oeo2o2olc1oyadc1q6j9c1timmg2","24dts14r75s177v9c18mfpc1cu51c1ke48w1kqrcw2o318g1timtc2ur20w1ymakg2","2gugw12tb9c14r0ow15srpc165l4w177igw189fsw1a0tog1g624g1kdl4w1kdrgg1lsbwg1n6wcg1o2bsw1q018g1r1ykg1uqp8g1ux0sg1xdikg1y2mgw1","2tu8114rpz715tao1165xs11781fl18a5351a16bl1g6erl1g6l351keaf51kg1mr3lum2r1n7fb51o2url1q0qip1q6pfl1r5ao12ur8751uxjr51xe1j52y35fl1","2411c23ox1c13v8lc15srpc165l4w16bwow177igw18348w283akg1ch54w1eeo8w1jbu4g1m4mdc1n6wcg1oy3wg1qvn0g1st64g2u1f0g1u7qkg1wo20w1","24k0113pg0113wair15tao116643l16cfnl183n7l2cho3l1ef77l1jcd351m5hz51n7fb51oymv51qpuf51stp352u1xz51u89j51worb51","2u0hw13pm9w15zmyo16p2pw18mltw19oj5w19v11g1d0zd01g6xok1ken0k1m60w41nkf0k1o9p8k1oyzgk1r2nt01rfh8k2urkzk1vgop01y3ock1ya6841","2tnwg13vrk015ghz415mtj416owg018sr401jonk01n72o01nwcw01oya801qcuo01sads01sn0w02","2h7gg12nj0g14rdog15gnwg166h37177vgg18srgg18taf71a16o01cuo741d7bb41d8jk31d98ub1g6rr41izwn41kxfr41m5on41n1af41oshz41pbgn41qq1341qwcn41rtvy82s4lj41su22o1uxds01vzb401wfgn43wolc01wq6803wvfuo1","247cw14r0ow165l4w16bqdc1lfosg1","2gufk12thjk13vevk165l3k16ojrk1d0a341h1hjk1iz6z41lfifk1m4yz41o2i341oy3v41qcob41qpbf41s3vv42smuj41ue2341xdouo2","2u0i913vxu916642916p91t1d0zdd1gkmq82glic32j08wh1m60wh1qdwk11snwgh1","2mzo012n5zk12tb8014r0nk165es016ojrk18m9741c4ob41ef0uo1fgrv41fgy6o1fn3f41m4yz41m55ao1o2oeo1timmo2","2nimp12noy912tu6p14rdap165xqp16p2q918mlu91c50y91efdht1fhatt1fnmdt1m5o9d1o3dox1tj5ld1","2oemq12upsi14srv7167cb716pyc218nnrm1c62vm1egff61ficr61fohzm1m6q6q1o4fma1tkdua1","2tb8014r0nk17dno01fgljk1kdl3k1orsb41v9nv42","2u0i914rjm917ej9t1fhh5d1ken0x1osnwx1vajgx1","2tu6p14rdap17ecy91fh4i91fhatt1keadt1osnwx1va6tt1","2tnv413vrio15gnio17e6mo18sxhc2a7hu81d0t1s1gcwls1lg7sw1mus5s1q0k8w1qd79s1sh8cg2w5sow1y3i1c1","2tnv413vl74141wr415t4b417e0b4189seo1a0tn41eeuj41kdxqo1o8zyo1q07io1qphqo1reryo1woemo1","2goao12gum822zmyo13p3i814kp3c25z380165la8177im81834e81cav401d05c01g63nk2kdszk1kdzb41kk4jk1o91j41uqx341x78jk1","2h79d22hdkx13pmgx14l1qh14l82115zm6p16648x1781kx183toh1cbe2p1d0oap1g6gap1keby91kkh6p1o9e691urg1t1x7xtt1","2hq8212i2v613r11f14lrt616172q167itf1793ia184paa1ccg021d1wjm1d883m1d8r2b1d9mo31g7uv61ihurm1ijlz61kfdvm1kngn72mx2io2mytqb2oasqq1uvb423x8tfm2ydwjk2","2thkw12tibk23p3cw14kp40153nsw165lvk17wtfk28sf7k19o6kg19ucjk1ctykg1gcef41iz7r41kds741kdyio1lscn41n73eo1qcp341r8h6o1sgq2o1uqp8g1v9uyo1xwoao1","2tuyp12u0jl12u1a913pmbl14l82p1546rl1664u917xce928sy6919oj7l19uvi91cuhj51gcxdt1izqpt1keb5t1lsvlt1n7mdd1qdedd1qq1hd1r905d1sh91d1ureip1vadxd1xx79d2","2udz612v9j613jo5e13pyyq14l2io14llia167d3717y1oi18tts219pete19vr421al6wy1cvd4y1d8q9v1d9fk31gdzb62j2jur3kfpqa1n8uma1o5c002o79j72qemma1sinlu2usmrm1velmq1xigaq1xyltu1yg55u1","2ud8g13wgw314rq0w15gtxc17xi0w1d7hc01gdfnk1hmqgw2ihgn41jppj41ketfk1mkfb41n84n41pbzb41u8sjk1urxj41vcneo2xgi2o1","2u6ts13wahf14rpxs15gtu817xhxs1gdfkg1jppg01ketcg1pbz801u8m4w1urr4g1xghzk1","2u7ls13w4xv14rqps15gum817xips1c6sxv2gdgcg1ihhc01jpq801keu4g1pc0001tjpc01u8mww1xgirk1","2hjwg1305xc13pmgw14l2jk15gnig26055417ed4w17koow195kow1cbqps1cvrb72d76681fu4ao2igxmo1ih5hc1kf18g1l03r74lgs8w1mce0w1osvsw1qwqgw1r95q81shem81tl35s3w5sn41wfhts3wltds1x7pz41","2hq80136nsw13pmgw14l8v415gtu826055c17ejgg17kv0g195r0g1cbqps1cvxmr2d7chs1d7ha81d8kqr1g0m682g816o2g8wsj2ih3y81ihbsw1jj1a81kf7k01l03r74lhmbk1lhmbn2ot24g1s4ri81tji9s2w65a82wcv0g1x82m81","2behc12o1zk12ud5c13vxu824leds15ttlf17xo9c19w32o2a7uhc2btyqb2d7tw01d8phv1fi0401fivps2fjxn72fpdlf1gfjf71ihgk01kezo01m67801nklcg1ogdg01qqpzk1qsavk1rb9jk1wd6341yaivk1yncb41","2bekg12o22o12u0lc12ud8g13vxxc24legw15ttoj17xocg19w32o2a7ukg2bu54z2d7tz41d8pkz1fi0741fivsw2fjxqb2fpdoj1gfjib1kezr41m67b41ogdj41om64g1s54742u2nb41xex6o1yaiyo1ynce82","2beo012hq8013jaww13pmgw13pssg13pz4313vy0w14lf6o15gtu015gumo160bhc17xog018ta8018tmv719vww02a7uo02alrer1c5rsw1c6ner2cc3cw1d7p4w2d8jcz2d8r2b1g7zsw2g87i81g8ver2g93431gf6yr1j09341jj94w1kfwub3mciyo1mdyww1n7yf41obi0w3odfk33ooa2r1qnls32qrzsw1qtxc32tcu801tdji82tq0ao1xem0w1yheyo1ypmo03","2n60w12tv0g13paf415tnb717x62o18m9z419o6kg1a758g1d0ttv2d6mf42d6sqo2g696o1h1u801igfeo1jic001ke4u81kwx6o1lhg031mdef41n73eo1pcuv41qd81s1s42yo1szv281wo20w1yawao2","3pg0033psn713pyyr13q5ab13vrk013wgub15gh7k15gnpc15gnwg15gum815mz9c15noe817x5c017xbnk17xhz417xoao19vww02a7hvk2alpvn1cvw3n2g6xq81ih3y81ijqrn1kegqo1ketds1kezpc1lj77n1mcchs1mdxds1mezb71mg18j1osu9s1qwoxs1qzbr71r0doj1s4xts1xx6io1xxcu81xxj5s1xxphc1","6c2ys16ieis17qnes289m2s18fxms18ms5g18skqs19o0781cntac1juz2c1jv5dw1ndkhw1oyghw1qvzlw1sgvlw1tchdw1u835w1wifpg1","6clxh17r6dh18a51h19ophh1coc911jvocl1oyt511shkw52u8ft11","6dhja16du6f16k5qf17s1za184p6q18b0na19pl3a1cp7uu1jwwli1k388y1p0e121slfye2u9hqe1","6bwnc16i87c17qars17qh3c189frc18fkzs18sefc1cngnc1hqy2w1jug3s1jusqw1nd7uw1oxxjc1smuiw1tc4qw1u7qiw1w59mw1whwqw1","6c9ah17qtqh189yq11cnzm11hraq11jv5e11oygi11sndhl1u83611w5ma11","6cs9616d4wb16jggb17rj0q184cjm18ahoq18ms5k18n4sr1cov7u1hs6bu1jw0zu1k2cn61mdr0o1ozoqy1r9one1so93e2u9o223w77621","6c2z416iej4171d7417qh3k17qnf4189m3418frbk18skr41bs1741gip741heaz41jusr41juz2o1m4yz42m8nps1m8npv3nde6o1oy3v41tc4r41u7qj41wi32o1wuq6o2","6cfm9171pu917r029189yq91bsdu91gj1u91jvbpt1m5bm91oymtt1u89ht1wv95d1","6db8216dhjn16jt3n17rvo2184jk218auc218t3ps1al6vm1btfrm1cvd3m1d8j6b1gk3rm1jwjyq1k2waq1m6q6q1mdxcg1nytcg3ozv2q1u9bf61wz4zm2","6bwu816uvi817qha81834e818sem81ctyps1gij281johds1mu3281oy41s1qpbls1r1yps2u7ke81ue29s1x0vls1xdips1","6c9hd17r08x183h1d18sr9d1cubcx1gj20x1jou0x1mum0x1oyn0h1r2bcx1u83cx1ueewx1x188x1xe1oh1","6csg2184cn618sxkw18ta831cv6yq1gk3ya1jpvya1mvu9u1ozoxu1r3jlu1tdjia1u95aa2ufn5u1x2a6a1xf3lu2","6bwu816oq9s183aps18skxs1c4utc1djf9c1dpkhs1extds1fgydc2lfv9c1oyadc1pnklc1qpbls1qvn5s1tcb9c1u7qps2ukk5c1wo8hs1","6csg1183ztd18t3wh1c5ds11dq9s11fhtz51lgqv51mccn51oz5z51po9vl1qwp351u8mbl1um51d3wpzpd1","6oq2s189m2s18sef81a0nb81blpms1gvcas1m4yys1paqys1qpbes1u7qis1","6p2px18a51h1a169x1bm8lh1gvv9h1m5o911nyadg2pb9xh1ql3pg1qw5xh1u89hh1","6c2zk16oq3k17wso018skrk1blpnk2eeujk1gvcbk1jumg01jusrk1mnxnk1njjfk1nw6jk1orm001oxr8g1qpbfk2re90g1rerz41sadr41smujk1u7qjk2v3cbk1wo8bk1xqbz41","6cfmp17xbmp1ak4yp1bm2ap2ef76p1gvoyp1jv5ep1mogm91nk2e91nwj6p1osba91oymu91qpo2p1qpue91rf4m91saqe91sndi91u89i91v3oyp1wora91xqom91","6d4wy17y0wy18mluo18n4tf1bn4821eg9421gwqw21gx9ur1jwdnm1md1r61mpov61nlan61nxrfm1omcdf1otjj61ozorm1pddsw2qqwbm1qr2n61rg6jm1sbsbm1sr8ki2u8ysi1v4kki1wpgki2xrqjm1","6bqbo182xxc1u0w041xczk42","6clxh1787ph183tj518mltw18sxdx18t3r419ophh1c579h2efdhh1jvi111mio051q13451q7eo51shr7p1u8ft11vaw3p2x7pxh2","6ikxt16owht189ytd1jvbsx1mbtkx1pba0x1u89kx1y3i4h1","6ps3m18auf618ms8w1jwdqa1pcole1u9bia1y7jia2","6iry916p3i9189zi91hrhtv1jvitd1pbh1d1u8gld1y3itd1","6pz4218av4218msxs1hsjr51jwkqq1pciyq1u9iiq1wjoqq1y4kqq2","77c3o37jz7o27qh381hkmis1oy3us1u7qis1udvr81x0ves1","77vup1781dx1781hd17kold1hlcld1hli811hlog51oyzgl1oyzk11oz08x1u8mwx1u8sg51u8sjl1","781dx17kohx17r01x1hl5hh1oyzgl1uel1h1x1kp11","6bwn817qh38183478189m2s18s83o19tz441cn4041gc0zo1kq1vo1pakn81refb81rr2f81u7k782udvr81yll381","6cs91183zt118mltw19v7d11coc911gcwlh2krgg51pbsw51rfnk51ruxj52u8ft11uerd11ymtc51","6c9b417e6n417qtr418g3z418skrk1a757k1cu4v41famn41juz341kqkv41nwcv41oya741r24v42r8gf41sadr41tcb341u8sgw3ukjz42w000w1wbrj41woen41","6c2z416oq34171d7417e0b418fxn418sefk19o6j41c4umo1eeuj41ji5n41juz2o1njpqo1oy3v41r24uo1rrf2o1u7qj41ukjyo2v9u6o1","6clxt171w5t17ecy918mlu818myhf18sr2p19oj691c579t1efdht1jiuxd1jvi1d1nkf0x1oyzgx1r30gh1rs4cx1tcu1d1u89ht1ukwlt1vapsh1","6bwn818347818sef819o0781cnabo1jumf81nw0781oxr7o1qp5381udvr81vyrr81y8rno1","6cflx183n5x18sxdx19oj5x1cntad1jv5dx1mbn5x1nwj5x1tchdx1ueepx2vzapx1y9gxx1","77or427qnf418m97418mfio1hr4eo1joh741q07io1timmo1u7wuo1","78e1d178e4h18ms5t18n4w11hrtox1jpj7l1q19j51tjon51u8sgh2","6p2wx17r08x18mm0w1a16gx1c514x1hrh8h1m5og11pnx8h1q0kch1s4lc11snqbl1u89oh1vgikh1vznk11woxs11wvfnl2","6c30g17qngg17wsow18348w28s85c19ubsw1c4ocg2d0gg01hqy4g1jussg1lfv401par0g1r24w01sads01szo001u7k8w2ukdog1wi3401wo8cg1y9ao02","6cfnl16ir7l17xhz5183tj518sxfk18sxfl19v1351akhmp1c5dmp1d0zep1hrnep1jvoe91lge2p1pbmm91r2u691r9idd1sb3291t0pxd1u8fup1ukwn51wise91woxmp1","6bwu817qha817wsu818fri818sem81chbls1eeups1jusxs1orm681qcohs1u1f5s1u7qps1uk7i81wbrpc1wuqdc1x0vls2","6cfsx17xbsx18gagx18sxkx1chukh1efdoh1jvbwh1m84xs1m84xv3oso3l1qdk3l1u1y4h1u89oh1ul3411wcgzl1wzapt3x1ekh1x35oh3","6clz5183n7l18a53518mlvk18myir19opj519uurl1a7hvl1gj8751igrb51ih3yb1jpcu91la8u91pb9z51qd7b51rf4n52u954x3w0cox1w5yyp1worb51wy2bl2x1ef51xee691","6p9fl178kqr189z4018t43l19v1fl2c5kap1fb5z51j02yp1jvoqp1lc0eb3lgkqp1nxf5t1p0kqo3q13i91qdqm91rfu9t1u8g751w00e91woxz52wvsht1xer5t1","6bwu816i8e817du6817qnls1gvchs1h7zls2jusxs1l9dds1nw6ps1par5s1szhts1u7qps2","6cm4h17ejgh18a58g1gw1s11h8ow12jvojl1lafb51nx8n51pbmrl1t0jr51u8mbl1","6odhc17qatc18segw1v94xs1wnpds1","6c3cw17qnsw183aww19uigw1c4oow1eeuww2juzgg1mo4cg1u7x8g1x7dog1xwnwg1","6cmbl184075189yrk19uv411c57nl1efk751jvv291mozy91qfbi83u8g751x82yp1xxd6p1","6okjk17qh4w183akg1a0uf41blwqo1faark1gipz41hknb41jutj41kwkjk1mnyf41nw7b41parr41q08ao1rrfuo1sgvnk2tih341u1m2o1u7rb41ue2v41wuxa81y36681","6p9tt17r6f5183tj518a5ts18ms741a1ddt1bmm0x1d75dt1fb01t1gjlkx1hlcld1hlvk31jvp4x1kxz411mc6wx1mp6o11nx2wx1o3egx1pc0011phywx1q1a811rso3l1shem91tjpc11u2o011u8t8h1uf4sh1wvz7l1y41s11","6bqf41rqpvk1","6bqdc16i1xc18segw1a6m9s1s9ohs2","6oq9s189m9s1l9dds1","6c35s17qnls18skxs2bs7pc1d0a9s1givpc1l9jpc1mo45c1n72tc1paxhc1qphxc1sgphc2tv3ls1u7x1c1vg5xc1woetc1","7x5c018sr401a0tog1fan0g1hr4sg1ji60w1juz401kwwsg1l9dkw1mny0w1o2osg1oyakg1q01kw1q6d4w1r258g1relog1sa7gg1u83k02ukqo01v9ukg1wby802x7dog1xdp8g2y2ssg1","6ojy818fri818skxs1c4jk01c4pvk1gvce81juo001juubk1k0y2o1lfou81ls7401oybr41s429s1tc4u81u7s3k1ue2681v9u9s1w59q81xdoxs1","6p2wx18gagx18sxkx1c52ip2gvp1d1jv6yp1k1h1d1lg7sx1lsq2p1oyoe91s4l8h1u8b291ueetd1vad8h1w5mdd1xe7wh1","6pyiq17s26b18h62q18sxkw18tgjn18tt6q1c64g22cveo21d8kqr1d8r2b1d9a0z1gwkn61ijymb1jwf7m1k2paa1lh9qa1ljf281ljf2b2ltybm1omcjn1ozwn61pd91c2pjklc1rd0ua1s8g7m4u96o22ufzpe3veema4w779e1xi9aa1","6c35s17qnls18mfpc2lfoxs1","6c32816v1q817wz28189m6819o6m81a6yyo1ajse81blw1s1cnn281cntds1hkmm81hksxs1jc0hs1juz5s1l9jls1lfou82lsi9s1n72ps1oy3y81qpbi81qvn281r24xs3sadts1szo1s1tcb5s1u1lds1u7qm81ukk1s2wbxxc1wi9hc1xdv9c1","6cm0x16ja8316pls316vkox17xi0x18a5tt18mlxc18t3sw19opkx1a7o8x1akhoh1bmf0h1co60x1cocch1d7b0h1dyp371etlkw2euav73hli811hliwx1ih4011ihabl1iiv7n1ijrib1jcw3l1jvog11k3r7n2lam811lcweb3lgqrl1lt7k11luyrn1mccjl1mdxfk1mezcz2n37nk1n85c11ouf7k1oz5vl1pddvk1r36v51rbsld1sbfr51t2ttt1u4xhd1u8fwh2ulym93wgi9t4wiyrl1wmttt2xiflt1ya6bl1","6c32817qni818mfls18sr5s1bm8ow1fhaww1gj1xc1jvbsw1muykg1o9j0g1pbgcg1u1y0w1u839c2va6ww1wol1c1xqv0g1","6cyo117rcsh18ms8w18n4w118nhj71bmxz51fi0751jw7ep1mvu691oaem91pcby91u2zy91u956p1vbf5t1wpgn52xrqm91","6c30g183ais18segw1a0tog1ero001gvio01jv5fk1lfv401mhz401u7x8g1wo8ow1xqio01","6csap1846ip18aupv18myv41a1jb51esdmp1gwkld1jw11d1lh3pd1mj11d1n9ji82q2oe82q3qbn2qya681u8su91wpgxt1xrkld2","6oq4g17qngg18fxog18sksg1chbgg1chhs01hqy681jbu4g1jussg1k14e81mbaww1mhssg1orsow1qd1c01r258g1res1s1stchs1u7qww2ue2gw1wbrls1","6p93517r6f518a5341chuf51egs3k2hrh4x1jcpq91jvi2p1k1toh1mii2p1osoap1qdqm91r5b0h2rftz51suef51u89vl1uerr51wctj51","6c9ac16ir5w189ypw28sxdw19oj5w1a169w1bsk5g1jiux01jvbpg1mus5g1nx24k1qpudg1t0d8k1u89hg2ueepw1xxcsk1","6ojrk18347k1fa9zk1lfifk1mb47k1pzuvk1szbbk1tv3f41u7k7k1","6p2q9183n691fasy91lg7pt1md8281p01e83q0k5t1qxki81t0d8x1tvg291u89ht1","6bqc01s3cwg2w4qog2x6o0g1","6oq2s18347k1d0geo1gj1u81jv5e81k1gxw1lg7ps1moglg1o2upw1q0du81rf4lg1saqdg1u7wuo1ue8eo1va6ts1wc45s2","6pfd1183ztd1d1c0h1gjxg11jw1011k2cjp1lh3bl1mpc791o3wn91pih391q1frl1rg6it1sbsat1u953l1uf40h1vb8r51wgoi92","6cg011781e9189z4019uv411bm8zl1cuhvl1efdvl1hrhfl1jcdfl1jvc3l1li5mr1m5hxt2mc6ip1o3dox1oyn7l1rfhmp1sb3ep1stvdd1u95hd3vzb411w0d1d1wig3l1xe7td2","6d5oi16jnk217yebn184cgy184d8i1a28821cp1k22egye82gk3s21jwef61k2p7m1lhfz61ltxj61mcw761pccn61q2o0w2q3pyb2qx8n61r6p7m2rt6aq1tkduq1u95421ufhfm1wdcf61x2gbm1","78kjl18ao7518t3wg1a1j411esjr51jw16p1lalmp1lgx6p1nxla91q1fy91si41t1u9hxd3ulm2p1w0phd1w6i2p1","6dhmq16kc5f17ywlf18mykg18tzeq1drblu1ficua1fij5u1jdldu1lbate1mjwci1mx8qo2q2bgi1t1y821u9htu2","7evwl18464l1a80sl1cijnp1fi03p1fun7p2hs6bp1jd8n91krt391lalfp1m6dj91qqwat1sofet1u8yrp2w06bp1wd62t1","6cs9t16ps0z178e1t18t3q818tmoz1a1ixt1cidcx1esjkx1gw7xd1h8v1d2jd8o11jw7c11krt411mpc811nxl411ozig11qx1k11shxk11t12jl1td6ox1u8sgx1vdixt2yn6012","6j3t516pfd516pybv178kcp18tgcp19p24p1a1ix51a80sp1c5q891esjk91jw0zt1lgwzt1mpc7d1ozifd1qx1jd1sblzd1u8yrt1ulfk91urxft1yn5zd2","7f2f618sr9c19vk761cp1qa1g7dhe1g7jsy1gxczk1lauwy1n9czk2nbair2pbz9e1r9v0i1rstoi1tjuwy1u954y1w0coy1xex4y2","7xhxh18ms5g18ta111a1clh1a1p8l1c5dl11d7h8l1fbbwl1hrtol1hscnb1jvuo51lgqo51n84jp1nklc51pbsw51qqjnp1r9ibp1u95393vdix13vzh1h1w0cn91","7r6dh27rj0n18ms5h19v11h1a7o5h1akb9h1bsk5h1cunt11es0lh1h3ldz1ih3wn1iiosn1jx98n3luscn1mc64l1mdxc41mesxz1oba4k3od7nr3pbmkl1qry841qsttz1qz5dz1r9c051snwg51u2gw51u53ph2u89hh1ufgn93vgidh2w0cn91","7r02917r6dt17rcpf18mlu91akb9t1bsk5t1cuhht1es0lt1hmk282ih3wz1iiosz1jx98z3luscz1mc64x1mdxcg1mesyb1obggg3od7o33pbmkx1qry8g1qz5eb1r9c0h1snwgh1u2gwh1u53pt2u89ht1ufgnl3vgopd2w0cnl1","6ixkx17xbpd17xi0x17xuo318mlxc19v14x1ci0sh1fazcx1g6l4x1j02o11la8w11nx8jl1oso011q137l1s4xvl1u8fwh1vzngh1wvlvl1","7ydjm184p6q18myhc1a287m1cp7v61gkghu1jql1u1pcutu1u9hqq2uvm9u2w0pdu1wwnpu1","6jgn617ew3m17rvur1a1pfm1al0qq1d1iiq1gdm2q2ije9u1jd2iq1lalmq1o3wua1q1m9u1s5gxu2u95aa1vb2ma1w06iq1x2a6a1","78x3617lk7618mlvk18myir1cp1ky1d8j7n1g7znk2g8v9f2gka6a1m6q822me3r41o4fpe1pci821q2uf41q95z41u9o5e3vhx1e1y1kle1","6ixkw17xi0x18a54x1c5kox1fho8x1hs03l1j0g011m68011mpczl1ozj7l1rsuf51so96p2u8zk11ufu2p3vb2ip1x24g11xrkap2","6d4xu16jmte184chu284p4z18t3r41cijpe1d1ide1eg2te1ijx341jdf0i1m6q821n8h8i1ozv421p60ci1suxc22u36821u8yte1wpt8i1","7xhxt18mfio1d0t1t1h26tt1lg1e91o311t1o9clt1qd79t1r8t1t1s77yd2sndht2uel1t1xhwk13","7e6n417qnfk18g3z418mfj418mluo18ms6838sr3419ui3k1cnmzk1gcjz41hksv41igr9s1juz341juz9c1jvbpg1jvbpk1jvbps2k1ao01m55c01mdkps1njw2o1nq7mo1os4yo1q2bds3qd0yo1qrlls1qsnj71r1yjk1r2b6o1saqdk1szo5c1t00lg1tisyo1u1lhc1u7wv42u835w1u83601u83682u83cw1ue8g01v9nvk2v9u6c1va0i01va0i81wwu1s3xdikg1xdp1c2ym42o1yo1l42","6oq4g17x5c017xhz71d0a4g1k14cg1lfv401paxc01timo01u7ww01yfm801","6oq4g17x5c017xhz71d0a4g1k1ao01lfosg1paxc01timo02u7ww02","6oq4g17x5c017xhz71d0a4g1d6s001k14cg1lfv401paxc01timo01u7ww01","6cmps16iy9s16jh8j27ek1s17ewoz17rdhc18ac5c48aosj1a2ln42a7v9c2d2fib2d7ocg1fckxs2jwy6b3k38xv3krnk01m8vls1m8vlv3me4g01mf6df1n85c01oa3gg1oge801pdkw02pemtf3qzitf1rb4001tjq4g1u9c744uf4sg1wd0jk1wptz41yadc01","6clxs16ixhs16jggj17ej9s17f28j17rcpc18abdc28ao0j1a2ln42a7uhc2d2fib2d7nkg1gxg5s1jjdw01jwy6b3k385v3m8vls1m8vlv3me3o01mf5lf1ogdg01pdk402pem1f3qzi1f1s54401tjq4g1u9bf44uf40g1wpt741yack01yghsg1","6jggb17xo9417xp1c184cgb1cw2dn2fbpc01ihhc01jw1s01k2cjs1kf0g01krt3c1lhyx41lhyx72mvhfs1ozj7k1pci6g1pdk3s2pfhmz2so9vk1u2o001u8t8g2uexoo1y47bc1","6j40016jzlv17xog017y134184000184vlv18gn4018ta801bntoj2d7u2o1fboqo1ihtdv1jql8g1mcvls1pcc1s1qshds1qtjb71qzuv71u36dc1u95a82","6jmtf17xoao18abeo38ahq818audf1al0lc1c6tqb2cov9c1d7txc1gecqo2ihglc1ijymb1jwk001krmtc1lgx1c1ljf281ljf2b2me58g1q2vwg3q3xtv3qzjlv1u8shs2uf5kw1ulykg3ymzpc1","7eczk17epmr17qts01a2eyo2cj8zn2gjku81jvups1lgx1c1mcchs1o3k1s1o9vls1q135s1su81s2tdjcw1u8m682wvlts1ya69s1yh16o2","7qnf417qtqo1igemr1kk9ao1m55ao1qcumo1sn0uo2ue2341","6c9ao171jio17qtqo18g3yo19o6j41cntao1d6ryo2fgy6o1gwe8g2ji5n41juz2o1mbguo1njpqo1oya6o1qvtao1tbyfk1u7k7k2wo1zk1","6irk016j47717e70g17edc017epz717r0g018msjk1a2eyo2akoao1alwjn1bu5fn2d7hmo2d7ny81gxgjk2ijxfn1jcwe81jdybn3jwkcg1ljdvn1lug3n1mvbi81osoao1pde681peg3n1q13i81qzc3n1raxa81rshds1tdjpc1u8mio1u95hc3wls741wpam81y6o744yh16o2ymtq81","6ja4n189sec189ypw28abd318ahon19ocuc1bml8n2chhqc1d6ryc2d7h8n1g6xvk3jibyc1juz9c1jv5dw1kqkuc1kx2pw1n72mc1o2olc1p0e102p1fyf2paxac1qphxc1sgpac1u1lhc1u7qis2ue8lc2va0hw2xqbyc1ym41w1","6ixog16jgn718sr3418srgg18sxe018sxfk18sxhc18sxkw18t3pg18t3ps18t4hs1d7nr41d7u2o2jje2o1k2vpc1m8vls1m8vlv3me3uo2mf5s31p0x6o3p1z433qzi831uf4741ufgu84wpn281yjb401","ajsaw1bfe2w2bfe4g1bfkeg1chhqg1coikr2d6ryg2g68eg1igemg1izdag1kklxk1kqkug1lfv2g1m55ag1mdkp41mjw941n0r2g1nygp42o0kjv2o8tmw1os4y01ptpmw1qcumg1r8mq01rak941rtix41sgvm01timmg1vmnm02vsz601wi9e01y9gy01","adgqs2ajsas2aq3us1chbes1hkmis1ijx1j1m8npg1m8npj2nd7us1tc4qs1tv9qc1vmhac2whwqs1xqbyc1","adtdx2bypdx1cho1x1hksud1tvg1x1vn0912xqux11","aeozq2al0jq1c5wjq1cipza1hm13a1qfb442qgd1j3qlmo41tvz0m2vqvba3wjnye1xrwue1","adgqw1adn2g1ajsaw1ajymg1aqa6g1chbew1m5bm01mbn601nde6g1nwj601vssug2wi9e01xdv601","ae6152bz2151chudl1m5ukp1nwvt51vti4p2xee4p1","af1my2ald6y1bnaiy1ciway1gxg5k1m6wi21nyadm1vuqdm2wnj0q1xj4sq2","adgr42ajsb42aq3v41chbf41hqy341mbguo1n72mo1nd7v41paxao1vssuo2wi32o1","adte91adzpt1byvpt1chudt1hrh1t1n7f9t1pb9xt1vtbtd2","aevbm2al6vm1cipzm1hscnm1md8g21me41s1n8niq1pcow21pdkhs2peg3n3qyghs1qzc3n1vudqq2","adam81adgxs1awfls1b8we82chbls1cngu82erhts1extds1iz75s1vsmps2wo8hs1xwnpc1","adzwh1awykh1b9loh1chukh1co64h2erugx1izq4h1vt5oh2woxs11xx6o12","adam81adgxs1ajm681b2ku82brv281chbls1dpe681i9wxs1m4z5s1o8tts1rr2m81v3chs1vsmps2wo8hs1","adtkx1b33sx1bse0x1cho8x1dpx4x1iafwh1m5og11o9j411rrrwh1v3p4x1vt5oh2worgh1","aevia1bt9mq1ciq6a1dqz2a1ibhtu1m6k1u2nytj42oal1e1qryf41rt05e1v4r2a1vudxe2wptdu2","adh4w1awfsw1b92ww2byd4w1ch5hc1cnh1c2faadc1ji60w1lfvgg1mufwg1n0rgg1oy48w1qpbsw1s3w8w1tv3sw1uqvwg1v9o8w1vfzsw1vsmww2x0vsw1x77cw2ylrsw1","adts11awsg11chog11co0011faznl1jiozl1lgef51mc0751muyv51n1af51o4sn42oytj51qq1351s4lj51tvmrl1vadj51vgirl1vtiip2x1erl1x7qbl1ymnep1","adgqs1ajsas2awlqc1blvyc1byj2c1djf2c1dpkas1gip6s1jc0ec1mu96s1orsas1s426c1vmhac2wo8as1","adzph1awydh1bm8lh1dq39h1gj85h1jcd1h1muyh11oshl11s4l511vn0912woxl11","adgqw1awlqg1bfkeg1blvyg1cntag1d6lmw1djf2g1dpkaw1gip6w1jc0eg1mu96w1orsaw1s426g1sznyg1tigaw1vssug2wo8aw1","adzpl1awydl1bfx1l1bm8ll1co5xl1dq39l1gj85l1jcd1l1muyh51oshl51p0qo81qry881qstu31qz5e31s4l551tiz9l1vtbt52woxl51","adgr41awlqo1blvyo1djf2o1dpkb41gip741jc0eo1mu9741orsb41s426o1vmhao2wo8b41","adzpt1awydt1bm8lt1dq39t1gj85t1jcd1t1muyhd1oshld1s4l5d1vn09d2woxld1","adn401aq3wg1blw001chbgg1d0a4g1famo01lfosg1mhsg01os4zk1vmhc02vz4g01","adzr51bmeyp1ci0qp1d0zep1fazb51lge2p1mio1t1osu9t1vncxt2vztq91","adam81ajm681apreo1aw9a81b8we82blpts1chbls1g629s1lfoxs1mnxts1pne9s1sgcu81vmb5s2","adn9d1awlxd1b991d1cho8x1g6ewx1lg1kx1moagx1pnqwx1sgvsx1vmnsx2","aeiv61axhj61cijuq1g7aiq1g7gua1lh3ia1mpipu1posua1si41u1vnw1u2","adgrk2aq3vk1bfe3k1blpnk1chhr41gvcbk1h7zfk2kqkv41kwq3k1mbajk1n6wbk1o2i3k1s3vvk2t5t7k1timn41v3cbk1vsmjk2woen41","adzq92bfx291bm8m91ci0pt1gw1lt1kra5d1kxs0x1n7rxd1o3k0x1r9c0x1s4xsx1t6c691tjokh1v3va91vtogx2woxlt1","awfi82c4ups1famps1ia35s1o901s1vsz9c2x7dds1","awygx2c57cx1fazcx1iasg11o9pc11vti812x7wch1","axu2q1bgz2a1c62yq1fbuyq1ibo1u1oaxky1vuk5e2x9h8i3","adagw1awfgg1bruww1bycsg1chbgg1gip8g1m4z0g1n6wcg1o8tog1sa7gg1t5t8g1vfzgg1vsmkg2","adtfl1awyf51cho3l1gj8751m5hz51n7lmp1o9cn51saqf51t6c751vgoqp1vt5j52","awfi81awlts1b2xds2bs7ls1byj5s1fgry81lfv5s1m55ds1n72ps1orse81rrf5s1sgpds1timps1ux0u81vmhds2x77281y2z5s1","axb411axhfl1b3mo12bt37l2fhhxd1fho8x1lgqrl1m6dmp2n85c11ot1c11rsbgh1shrb52tjibl1uxx4x1vpzsx3x89oh1y7qip2","adtkw1aqgow1awykg1b33sw2bfx8g1c57gg1cho8w1hmqkg1hnfur1lg7wg1rry801urkzk1vgikg1vn0g02xh7gg2","adgu81adn5s1b2r282bfe681bs1a81cntds1dpqps1nwj9c1sn79c2ux0u81vmhds2","adthd1b33pd1bfqtd1bsdxd1co60x1dq3cx1nwvwh1snjwh1uxjsx1vn0ch2","bgsqq2cp1mq1dqyyq1nxxtu1pqdmo3soygy1uylqa1vnpmq2","bfe341bs1741c4hzk1ctyj41gvcb41m4yz41mnxn41o8zyo1rrf2o1vmaz42wo8b41","bfqq91bsdu91c50y91cuhht1gvv9t1m5i0x1moglt1o9j0h1rry1d1vmtxt2wor9t1","bgsnm1c62vm1cvd3m1etlhs2gwx761m6q9u1mpv6a1oar9e1rt6aa1vo8ia2wpt761yavlu1","ae64g1awygw1c5dog1d0zgg1m60zk1oz5vk1vnjb42","adzsw1awygw1c57cw1d0t4w1jcd4w1oymww1vti802","aw2ro1aw9381bf7r81cnabo1fa9z81lfif82orlz81vsg782","awlqd1aws1x1bfked1cnzlx1fammd1lfv2d1os4xx1vsz5x2","axnnq2bgmbq1cp1ja1fbojq1lgqo61ot0jq1vturq2","adn401awls01chhs01dpqo01jc0g01o2osg1sn7k01tv3sw1vmo002","adzr51awyf51ci0qp1dq3b51jcd351o31fl1snk751tvmrl1vn0n52","af1oi1axu0y1ciwci1dr58i1jdlc21o49oi1sosg21twide1vo2ki2","aw2ro1aw9381ch5381gc45c1hkjcw1iz3sw1l9a0w1lfrwg1m4phc1mhm2s1n6wcg1sa7gg1sgiys1t5mv81u1eys1vsmis2whwsg1wo1z81","aws1x2cho1x1gcn411hl8n51izmrl1lbqir3lg4jl1m58g11mibd11n7fb51p0e2o2p1g032saqf51sh8911t65tx1u24911vvlz93wifr51wpmv93","adaf81aw9381bfe2s1ch5381gv5z81iz0n81o8tms1pakn81qchz81t5t6s1uqiv81v3cas1vmays2wo8as1","adtdx1akb9h1awydh1bfqpx1cho1x1gvoxx1izpxh1o9ix11pbmkl1pd7gk3pe9dz2qdq851t6ih11urksl1v47wl1vn0912wokxx2","adn2o1aws282bm2a81lg1e81mb47k1os4y81paknk1pzuvk1vt5hs2x18281","adn5s1aqa9s1awlts1bs7wg1cu58g1dpr0g1ef18g1ia3gg1l9dkw1l9jwg1n730g1qcv0g1r24xs2v3j0g1vmhog2wo8e81wuqkg1","adzsx1awygx1bskjl1cuhvl1dq3nl1efdvl1iag3l1l9wjl1n7fnl1qddz51qpurl1r2nwh1v3vnl1vn0n52worcx1wv9j51","aeveq1axu2q1btmgy1c69ky1cvdhe1d8pvn1dqz9e1ibi0y1laygy1n8hky1qefwi1r3w5e1v4r9e1vo8w22wpzlu1wwhs21y11xe1","adn2g2ajsaw1awlqg1bm2a01chhqg1kk9ag1l9pu01moaa81mufio1nq7m81os4y81rrle01sn7601ur1u01vmnm02vz4eg1woemg1wuwi01xdv601","aeio91ax4p51bmla91ci70p1klb7t1lalft1mpc7l1mvnrd1mvnrl1n9pg02nbgnn2nr9jl1ot0k11r9ond1rsnbd1so93d1us3rd1vnpjd2w00091wpgjt1ww4qx1xex3d1","adtdw1adzpg1aqghw1c579g1co5xg1efdhg1mihok1osnwk1sb30k1urksk2uxjpg1vn0902wokxw1","bfe2s1bs16s1bycqs1chhts1lfv2c1o8tms1s3vus1v9u6c1vmhds2w5g1s1","bg3d11bswsl1ci0sh1lgqo51oa1vp1s543p2vb8qt2vnvy92w6oap1","adh4w1ajmdc1blwcg1bs1kw1byd4w1cnncw1eeuww1eri0w1hxa0w1ji60w1lfvgg1n0rgg1o90cg1r8agw1sae4g1v9ukg1vst8g2x77cw1xdvk01y9hc02","ae03l1bm8zl1bsqv51co6bl1efk751es0zl1jj1mp1lgkqp1n1n291o9vy91r9ce91sb9q91vaq691vtou92x82yp1xi9kx3","awyf42c57b41cuhj41d0t341gvvb41ksc3n3mota81oshmo1oyzi81qddmo1tjby81tvg3k1urku81vtohs2","bfe4g2bs18g1cts8w1ctykg1kqkw01mo41s1nq1ds1o2i681s42801szo001timo01vssw02woeo01","bfx352bsqip1cunup2krght1s7ebl2tji9t1vtoht2wpa9t2","bfx1v1d0t1v1lge1d1t06xd1vn09d2wor9t1","bgsnl1d1onl1ijkhv1lhfyq1t18uq1voetu2wpt761","bfqtf1d0ghv1lg1hd1qd14x1vsz9d2worcx1","bgmf51bt9j51d1c3l1lgx361mcvlu1qe9du1vu16q2wpmyq2","bfe4g1c4uo01cnn0g2cntc01gvio01izdc01mny0w1n0l4w1n730g1orz0g1s42kg1ux14w1vst8g2x124g2xwnwg1","bg3ep1c5dmp1coim92cunup1gw1mp1j08xt1mccu91mozy91n7ym91obgu82odkoz2osum91s4y692uy3291vu1hd2x241t1xxw5d1","adh4w1ajsow1apxxc1aw9hc1b92ww2brv9c1bs1kw1dpedc1gipkw2ig8ow1ji60w1kwqgw1lsc8w1o90cg1orsow1q018g1r8gsg1stcsg2uqvwg1vst8g2w5a0w1xdp8g1y94hs2y9b0g1yly4g2","ae6f51akhz52ax5351b9s752bmfb51bsqv51dq9z51gjev51gk45f1iham91iivib1jksub2kxm2p1lcpoj4mdxj41mezgj1o9vy91osum91q135t1q2o741q3q4j3qzbwj1su8e91uukn54vtou92w5zb51xhdz52ya6f51ya6m91ypgjk1","adgxs1ajm681awfls1b92ps2blpts1c4ohs1hkge81hkmps1johds1mhm9s1mhslc1nq1hc1oy41s1sgphc2t5tds1uqvpc1vg5xc1vmb5s2xwnpc1","adzwh1awykh1bm8sh1hl5oh2jp0ch1mbtoh1mi58h1nqe4h1oyn0h1sherl2t6cch1tcnwh1ureo11vgikh1vn0g12xzn5t3","awfgg2c4i0w1chbgg1erbcw1hkmkg1iz70g1mu98g1res001vssw02wo8cg2","aws3l2c50zl1cho3l1erubl1izjnl1mulvl1rf4n52vt5j52wokzl1","axhdu1axnpe1c5wle1espxe1j0lky1mvnsy1r9v0i1rg6ki1vu7gi1wpgle1","acxts1bev5s1czr5s1hk3ls1qcbpc1sg6dc1vlydc2x0itc1","adgsh1bfe4h1d0a4h1hkmkh1qcuo11sgvnl1vmhc12x11s11","adzr61bfx362c57b61d0zeq1hl5j61qdq9u1r9ooy1shkxu2vnpky1x1ef62","adgr41ajsb41awff41bs1741chhqo1d0a341gvcb41heaz42m4yz41mu3281npou81q01741smups1t5mvk1vssuo2vyy341","adzpt1awydt1bsk5t1chudt1gvoy91henm92m5ukx1mv4zl1nqqrl1q134h1snqbl1t6c5t1vtogh2vzaq91","bf7rk1blpn41bruvk1cnmz41ctyj41giivk1iz0nk1mu9741s3vv41vfzf41vsmj42x76z41xdij41","bfqq91bm2a91bs7ip1cnzm91cub691givip1izjm91mulu91s4ett2vgc291vt5ht2x7jm91xe7td1","bgmc21bmxw21cov821cv6s21gjxg21j0ljm1mvu361s5gr61vhdzm1vu7f62x8ljm1xf3f61","adgqs1awfes1hkmis1m4yys1o2i2s1sgpac2vssuc2","adzph1ax4p11m5o911o3dol1shr7p2vturp2","awlr41bfkf41blvz41byj341c4un41dqfxc2joh7k1kwq3k1o8zz41qcun41qphr41smujk1v3in41vmhb42vz4f41x11r41xwnj41","bfe2s1bs16s1d0a2s1fa9z81joh6s1lfv2c1mu96s1oya6c1uqp6s1ux0qs1vmays2","bfxtt1bskxt1d105d1fb6dd1jpjwh1lgxs11mvbwh1oz6kh1urrwh1uxx4x1vnk012","bf1fo1blczo1c4bno1cnabo1hqlfo1lfc3o1qchz81rr2f81uqiv81vm4n82","bfx1h1bm8lh1co5xh1hrh1h1igxl11lge111qd79h1rs4cl1uu7lx1vncw52","bfqq81bm2a81cho281cntao1fammo1nwj681vsz7k2w59og1wo8b41ym4281","bg9ox1bmrkh1ci0pd1coc9d1fb5ld1nx8gh1vwbb53w65a91wpa8h2ymtch1","ae61c2aqt5c1c579s1fb5lc1j02kw1r30gg1vgv0w1vn6kw2","acxsw1ad44g1aw2sg1bri8w2cnacg1f9xcw1hqf4w1kwdgg1lfc4g1mhfs01n6jog1s3j8g2sstfo1syyow2tuqsg1uqckg1vfmsg1vs9wg2wnpcw1","adtep1aws2p1bsdup1cnzmp1fasyp1hrh2d1kx9291lg7q91mibdt1n7fa91s4l5t1stvd11t302p3tvg2p1vgc2p1vt5i92wokyp1","aw9vk1awg741blqf41gvd341kwqv41mht6o1n6x341qcp341s42yo1v3d341vstmo2wo9341x7e2o1xwoao1","awz5t2gw2dd1kxssh1miv411n7sox1qdxc11s5b7l2v48ox1vu1vl2wp4ox1x89oh1xxq811yadc11","adhj41apybk1awg741bs1z41cgzk01cnnr41hqsjk1mu9z41oxybk1qcirk1szif41uqpz41vmbr42vyyv41","adu691awsu91bsem91byq691co0e91hrbi91musxt1oynlt1qd81t1t01dt1ur8xt1vmupt2vzbi91","aew3m1ay1361btgjm1cp2bm1hsdfm1mvuv61ozpj61qegaq1t0wzm1ush6q1vnwn62w0jr61","bev4w1bf1gg1brokg2czr4w1fgf8g1jbhgg1lf5sw1lfc4g1n6jog1orfog1ptd0g1pzi8w1rqw4g1t5a8w1vlycg2w4x0g1xd5wg1","bfx291bsk691d0mqp1fhau92jcd291lg7q91n7fa91osba91q0dup1qpo2p1rrrq91t65up1vmty92w5sm91xe1i91","bgso21btfs21d1oo21fi6g21jd8o21lh9nm1n8nj61otjj61q1sf61rszz61t77s21vo2762w6ujm1xiluq3","ajscg1bfe4g2blpog1cnn0g2giiww1lfosg1qcocg1sgj0g1tv3gg1vmb0g2","bfqrl1bm2bl1co5z51d7txf1gj8751lg1fl1qd7b51sh8ap1tvmf51vmtz52","ajm0w1bf7sw2blpmw1cnmyw1ctyiw1faa0w1hqrsw1iz0nc1kqekg1lfoqw2mnxmw1q016w1rr8qw1smuiw1vsmiw2wo1zc1x70ow1y2z401","bfqrl1bm2a11cntah1cub611famo11hrarl1izjm11kqr7l1lg1e11moaa11q0du11rrle11sn7611vsz612woky11x7jnl1y3br51","bgmde1bmrka1bmxxe1cv6ru1fbole1hs6de1j0lje1krt4y1lh3be1mpc7e1ou8so2owcnf2q1m2y1q7xmy1rstmy1so2ru1vu7ey2wpmve2x8lky1y7w3m3yaiwy2","ajm683bfe9s1bycxs1caosg1cav401d05c01giqrk2lfqbk1oy5fk1stdz41vmiv42","bfx8h1cb7r51cbe2p1d0oap1gj3ep1lg9a91oyupt1stwxt2vn1tt2","al8g21bgsua1btfya1ccg021d1q821gkhz61lhb7m1p02yq1sv56q1voa2q2","awlqo2blvyo1cntao1ernyo1kqkuo1mufio1oy3v41rrf2o1vmhao2","axno12bmrkh1cov811espw11krt3l1mvnrl1ozifl1rstn51vnvv52","bfqq82chuds1cub681lg7ps1o9cls1rrrps1tiz9s1vmtxs2w5ma81x7dao1","bfe2s1bs16s1d0a2s1erhms1joh6s1mufic1orymc1uqvic1vsmis2","bfx1h1bsk5h1d0mpx1es0lh1jp05h1mus5h1osb9h1ureh11vtbt12","bfx281bfx4w1c5dog1gjktc1jj1c01kra5c1la8tc1lg7q81miosg1mwqgw2n7z0g1nqxog1q0r9c1qdjxc1rsark1tjbxc2urf9c1vti5c2w5sm82x7ke81xee5c1xg5fk2","bf7uo1blpq81ch56o2erhq81nw6m81q01a81s3vy81szhq81t5ta81vfzi81vsmm82x0p6o1","bfx4x1bm8ox1chugx1es0ox1nwpkx1q0k8x1s4l8h2t00ox1t65xd1vgigx1vtbwh2x1egx1","akj5s1bg3k01cbx1c1cok5c1d10xs1efrpc1hs1kw1kl05c1lgs8w1oz7cw1qk3cw1tvu9s1ursow1vtq0w2wp5hc1ymuww1","bfqtc1c57b41d0mrk1es0n41gcwn41jion41m5hz41mus741o31341oyt8g1sh20w1t6c741vmtz42wol1c1ymaf41","bgmf51c5wld1cijpd1d1idd1espxd1gdlxd1gdlz51jjk8x1m6dkx1mvu4h1o430h1obmtc3ozou91sia9t1t77sx1vo2812wpgn51yqurk3","bfegw1bfev41bs1z41ctslc1ctyww1dj9j41dpl341extz42hqygw1kwqv41m4zcw1mht6o1nw7b41parr41qpc741qpiio1r258g1r8gsg1rrfuo1sae4g1t5nnk1vmbr42xdpmo1","bfxfl1bg45d1bskjl1bsr9d1cuhvl1cuo751djsht1dq41t1eycxt2hrojl1kxmgx1m61a91miosh1nx2wx1pbtoh1qq7sx1r30u91r8zr51rs54x1sb9q91t6cxt1vndoh2xel8h1","adzwg1ae6801c5ds01cocg01fhnnk1jcw741nx8n41q19mo1r8zk01rsav41t07401tjoqo1vvfuo3vznk01x1kw01","awfls2c4i681cngu81gij281hqy9s1m4z5s1o8tts1paxhc1qcutc1timtc1vmhhc2wo8hs2xdp1c1","ax4w11c5ds11cocg11gjeo11hs0751m67ep1oa22p1pbzep1qdqf51tjoqp2vnpq92wpaf51xeqyp1","adh4w1aw9hc1bs1kw1ch5hc1hkmww1kwqgw1mny0w1orsow1vst8g2xdp8g1y2zgg1","ae03l1awyrl1churl1d80lf1hliip1kxse91mozy91osum91vtiip2xh1c11y3v291","bfx1k1bsk5k1co5xk1gw1l41jcpoo1kkyko1mihoo1mozk81nx8g81osnwo1rs4co1sheko1t65u01vtog82vzh1k1woky01ymn0o1","bfl6o1c4veo1cnu2o2ef1mo1gvimc1kqry81mihok1monpc1nwphg1orzeo1qdjwk1s42yo1tkqh03ur85g1vtiww2w5fyc1wolq81","bfegw1c4pvk2ctyww2fabk01hqznk1jonwg1mu9kw1o8v7k1rescg1tin0g1vszk02wo8ow1y9b0g1","bfxfl1c52ip1c58u91cuhvl1fb0u91hrim91jp0jl1muyv51o9kht1rfbb51tj5z51vtiip2wornl1y9tz51","bgzcy1bnawy1c6arm2cvjsy1fbwg21g87i82hskjm1ht9tv1jq8si1kluki1mc6io1md24i1mw0si1oasqq1rgpvm1tn7cy3tqw3m1vxdky3wptky2yb2821","bfkeg1bfqq01bs16w1bsdu01d0geg1gcjyg1hr4ec1jiia01m5bm01mufig1o2uq01qpo201rrle01timmg2tvg201ur1u01vmayw2","aknwp1bg9op1bswsp1d0zd51gd2x51gd98p1hrtot1jj7k91m7ls91m7lsb2mvb491o3qbt1obgg82qqjnt1rsnbd1td6o91tjuvd1tw5c91us3rd1vncw92","akv0g1axbsw1bggsg2cprlv2hs0sg1krh8g1kyoeb3o3ksg1qdr0g1vndog2wp4ow1xz4sg2","al0n41axhfk1bgmf42c6s8z2cijr41ihmyo1ihmyr1lh3eo1n8ayo1qdwn41vu16o2wpabk1","akhl01ax4p01bg9ok2d15ok1d27lz2gd98k1jj18k1ksc1z3mdr0k1osnwk1pd7gk1qdjwk1urr441vtog42woxl01ymtc41","ako3k1alq0z1axb7k2btywz2cw2kj2esdfk1iiccj1lgqv41n7yf41o55343o72mb2oz5z41r9c741t0dfk1vton41x7q4g1ymn7k1","aknxc1alpur1axb1c2cvw2r2esjkw1g7zmo2iic6b1lgqow1o3k0w1r9c0w1rs4dc1sb31c1vncww1ymtcw1","aeozs2al0js2alw5n1bmxvs1bnthn2cv6rs1d7nk81g7bwg1iic5k1ijx1k2jjdvs1km6tn3ld1xn3lufpn1m8pa81m8pab2nklc81ogdfs1omozs1qfhfs2t0pvs1urz0g2utibs1vvlzc4wvs3s1x88w82xescg1yacjs1","aep0g2al0kg2alw6b1bmxwg1bntib2cv6sg1d7nkw1g7bwg1iic681ije3k1ije3n1jjdwg1klcsg1kzvvn3m8pa81m8pab2n84kg1ogdgg1omp0g1p5nog1s544g1vpag04wj6kg1xescg1yackg1yilnk1","ako002bg9s01cjfcz2esjnk1laf7k1osubk1q137k1tjon41vnjb42xr7nk1ymzr41","al0k01al24g2alw5v1alxqb2bgmc01bnthv2cc9og1cil8g2cjgub4cpseb2cv6s01d2dxv1d7p4w2d7tw02gehhs2hlus01ihi4g1iik1s1klcsg1kmepv2krms01lalg01m67801o9x4w1q2uc02q4rv72sufwg1tlfrk2vpafk3","akb9s1alpub1chuds1ci70w1cj8yb2d74ls2jj18w1lhma81lhmab2mk8wg1pbmkw1qdq8g1qwikw1shekw1vv9cg3woxlc2xxcsw1","ak4zk1ak51c1cho3k1d6ybk2gj88w1kqr7k1lg7sw1osbb41vori83wifr41wv2v41x7dc02","akhl01aknwk2d0zd01d27lz2d7i0w2hmr5s2jjdvo1ksj5v3lam801n7y841ou39c3su2gw1vp4w03wvls41x1rsw1yhddw1","d6lms2dj8qs1dpkas1el62s1gip6s3nd7us1wi32c1x76ys1xwnic2","djrph1dq39h1gj85h1x7pxh1xx6h11","d8cue1d8phj1dktmu1drbie1gkgee1gkzd31qfnr82x8y6e1xyl1i1","d6lmw1dj8qw1dpdzc1el62w1giivc1hkg7c1hkmiw1hx3bc1k14aw1k1amg1nd7uw1qcoaw1wi32g2xwnig1","d6ya11djle11dpwy11gj1u11hkz611ijx1n1k1n9l1m8npk1m8npn2qd79l1qjitl1xx6h51","d8j631dknbe1dqyve1hm13e1hmqdn1k2p6y1q2o082qe96y1wjnyi1xy8ei1y7w221","d6ln42dj8r41dpdzk1el6341giivk1gvcb41he4nk2k0xzk1k1amo1l9d741ls5jk1nd7v41rrf2o1smuj41szhn41t5t741tc4r41v3cb41wi32o1wo8b41xwnio2","djle91dpwy91givip1gvimp1hehap2k1gy91l9pu91lsoi91rrrpt1sndht1t00lt1t65u91v3oy91woky91xx6hd2","d7tw21d7u9u1d8j6b2dknbm1dqsk21gwkk21gx9ub1ij7rn1k43rn3l4g7m1laltu1lcpoj4lvbbn1mcj5s1mfi8j4ouf4g1pbz801rchsi2sr8n63t3pci1t6v4i1td6oi1v4e8i1wm4gi1wn02a1wq5ua3y1kia4ydc0g2yhdeb1","dj8xs1dpkhs1e27ls1el69s1faghs1fgs1s1fgydc1jonpc1k1atc1may2o1mo45c1mtwqo1npiio1orshs1rrf9c1x775s1xqc5c1","dq9s11fb5s11fhnk11jppmp1k2cqp1mp62p1mvhj51ot7291rsnep1x7wg11xrqpt1","dj2m81dpe681e8cu82eeoe81ekzy81exn281faa681ft8u81g5pmo1h1beo1h7myo1hqlmo1imdq81iz0u81lfoxs1mu9ds1o8h6o1qcbuo1relts1szhts1uwum81w53i81xq5ts1ylrls1","dpqmh1ef7611fasy11g68eh1hr4ld1imqdd1izdhd1lg1e11mufih1o96gx1qd0y11reya12t00sh1uxde11w5fyh1xqoll1ym48x1","dqsju1fboju1g7abu1hs6iq1hsvm31j0feq1lgwzu1mvnre1n96h42oa8ea1qe2ve1rg6iy1t0wea1uy2oa1w6hvu1xrqiy2ypmo02","dp7no1gi6841k0lc41k0rno1nvtvo1r1fk41ti3no1x70n81xpszo1","dpwxx1givid1k1amd1nwj5x1r24ud1tisxx1x7jlx1xqi9x2","d7nk61dqsjq1gjr461k2cjq1nx8g61r30g61tji862x8f7q2xr7k61ya6861","eeuiw1ef0ug1fagaw1hqy2w1k1amg1kqeiw1m55ag1o8tmw1q07ig1reryg1u1lag1wbrig2wo8aw1x7dag1xwnig1","d7ax51efq4p1fbbwp1hs0091hspaj1k26891krmrt1m677t1oa1vt1q13491rfnk92u2gw91wctft1wpgjt1x7pxl1y1e6h2","eel1c2gi9ds1h1edc1k0ohs1k0utc1m4j5s1m4phc1o8h1c1r1lxc1smhxc1tuqtc1","d6v411ef4012giyo11h1xc11k1ds11m58g11o90011r24w11sn0w11tv9s11xztc03","eftaa1fcao02gjnya1gk6wz1k29du1m6ade1oa1xe1r3d4y1so94y1tw5du1","d6ryc1dpqmc1givic1jonic1k1amc1kqkuc1n72mc1r1yis1t5zic1wokxw2","d7h8l1dqfwl1gjr451jpj451k26851krmrp1n84jp1r36rp1t6v451wpa851","erhq81ero1s1gipa81gvce81iz7281k1aps1kwq681m55ds1orse81qphts1szo1s1uqpa81wo8e82xdoxs1","d7b0h1esjy91gwem91j0flt1k2cxt1ky51d1m67b51ot79d1pv4ld1qqqdd1t0wld1us45d1wpam91xexhd1","djrwg2dq3gg1e2qkg1e924g2efdog1elp8g1fazgg1gvp4w1k1ngg1o318g1stvk01u24g01wol4w3x11xc1x7jsw1xqosg1","eeukg1gvccg1h1hkw1jbu4g1k14cg1l9d8g1nw6kg1qcocg1tigcg1xq5og2xwh8g1","d74n51efdj51gvvb51h26v51h3f431jcd351k1nb51l9w751nwpj51qd7b51tizb51xquyp1xx6ip1","d6g3k1dj9j41dpl341el6v41extz42fgsn41gvccg1k0y0w1k14cg1kwqv41lfigw1lfv401mnyf41nw7b41s3wn42wo9341x7e2o1xqcqo1","dpxq91ey6m92fh5a91gvozl1k1gzl1kx9tt1lg7r51mohdt1nwjy91s4flt2wimtd1wos1t1x7qpt1xqvpd2","dqznm2fcem82fi77m1gwqwy1k2p8i1ky5fm1lgx1e1mpczm1n9jwg2nbhfn2nxs762r9vr61s5hj62s8nb62wpnnm1x2arm1x8mbm1xrrb61","dph4w1eercw1gifpc1gv94w1l9gcg1u1f0g1wo8cg1x0vgg1xqc001","dq6f51gjbb51gvyf51l9zb51u2gxt1worb51x1kqp1xr7lt1","djbwg1dpngg1el98g1f47wg2fajgg1h1r0g1m524g1o2i4g1qcocg1smo8w1tv3gg1vfzgg1wo8cg1xdikg1","d7e2p1dq6f51fb2f51h29z51m5xq91o3dq91qdq9t1snwht1tvsqp1vh1dt1wp3y91xekht2","dj94w1dpedc1dpkow1el6gw1g5w5c1gc7pc1gij9c1jbugw1k14cg1l9dkw1lsbwg1n0l4w1o2bsw1pzv9c1q018g1rr94w1st6gw1w5a0w1y2t4w1ylrsw2","d74zl1dq9z52fce802gcwzl1igrb51jcjr51k1nb51la2v51lsuv51mqku82msc1v2n1n291o3k1t1q0wu91qk1tt1rsb291su8e91w5szl1y3v291yqc5c2","ef0xs1g62681hkmj41k1aps1moadc1q07ls1vzatc1wi9hc1xqidc1","efq811hlbtd1k2cn51moznl1q19j51w003l1wj5351xrdz51","eeo8w1gv60w1k14cg1m4z0g1qpbsw1w53pc1wo8ow1xwnwg1","d7cht1efldt1gw9hd1k269t1m60xt1qqdq91w65mp1wptkx3y19fl3","djf2o1erhn41hqy341k14b41orymo1r24uo2wbxu81x0vf41","d7axd1es6xd1hrndd1hs6c31k1tld1osnwx1r30gh1wctg12x1kpd1","eeujk1faa001fagbk1iz6zk1k14bk1kwq3k1m4z5s1mo3z41oryn41qphr41smujk1t5t7k1timtc1ux0rk1wbrj42x0vfk1xdov41","d74m91efdi91faza91izw9t1k1tlt1kxfdt1m5og11mot9d1osnxd1qqdcx1snjtt2t6c691tjc3l1uxjq91wcn4x1x1kpt1xekgx2","es0oz1k1ncx1wim4h1x7q0x1xqv0h1","d8r2b1et2m91k2vlu1wk0oy1x8rya2xs9ky1","es0lv1k1n9t1x7w9d1xquxd1","d8phv1espw11k2viq1x8rv62xs36a2","d77r51e95352es3r51h3ojn2j1qmb3k1qf51lcyrn4luvib1m5xq91mc6691mdef41mdr281oba683od7pf3p6vy81p8thf1pog1t1r9c1t1su81t1tm5351u2gxt1u53r52vgif52vhe0x3wllj51x8lkx1yct342","ero1s1espz41g6etc1gj1xc1hksxs1hraww1k1h1c1mogsg1osbgg1oyadc1pba0w1qd11c1r24xs1r8ghs1sadts1sn0xs1u1rsw1uxdkw1xgups3xqc1s1","ernz41faps01gip7k1h1nvk1hxj401k17gg1kqkv41kqo001lb4f73lfy801mbgw01mufk01n72o01nq1c01oya801p4ls01qcocg1r24w02rgj7k2sads01timo01tv3fk2woen41xqbz42","ef4001g6bk01hkz9c1hl5kw1hli831kqxkw1kr0n41q0k8w1va0jk1vgc5c1wo20w1xe1kw2","eeps01fabk01gc2kg1iz2801k0t8g1k0zk01ornk01q02rk1wnx8g2xwirk1","ef8qp1fauip1gclj51izev51k1iip1os6ip1q0lq91wosu91xx1q92","eggzm1fbwg21ge03m1j0zr61k2x361otl361q1tz61q2vwg2q3rib2qxfr61wjpj61wpurm1xy9z61","erksg1faneo1g658g1hr7k01k1ds01kwqv41orzeo1r24w01sads01tineo1ux7uo1wo20w2xqcqo1","dpkcg1gv60w1iz6ys1m4z0g1mnxms1orsas1q07ic1rr8qs1sn0uc1ux0qs1v3io01wo8as1xdow01xwnk01","d7ha92dqfy91fivpg2gw7y91gx3k31ijx341j08w51m60xt1mp5vp1obgg42oddzb2osu851q13451rsnb91snwg51uy8zp1v4e9t1wp3wl1xex4x2xxphd1","dpkcg1e27gg2fagcg1joh8g1o8tog1s3vwg1x770g1xwh8g1","dq9mp1e2wqp1fb5mp1jpj5t1o9vlt1s4ri91x82m91y05z52","ef0uo1hr4eo1k14b41o8zyo1paxao1woemo1xwtu81","eg2s11hs00h1k2ivl1oaej51pc5jl1wpmvl1xy8ep1","e27ls2erhts1gij281gipds1jbny81k0y681lfqbk1ls5q81qcpvk1retj41safb42u1f5s1uqpds2xdqf41","e34ld2es8ht1gjg1t1gjz0j1jec5f3k26f51lgs8x1lutxf1mdslc1obbpc3qdlhd1ri5mp2sdrep2u53wh1urkzl1xem0x1","d7x1c2d8mbn2dqvpc1drkzk2gju9s1hs9hc1hsm4j1jpslc1k3bb73ks8w01n84lc1og75s1onhfk1rawxs1tjolc1wcn5s1x1xds2xxphc2ya69s1","d7u9s2d8jk33dqsxs1dri802gjxts1h2whs1hs6ps1hsjcz1jj7y81k38jn3kxm2o1lgxds1nkfeo1og7i81ot0xs1s54hs2su8e81wch6o1x89a82xssu82ya6m81","d7nnk2d8vwj1dy64j1hl5kw1hlojk1hmwsg2ihgn41ihurk1iic8z1jdgjk1k1ncw1k2cn41k3kw33klcsg1lg7sw1lusg31n1zeo1n8ha81oa3gg1qd8u81wmav41xujr44","d83cz1d8yyr1fb2f41h29z41hmakg1jcg741k26bk1lsxz41n7fb41pb9z41qw5z41t0dc01wy8n41xh7b42","d6s001d7txc1d808z1d8j7n1geb7k2hs6dc1jj7y81k1gzk1kz0n73lgxds1me41s1mvbi81oults1q13i81qqdq81qyghs1s6p342xeku81","d7tvs3d8pi31hs6bs1ht1y03iha8b1jjdw01k2vio1laf481nkro01o5b7s2qqjns1s543s1utibs3wctfs1xrdw01","i9wqs1ig1z81ig8as2j5iis1ljdhg1ljdhj3lsbus1m4sn81m4yys1mbais1mu2v81nd7us1njd381npon81paqys1ptjb81rrf2c1stcec1ux0qs2v3cas2wi32c1wo8as1xqi9w2","ia9dx1lsohx1m5blx1multx1njw1x1nq7lx1pb9xh1rrrph1stp1h1uxddx1v3oxx1wokxx1xqux11","ibbba1id2iv1ihmva1ije2v1j2cqv1lvhmv1m6dja1mcp3a1me3r41mvnra1nkxza1nr9ja1pci9u1pdk742pefsz2rvt3a1suqyu1uyy9y3v4kjq1wq5ty1xupza2","ia32g1ig8aw2igemg1j5oug1ji5mw1kk2yw1kwq2w1l96vc1l9d6w1nde6g1qcumg1sgpag2ux0qw2vg5qg1wi32g1wo8aw1","iafpl1jioll1kx91l1l9pu11qd0y11sh8951uxde11vgc211woky11","ibnyi1id8uj1ijkej1j2j2j1jk3621l02kj3lb4ei1n3dvs1qelu21sl3be2uz4lm3vhkay1wqc5m1","ia32o1ig8b41igemo1j5ouo1kqej41kqkuo1nde6o1ux0r42vg5qo1wi32o1wo8b41y2z2o1","iafpt1kqxht1uxde91vgidt1wor9t1y3bpt1","ibhn61id8ur1ijker1j2j2r1krzf61uyfbm1vi39u3wqc5u1y4dn62","i9qm81ig8hs1imdq81j5ce81kq8e81kqeps1n6whs1uwum82y2z9c1","ia9kx1imwox1kqrcx1n794x1uxdkx1y3bwh1","ibbia1inyma1krtaa1n8hdu1tdjia1uyfia1y4dtu2","ia39c1imqdc1j5p1c1juz9c1lfv9c1qphxc1rrf9c1ux0xs1wbrpc1","icjr73ih43l1jvojl1lge811qqdj51rsav51uxq811wcao12","ia32c1it1qc1j5ouc1l9d6s1mnxms1orymc1qphqc1sgpac1sznyc1ux0qs1xdouc1y2z2c1","iafq91l9pup1mogm91oshlt1qpue81sh89t2szuap1uxjq91xe7tt1y3i1t1","ibhnm1iht7m2j2crn3lay3m1mpijm1mww0w2otd7m1sia761t18v61uyfc21xf9r62y4jz61","ia9hc1j5v9c1jc6tc1l9pxc1m5bpc1o2utc1rrrsw1t00ow1tcb5s1ux75s1wol1c1","ibbbl1ihmyp1jd8qp1larup1m6dmp1o43291oulg02ra1ap1rt01t1t18up2uyryp3wpabl1","igrb41izpxk1izpy81izpz42keadk1keae81m6wjk1m6wjn2mbthk1mbtj41osb9k1qw5xk1rf4lk1s4eu81saqdk1tiz9k1tizb41ur1vk1ux72g1ux7342ux7402wk6x41woen41wwu142x7dag2","i9gxs1j52ps1jbe9s1kpyps1o8aps1pt6ps1sg01s2uq69s1uwhts2","i9zwh1jc3k11kqhoh1o90011r8gg11sgpc11uqvk12uxdfl1","ig22o1ig8e81imjy82iz7281k1aps1lsi9s1m4z281n0r5s1n72ps1o2ohs1q01a81qj69s1qpbi81res1s1rr8u81sgpds1uqvls1ux0u83v3ce81wo8e81","ihabl2iiow31infk12j1nk33jcps12jeao32k26bl1kz6o31lusg32m60zl1mdr401n1mrl1n7ybl1o3k3l1oba802ode2r2qqdfl1ri45d2rsh351shkzl1tcu4h1urr7l2uxq4h2v4xa93wpta91yacn52","i9dsg1iyo0g1j1tsj3kjk0g1m67831m72ts2mtq8g1o8aog1uwhsg1uyya83y8lcg1yp9u82","i9wsg1iz6z41kq87k1kqekg1lfv401mufio1qcoow1ux7gg1wo8ow1","iase91j1ttv3krggh1lgke91mvhg11qdqm91uxwqp1woxz51","izjpc1jc6tc1mhytc1n791c1sgvpc1uxdhc1va6ww1","ihmyp1j0lmp1jd2f51mj7291n8ayp1si3y92uyfep2vb8u91","i9wr41jbu2s1jusqs1k14b41lfor41m4yz41orlz81qcob41ux0r41","iam1d1jcjd11jvi111k1tld1lge1d1m5o9d1osu851qdq8h1uxwcx1","i9wqs1lfv2c1nw6is1ux0qs1v9nus1y2z2c2","icjk73igxl11lgkcl1nx8g51uxjph1vaps51y6b5x2","i9wqs1jbx8g1juvwg1kqhog1l2vb81mu98g1tigas1tv3es1ux0qs2v360w1","iam111igxl11jcmip1jvl6p1kr6yp1mv4u91tjbwl2tvmdh1uxq111v3vb51","ig8aw1izdag1joh8g1juz2g1kk2yw1l9jig1lfv2g1lfv401mhseg1nwcug1qphqg1rrfgg1sznyg1t5t6w1tv3ew2uwufc1vfzew1xdoug1xqbyg1","ih3y91iiosr1j02kp1jeakr3jpcu91jvocp1kkykp1la2h51lge151lgke91mio091nwphl1qqdc91rsb291t0jk91t6c5l1tvg211uxjpl1vgidl1xekg92xto212","ia39c1it1xc1izdhc1jc0lc1jonls1m5bsw1moagw1oryps1stiww1ux79c1v3itc1wbrpc2woeps1","ib56p1ihaf51iivb71iu3up1j0fep1jcw751jppj51m61351mpce91ot0n51puxz51sueip2uy96p2v4ef51wctmp1wpgn51","i9wqs1lfoqs1mu96s1o2i2s1rr8qs1s3vus1uwuf81vfzes1","iafph1lg7ph1multx1o2upx1rrrph1s4eth1uxddx1vgc1x1","ibbba1ihmva1ij7rb1lh3ba1mvu2u1o3wna1ou8sk2qe2v81rszye1s89w22uy8zq2vhdza1","izgg01mbgw01q07k01qvtc01szo001uqvk01ux7402y9ao01","iayv41ihaf41jpcu81jvuv41lgqv41ltdz41mio741n7yf41nqx341p5hj41pddz42qq77k1rfnls1tjif41uxq801v41s01","iasg01ih4001jcps01jvog01m5uo01mc6801mv4w01o3ds01qjvk01rfhc01tjc001uy9343v41og1wpgn41x7q0w1","izdac1jc0ec1lfv2o1lsi6c1mufic1pnkeo1s426o3ux72c1xwnio1ylxqc1","ihgjp1iiv471j0f7p1jegw73lh3bl1luyo71mvhfp1pomc11s5afl1s7klt3uy2o51xxvrl1yqoec3","ia9hc1jc6rk1m5bpc1moabk1os4zk1qd11c1rf4n42sndj41tizb41uxdfk2v3p1c1wol1c1","ib5351jd2dd1kgebl1m6dmp1mpc8x1ot6wx1qe2yp1rg6kh1sofgh1tmbep2uy91d1v4kn51wpmyp1","i9wr41l9jio1lg1e81mbn681os4y81t5zio1ux0r42w59n41","jpczk1jvojk1lge801lt7nk1m5urk1v3p4w1x188w1y3ojk1","ihgqp1iivb71jr4773jxfr71lgx6p1luyv71m7lz51m7lz72v483l2x1r7l1y47i92","izdds1keagw1s429s2uxdhc2y9ngg1","igl4w1izjsw1lg7wg1q0qo01ureo01uxjwg2xe1og1","ihgjs1j02ko1j1h573jd2bs1jw0zs1kl05c1lum171miubs1ot24g1shkw81t0pvs2tjjsw1uy2o82wp3wo1xr7k81","ia3341igen42it1r41jc6qo1m55b41m5bmo1os5q81qd1q81rrm681szuao1ur1uo1ux7341vgcu81wuxa82xfthc1","igeo02ighs01izdc01ksf7n3kwzk01kzvwj4m55c03mbguo1mufk01nxxs02ozv401p2blv1p66o01p8n5v1q07k01r8gg01rakao1res001sads02tcb401uszeo1ux7401v9nwg1vg5s01wuq801x88xs3xdikg2","iascw1ih3ww1jcjdc1kqxhs1nx24w1r2ntc1t6c5s1tjbww2uxde81","ihbsw1j0agw1j1b0j3jw16o1kl6gw1lufwj1m62gw1miuio1nx8n41o9x4w1p0qv41purr41rsc8w1shl342tptz41urrb41uxrls2vgq9s1xeqyo1","iha9s1j08xs1kezno1lge101m679c1mkf7o2n84jo1nmcjo1noa2v1shr7o1tjojo1tvsp01urxhc1uyfb83wcn441wjbcw1y47cw2","ig9vk1iz8jk1joirk1kk4jk1m50jk1m56v41ux2bk1y9c741ylzb41","izri91jp1q91kkni91m5d6p1uxrlt1y9ou91ymi9t1","ijfnn1j2ebn3jq9z61klvr61m6rr61uyn7m1yb9qa2ynk761","ih3xc2ii5ur2j14ir3krggw1kxycg1lgqow1lu9er1mk2lc1mv4tc1nytcw2o0qw32s6iow3tji8w1ut5pc1uxq1s2v4kkg3wpgkg1xekgw1","ih3y81ih7281j14jn3jvri81krda81lu9fn1onebk1qq7281tjby81uxjr42","ihgjo1iic5j1jdxxj2krmro1lufpj1nxero1sukn82uy2o42","iha8g2jdrmb3krjls1lgqog1lu9eb1o3k0g1uxq1c2","i9wsg1ig8cg1j5ikg1jussg1kwjsw1lfc5c1m4sow1m4z0g1of58g1tc4sg1ux0sg2y94cg1","iafr51jvbr51kxfep1m5hz51ofo751uxq2p1y9tmp1","id9mr3ijl6q1ijl6r1j0yyq1jwkqo1jy5mr1kfjeq1m6xaa1m8nr41m8nr72oh3ia1uz5du4x301u1yb2ma1yisqo1","id8w33ij7sy1ijkg31j0y821jwk001jy4w31kfio21m6q821m8nr41m8nr72ogwg21uz4n64x2zb61yavk21","jql373kra681lufr71v3j0g2","ihgjr1iiikj1jqrgj3k2cn41lcvlz4ltk741lum4j1m677o1v4qv83x29z81x82kk2yhq4g1","ih3wk1ii5tz1jwq9z2k1zwk1lcvlz4lt7gk1v3imc2","iha8w1iic6b1jwwmb2k268w1lgqow1ltdsw1lufqb1v41ls1","ihnnk1iipkz1jxa0z2kf6rk1lbtvn3ltr7k1v4ef42","jqfib3kds741l9jic1lscn41lua6b1v3cas1","jr4eb4k2vwg1lu3gg1luz2b1m6k8w1m8vls1m8vlv3v5a803x2tc01x8s8w1","ihglc3ihhc02ihi4g1iic772iij9f1iik1s1jdxz73jwwn73jx3pf3k3g1v3kmepv1lgx1c1m5w5c1nyzpc2uy2ps1","d75ds2d8dmr1hsq2o2jvchs1kqy9s1n7g1s1q0kxs1qfbwg2ur8xs1uxkhs2","igeo02ihtab1jdf2b3jic001l9pvk1ld20z4m4z0g1o96bk1tvg5c2wc48w2y3br41","k1ao01kqkw01lfv401lsi801v3cow1","iiv5v1k3r5v3krmtd1lid4x1lid4z2luypv1m8vls1m8vlv3v41z51","ihabk1ihabn1kfw1v3laf7k1lughv1v48ow1","ih3y81ksidn3laf481m5um81v41l42x8ljc3","ksopv3kxs0w1laf4w1mdxcw1mezab1mfuw31n7lls1o54ww3osu8w1qdjxc1qlmow1qqdcw1qry8w1qt06b1qtvs31qzbqb1r07c31shkww1t0jkw2v3va81vad5s1wisdc1wlli81wora81y6hi83y9zxc1","ig9341l9kao1mugao1orzeo1pnl6o1rrfuo1sgwe82szif41szoqo1t5tz41vg0741wofeo1","ihtz71ij2831ijrib1layv51lcweb3me4g01mvuv51otdz51pp62p1pq8002ps5j72rcikh1rvh8h1siayp1t19mp1t3dhd1t72811vherl1wq6m93","mbais2mhm2s1mhsec1nd7us1njjes1npuys1o2i2s1sn0uc1wi32c1wo8as1","mibd12nk2dh1nqdxh1o37d11r8zd11snjt11wor9h1","md81y1mdedi1me3no1mjjly1mjw921mqqro2msoav2mw6py1nlgxy1nrshy1nso3o1nulmv1o4lxi1oulfo1owiyv1soydi1wpt6u2","mbaiw3mhm2w1mhseg1nd7uw1npuyw1o2i2w1sznyg1wbrig1wi32g1x76yw2xdoug2","mi51l2nqdxl1o311l1t00ll2wcah51x7jm11xe1hl1","md8222mdxc81mjjm23mqkg82mshzf2nm6881no3rf1nrsi21o4fm21ouf481oulfs1owcnf1rcufe1t41ze2wdcei1x8f7u1xi2ve1","mbaj42mhm341mhseo1nd7v41npuz41o2i341wbrio1wi32o1","mi51t2nqdxt1o311t1wcahd1","mcvf62mdr0w1mjdaq2mqe4w2mshzn2nrm6q1o42z61oaej61ou8sw1owcnn2wd6362wjhn61","mo45c1mufpc1nq1hc1o2i9s1q01ds1r1yps2rr8xs1sa7ls1uqpds1v9o1s1vg5xc1","mozr51mvbb51nm03k1nqx351o3k751oufb43owcub2q19mp1qryf41r30n51rurcx1sb9j51urrb51vapz52vh1j51","mhm9s1mu9ds1npv5s1orshs1relts2uqpds1wo8hs1","mhywx1mum0x1nq7sx1os54x1rf4sh1ur8ch1wol4x1","mdy4g1mjkea1mw0le1nrtaa1nyu4g2o0rnn2otqma1qlngg1qnkzn1rgjya1usnia1wpnnm2","mh9fo1mhfr81npon81nw0781pzuv81s3pj81v9nus1","mhsed1nq1ad1nwcw11q0dtx1s48hx2va0jl1","mdedg1miubq1n905g2nbabr2nr37q1nx26a1q0wsm1q8glg1qaqrr1s543q1vaw5e2","mhssg1mufwg1n0rgg1njq4g1nq1og1o90cg1parcw1s42kg1wbrwg1y2zgg1","mibr51muyv51nk9351nqkn51o9jb51pbgn51qwcn51s4rup1wcni91y3if52","mb4781mhfr81njjes1npon81o8nb81orlz81ptjb81szhms1x76ys1","mbn5x1mdedg1mhypx1mq1hg2n2olg1nk2dh1nq7lx1o969x1osb9h1t00lh1x7pxh1","mbaps1mhslc2nq1hc1orshs1orytc1qphxc1szo5c1t5zpc1uqvpc2woetc1","mdxj41miuip1mqkn42nr3ep1nshz41ot0qp1qqdj51t0q2p1t6vb51urrb51wpgqp1","mhyq81n78y81njw281nq7m81os4y81szua81tvg281woky81x7jm81","mcis11miuc11n37kg2n553n2n8avl1nkxzl1nr3811ot6vl1t0w7l1twbo11wpgk11x8f811","mhsf42nq1b41nw6jk1sgpb41w59nk2wo8bk1wuq742","mdr1c2mio0x1miuch1mqe5c2nr38h1nxesh1ou8tc2owco32p6vxc1shkwx1w6bkx1wp3xd1wvs4h1","mo41s1n0r5s1nq1ds1nwcxs1sgvpc1woeps1xdv9c1","mon0h1nqkch1nwvwh1sheo11worcx1xee811","md1tu2mpoxu1mw0hu1n9pj42nbn2b2nrm9u1nyagy1simwy1wptaa1xfmgy1","mnkzo2npibo1o8gzo1smhvo1smjgg2sz4zo1ti58g1u12bo1v9b7o1vfmro1","mbn5x1mboqp1moa9x1nq7lx1nygp02o0qvb2o97up1phf5x1tiuip2","moglh1nqdxh1o9e691ouf441tj0u92vgidh1","mhshs1mhytc1nq7pc1nwj9c1r2b9c1ur1xc1","miuf51mj0qp1mqqv42nr9mp1nxev51o5bb42o72ir2oulj41r3d6p1rmbup1us3up1","mdr7k1mihow1mk2rk2mot8w1n7rww1nk2ds1nm03k1no3yb1nqqkw1q0wsw1snq4w2tvg281urkzk2x7jm82xeebk1","mbaj41mnxn41n6wb41npuz41orsb41v9u6o1wo8b41x76z41","mozkh1n7y8h1nqwwh1osu8h1vaw411wor9t1x7w9d1","mbajk1mo3z41mufj41nq1b41orsbk1oryn41r24v41r8gf41rrf341s42741sadr41wi3gg1wuqkg1x76zk2y9an41","mccgx1mdxcw1mp5wh1mqkgw2msi032mvb4x1nqwwx1nshsw1nufc31osu8x1ot0kh1qwowx1r36sh1rsnc11s7edd2sbm011wjbpd1wvytd2x8rvl3yackh1yaiw12","mhseg2n0r2g1nq1ag1nwcug1orymg1os4y01sgvm01t5t6w1tisy01wbxu01y35e01","mcirt1miubt1mww082mytjf2n1szt1nr37t1nshs81nufbf1nxert1ot0jt2q8zk81qax3f1shxjd1t71ft1tjojt1wczrd1y47bd1","mhm681mhytc1n791c1npv281o2ohs1os51c1sadts1t65xc1timps2","miuf51n37nk2n84n51nr3b51o3wqp1ot0n51sb9fl1t71j51tjuyp1","mh35s1mtq9s1npc1s1r7r5s1rqpts1x6o1s1","mbakh1md83k1mhm4h1mu98h1npv0h1rrf411x7dc11","mbakg1mnxog1n0ksg1npv0g1o2i4g1torwg1","moabl1n13r51nq7nl1o2url1","mdr281mpiki1n25oi1nrfwi1o3qde1qrry81qtvsz1r07cz1","mo4cg1nq1og1orz0g1oy48w1szocg1uqvk01v9ukg1wo8ow1","mogzl1nqebl1osbnl1oyn7l1t00zl1ur8751vadj51wornl1","me41s1mpvk21mx2ps1mz08z1nrsw21nsohs1num0z1otq821ozvgi1t1fk21usmrm1ve8le1wpzwi1xi39e1","md24i1md8g21mjdoi1n2io21n8nwi1nrmki1otq821piu4i1x8s8y2xfgg22","mcd8h1miosh1mp0ch2n7z0h1nqxoh1osv0h1q2igw3qqe4h1x7x1d2","momyp1n2uyo2nqkap1oshmp1w5mbl1","mdxfk1mp5z51mvhj51n9j7k1nr3b51o3qf51","mccgh1mot8x1mvb4h1nqwwh1nx24x1pddsg1x82kx1","mon0h1nqkch1o3k3l1","mnrcw1n6q0w1npoow1oxxkw1szhog2uqiww1vft4w1wudkw1","mc6691mota91n2ibk1n4ytf1n7fb51nlgzk1nnxhf1nqqm91oymv51p4yf51t0da91uu1c11vgc3l1wv2v51","mogow1mpoxs2nqe0w1nrm9s1nx2801osbcw2phy801q0qkg1rfhc01t0dc01x7dds2","mhyqo1mpv6o1muluo1n78yo1nq7mo1qpo2o1reyao1rf4m81t5zj41xfz1c1ym42o2","mhfrk1njd3k1nponk1orfo01sgcnk2t5mvk1wbevk1xdc7k1","mbtht1mi51t1moglt1nk2dt1nqdxt1osb9t1phlht1shekx1t6c5t1wcgsx1xee4x1","mio3k1mkfb42mmcub2mpcao1nr9mo1nxev41q1fuo1qdwn41r36v41tw5fk1wctj41","mccgg1mozkg1mqkgg1nqwwg1o9vkg1oyzgw1rfh8w2rtvk83wcgsw1woky82","mjpz42momyo1nk8w01nlnb41nqkao1nryv41nwpog1oshmo1qd7b41r2hog1r8zeo1tj5mo1wpglc3x7jnk2","mbn6o3md82o1mfokj4mi5281mjjmo2mltsz2moaao1njw2o2nlgyo1nnr4z1nq7mo1nwjk01ormdc1os4yo1p0ef41qcoow1r8gsg1s42kg2sn0v41v9ukg1y4wzk3y9an42ym4g01","mic5c1muz9c1nk9hc1nql1c1osidc1rfbpc1stw5c2urf9c1","me4g01mjx1d1mqrk02msver2mwk5d1ns5xd1ou39d1riu4h2svncx1ut05d1","mw0f51nrm751obmsg2odkbn2","mcish1mvhgh1nr38h1","mvu351nrfv51p0ykg1","mvu351nrfv51obms02","mcjk02mp6o01n3eo01n85c01nr4001obocg3odlvn3qns3n2qs64g1qu3nn1t0qo01tjpc01u2o001wvsw01","mnxog1npv0g1orscg1qcocg1sn2f41u1mv41xdqf42","mogn51nqdz51osbb51qd7b51snf291u1zi91xe3292","mcvgi1mdxds1mfuwz1mpiki1mqkhs2msi0z2nrfwi1otd8i1qe98i1srgg22tqcsi1u60w22xi4g21","mcjk01md2ir1me4g03mfvnn4mkg003mp0cg1n7ry81ohydc1pjwg01qqkg01qs5c01qt0xv1qyg5c1rb4001rbabk1s4ykg1utpfk3wj51c1wvs5c2yadc01yi9s01","mcjk01meark3mkmbk3mp0cg1n7s001ohyf41p0xs02pk2rk1qqkg01qs5c01qt0xv1qygw01vaww02yadc01","me41s2mg7wj1mx2ps1mz6kj2nsohs1nuscj1q969s1qba4j1qraio1tk2rk1ww54w1","o2ohs1","me3r42nyzr46o0xab6o3wnl1o3x1d1p78n42p966b4","n9j442nklc41o3qbo1osnwk1p0wzo1qqdc41r9c041tji841wj5ds1y41ds1yn01s1","mdr1c1o9vkw1pbz8g1qf4tc2qh2cj2","me58g1oa3gg1pc0sg1qfj0g3qgkxv2","q19g01xeqs01","q135s1xekhs1","mdxcg1mdxds1o54wg3o54xs3o72fn3o72gz3pjpcg1pjpds1plmvn2plmwz2qq70k1","mcp4x1pc5kx1pdkao2pih4x1","mdxfk1mezcz1pc5mp2pddvk1pefsz1pih6p1","pcv0i1qfnuo1rbsow1sqd4w4sur281u2zy81u4xkw1","mccgh1pbswh1q0wsx1","pbta91pd1j43q19ts1","pbzlt2","q2o1s2q8zls1qqdds1snwhs2ymtds2","r24uc1r8a2s1r8gec2raqkk1relms2reryc1rl3ic1tc4qs1ukdms1uqp6s1wi32c1xfz0k1xju2s2ylxqc2","r2hhh1r8t1h1rf4lh2ukwlh1ur85h1xkd1h2ymadh1","r3pqe1rco3q2riznq4uls7a2usgee1xl8na1xllae3yqbr81","r2b601r8mq03reya01rf4lk2rl9u01s48i01tisy01wifpk1xk0eg2ybr482","r2nt51r95op1rfh8p2s4l551tjbwp1xkjd51","r42dm1rd72i2rjimi4s8nb61tkk5m1xleyy1","r24uo1r8geo2reln42reryo1rl3io1tigb41wi32o1xju341","r2ntd1r8t1t1rf4lt2tj5ld1xk6q91","r3w2a1ra7ma1rcufm2rj5zm4tkdua1xlez61","r1yps2r251c1rr8xs2rrf9c2sadxc2szbi81uqvpc1xju9s1","r30n51r5h4x2rsav51rsh6p1sbfup2urrb51xkpvl1","r1lvo3r1yis1refb81relms1v9hj81xdc781xjnr81","r5gxx3r9c051rfh8l1vaw3p2xeqrp1xkjd11","re8zo1refb81s3j7o1s3pj81szbb81uqiv81wudj82xjhfo1","rfnk51s4y691t0d8l1urri91wvls51xkjr51","r1s801r1yjk1r83s01refc01rkx7k1sa7fk2sz50g1ukdnk1wujvk1xju3k2ylrfk1","r2hi91reyap1saqe91ukwm91wv2u91xkd292ymae91","r36si2r9ici1rg0821rvggy1sbfoi1tdjc21uls821wvyg21xl8o22yncbm1","r1fr41r1m2o1re2v41re96o1rkkqo1s3d341s3jeo1s9on42ti3uo1x6uio1xjbb41","r251d1reltt2s6vi92sadxd2tit4x1x7dhd1xju9t2y9h4x2","r1s8w1r1ykg2r83sw1sa14w1szhog1xju4g1","r2hj51saqf52t2ts13xkjep1","r1s781r1yis1r8a2s1rr2f81sa7es1v9nus1xju2s1ylres1","r2hhh2rrldx1saqdh1va6th1xkd1h1ymadh1","r3jeu1rsnba1sbsau1ve1vq2xl2bq1yncau1","r251c1ra1hc1rgd1c3sbytc2uqvpc1v9udc1xk0lc1","relq81res1s2s3vy81s429s1sadts1wbrls1","rfb0h1s4l8h1sawsh1wcgw11","rgpky1s5n5u2scbcy1t4epu1wdp4y2","r1yiw1r24ug1relmw1reya01rrf2g1s3vuw1s48i01sadqg2sznyg1timmg1tisy01wi32g1wuq6g1xju2w1y35e01","r36rt2rbsi12rsao91s7ea12sbfnt2tjuvd1xl8nd3y47bd2","rg08x1sbm0x2tjuvd2tm51l1u53pl1wjbbd1wvyfd1xkpq91","refc01relnk1rr2g01rr8rk2smo801uqp7k1x70o01xdijk1xju3k1","r9ich1rc55t1rigpt2rsh0h1rsnc12so9411uuk9t4x8f8h1xhdlt2xllb53","r1s801r1yjk1relnk2sa7fk1smujk2tigbk1uqp7k1xdijk2xju3k1ylrfk1","r30gx1r9c0x1rfnkx1rlz4x1sb9cx2snwgx1tji8x1tlyqp1urr4x2xekgx1xkd291ymtcx1","r258g1r2bk01r8agw1rem0w1rescg1sa7sw1v9ukg1xk0sg1y2zgg1","r375t2rbsw11rg0ld1sbg1t2vdczl3xkwe91y47pd1","r83y81refpc1rem0w1sa1hc1tigow1uke0w1wblkw2xjo5c1","rbmdd1rf4zl2saqrl1tj5z51ukwzl2wcav51xkdfl1","re8zo1refb82sgcn81wudkw1xjnr81","rfax11sh8911wv96p1xkjd11","r1s782r1yis1rr8u81s3pj81s3vus1sa1382szhms1uqpa81v9u9s1xju681","r30g51rsh351ruxhh1s4xs52sdw5h2t0w791urxj51vb2ip1xkw3l1","r36v42rm5j41ru1z41s4xvk1urr7k1xkjgg1","r1yis1r24uc1rr2f81rrf2c1sadqc1timmc1xju2s1","r2u4l2rs4cl1sb30l1sk1dx1tlyq12xkjd11","re8zo1refb81sa1381sgcn81ti3no1v9b7o1xjnr81","res012sads11sgpad1timmd1vczyd1xk0g11","r1fls1r1lxc2rke9s1s3j9c1s3pkw1s9ohs2szbcw1ti3pc1xjnsw1","r2u691r95q91s4xtt2sdptx2t0pxd1tji9t1xkd351","r8gg01relog3res001s3vwg1s42801sa7gg1ukef41wbsao1xjuv42","reybl1rf4n52s48jl1saqf51ukxdt1wc4xt1xk7i92","r9ooy2rchtu1rg08y1ritdu2s545e1sbm0y1umbya3wdd6q1xlfr61xlsea1","r1s7k2r1yj41rr8r41s3pjk1s3vv41sa13k1sgiz41ukdn42xju341","r2hht1rrrpt1s4ett1saqdt2sjv352uls7l3xkd1t1","r2uio2rfny81s6cjk2t07b41urri81xkdfk1y3i801","rr2fk1rrrps1sa13k1sgvm81sn0uo1xju341y35e81","r9uz51rd72p1rstn52sbsb52si3v51snjtd1srrip2u6byp1xl2c11y4dn51","r1zb41r2by81r8av41rr9j42rrfuo1sa8742sn1mo1std6o1szv281ukkqo2xjuv41","r3dvl1r9pfl2rv4ld3sbmrl2so9vl1sx15t2t13b51ula0x2xkqgx1","r2ubk2r9c741rax341rlszk1s4xz42sbaww2t0dfk1tchkw1tl3b42ukqgw1xkd8g1ymuww1","rfuo02s5b7k1t2bk02xkk5c2","re9341res1s1rr8u81rrf5s1s9uv41smum81timps1","rftz51ruxkx2sdw8x1so2v51tjon51","r24w02r2b7k1r8gg01rrf401rrlfk1sads01szubk1wbxvk1xk0g02","r3d4x1r9idd1rbsjl1rsncx1rur7l1sbm0x2wczsx2xl2dd1","r2ubk1rfhfk2rsav41s4rk01sb37k1tkwzk1ukqdc1xkd8g1","r2b681r2ntc1rf4ls1rfaxc1rlmhc1tj5lc1vad5c1xkjdc1","r42dt1ra7m91rgpht1rn11t1tkk5t2vdvkh2xlez51","rftw01s4xsg2sbfo01t0pw01utc0g1xkjdc1","r3pqo2r9uz41s5n2o1sbymo1ulfkg2vd6a82xl2c01","r24uo1r8hz41s43r41sadqo1sn2f42tk9342ukjyo2xk0eo1","r3d6q1rcuiq1rj62q1sbm2q2tjuyq1vb8ua1xl8qq1y4doi1","rih352rsnpd2se2v52um58h3uukn51w718h1xkwe91","rg0e92sk1s12so94x1","rg0e92shxq91u2tq91uue4h2xh7gh1","r3wg22ra8021raepu1rtddu1sc5c21xfgua1","r5aps3rbm9s1sdjls1shxmo2u2tmo1","r8t341s4ev41sh1z41sp4qo2u1xz41","s4y682snwu81","r8t341sh1z41tizb41u1xz41","s5aio2sukqo1","s6p343shkzk1u48742","r4sg03rb4001sd1c01shs001","r8zdc2s4l5c1sndhs1tj5lc1","s6vc03shxk01u4eg02","s54ao2shreo1","s543s2su8081","r9oo01shxk01spu002u4eg01","reln42reryo1sadqo2xju341","r8t1t1rf4lt2saqdt1xkd1t1","ra1aq1rgcuq2sbymq1xl8nm1xlrma1","s3pkw1s42802sa14w1timo01ukdog1wbrk01xju4g3y94cg1","s7f293sbgg11tjpc11u4y691ulgch2wcu811xkwsh1xlfr53yadc12","rhl383s543o1sd6v81tjojo1xkw041","r9c0g1rb3801rhes04s4xsg1sd0k01tji8g1xl2c03xr7y81","rhri84s5aio1sdda81so96o1xkw3k1","r95oo1rgvt43s4rgo1schl41snq4o1wcgso1xk6q01y3c3k1","rb9xc1s6vpc4shxxc1tq6tc1u2txc1u4etc1","rb39c1s6p1c4shr9c2u485c1","r36v41r4y2o4r9if41r9q801rb9mo2ru8ao1sd6yo1shz401sjk001t0pz41tjon41tq0741xgi2o1xkw3k1y41341yacn41","r30gw1r4rog4r979c1r9c0w2rb38g2ru1wg1sd0kg1shg5c1sjdog1tji8w1tptsw1wiyow1xgbog1xkw0w1y3uow1ya68w1ymtcw1","rb3801sjc404so2s01u48401","rb37o1sjc3o4snwg41u483o1","sn75x2sn8qp1t00lh1u1rlx1va6th1","smbk42smhvo1y29s41","sn0ud1sq0at3y2sqt1","so2v41suef41swikg3u2nb41xex6o1","snq681su1q81svta83u2am81xee681","snwhs1su81s1svta83u2gxs1xg5q82","r95ok1raww41snq4k1sphc44sphc83sphcg3sphfk3u41s43u41s82u41sg2u41vk2vajgk1vajgo1vajgw1vajk01x7jm01x7jm81x7jpc1x8f7o3","t1m9t2tmosh3u3jlt1wwoht1","t48au3u65mu1vbldy2","r9ibs1rb9jc1sjifc4tjojs1","rbhfk1sjqbk4t0rgg1u4mbk1","rbfy81sjou84t0w8w1u2tkw1","rb39c1sjc5c4tjpc01u485c1","rb9q81t2ha83tjif41u4em83xekn41xgi681","r8n402svgn44u3pj41xdvk01"];
+const CARDS = CARDS_RAW.map(s => { const a = []; for (let i = 0; i < s.length; i += 6) a.push(parseInt(s.slice(i, i + 5), 36), parseInt(s[i + 5], 36)); return a; });
+// Nombre de cartes de l'espèce dans les extensions lo..hi (index), l'intervalle de PV hpLo..hpHi, dont un des types est dans typeMask
+// et dont le stade (0 Base, 1 Niveau 1, 2 Niveau 2, 3 Autre) est dans stageMask.
+function cardCount(num, lo, hi, hpLo, hpHi, typeMask, stageMask) {
+  const a = CARDS[num - 1]; if (!a) return 0;
+  const bl = (hpLo - HP_FIRST) / 10, bh = (hpHi - HP_FIRST) / 10; let n = 0;
+  for (let i = 0; i < a.length; i += 2) {
+    const k = a[i], sg = k % 4, q = (k / 4) | 0, tm = q % 2048, r = (q / 2048) | 0, e = (r / 36) | 0, b = r % 36;
+    if (e >= lo && e <= hi && b >= bl && b <= bh && (tm & typeMask) && (stageMask >> sg & 1)) n += a[i + 1];
+  }
+  return n;
+}
+// Masque des types JCC cochés (même ordre que TCG).
+const typeMaskNow = () => TCG.reduce((m, t, i) => state.selectedTypes.has(t) ? m | (1 << i) : m, 0);
+// Masque des stades cochés (même ordre que STAGES).
+const stageMaskNow = () => STAGES.reduce((m, s, i) => state.selectedStages.has(s) ? m | (1 << i) : m, 0);
+// Logo « deux cartes penchées » (contour, couleur du texte courant) affiché à droite du nombre de cartes.
+const CARDS_ICON = '<svg class="cards-ico" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><g transform="rotate(-14 12 12)"><rect x="4" y="4" width="11" height="16" rx="2"/></g><g transform="rotate(10 12 12)"><rect x="9" y="4" width="11" height="16" rx="2" fill="var(--panel)"/></g></svg>';
+const cardsNow = num => cardCount(num, Number($("extMin").value), Number($("extMax").value), Number($("hpMin").value), Number($("hpMax").value), typeMaskNow(), stageMaskNow());
 ["hpMin","hpMax"].forEach(id=>{
   const sel=$(id);
   for(let v=HP_FIRST;v<=HP_LAST;v+=10) sel.add(new Option(v,v));
@@ -582,10 +729,12 @@ resetHp();
 $("hpMin").onchange=()=>{
   if(Number($("hpMax").value)<Number($("hpMin").value))
     $("hpMax").value=$("hpMin").value;
+  render();
 };
 $("hpMax").onchange=()=>{
   if(Number($("hpMin").value)>Number($("hpMax").value))
     $("hpMin").value=$("hpMax").value;
+  render();
 };
 
 // Raretés simplifiées (filtre informatif).
@@ -596,11 +745,11 @@ const RARITIES = [
   {label:"★ Rare Holo",             bg:"#c084fc"},
   {label:"★★ Double rare",          bg:"#c084fc"},
   {label:"★★ Double rare brillante",bg:"#fcd34d"},
-  {label:"★★★ Ultra rares",         bg:"linear-gradient(90deg,#f9a8d4,#a5b4fc,#99f6e4,#fde68a)"}
+  {label:"★★★ Ultra rares",         bg:"linear-gradient(90deg,#f9a8d4,#a5b4fc,#99f6e4,#fde68a)", stops:["#f9a8d4","#a5b4fc","#99f6e4","#fde68a"]}
 ];
 function paintRarity(sel) {
   const r=RARITIES[Number(sel.value)-1];
-  sel.style.background=r.bg; sel.style.color="#14161f";
+  sel.parentNode.style.backgroundImage=r.stops?gradImg(r.stops):solid(r.bg); // le fond est porté par le conteneur
   sel.style.fontWeight="700"; sel.title=r.label;
 }
 ["rarityMin","rarityMax"].forEach(id=>{
@@ -610,6 +759,8 @@ function paintRarity(sel) {
     o.style.background=r.bg.startsWith("#")?r.bg:"#c4b5fd"; o.style.color="#14161f";
     sel.add(o);
   });
+  const w=document.createElement("div"); w.className="rar-wrap";
+  sel.parentNode.insertBefore(w,sel); w.appendChild(sel);
 });
 function resetRarity() {
   $("rarityMin").value=1; $("rarityMax").value=RARITIES.length;
@@ -627,39 +778,20 @@ $("rarityMax").onchange=()=>{
     $("rarityMin").value=$("rarityMax").value;
   paintRarity($("rarityMin")); paintRarity($("rarityMax"));
 };
-// Garde-fou : l'année max reste toujours >= à l'année min.
-$("yearMin").onchange=()=>{
-  if(Number($("yearMax").value)<Number($("yearMin").value))
-    $("yearMax").value=$("yearMin").value;
+// Garde-fou : l'extension max reste toujours >= à l'extension min ; la liste se met à jour tout de suite.
+$("extMin").onchange=()=>{
+  if(Number($("extMax").value)<Number($("extMin").value))
+    $("extMax").value=$("extMin").value;
+  render();
 };
-$("yearMax").onchange=()=>{
-  if(Number($("yearMin").value)>Number($("yearMax").value))
-    $("yearMin").value=$("yearMax").value;
+$("extMax").onchange=()=>{
+  if(Number($("extMin").value)>Number($("extMax").value))
+    $("extMin").value=$("extMax").value;
+  render();
 };
-function getTcgTypes(gameTypes, num) {
-  // Arceus reste toujours admissible au filtre de type.
-  if(num===493) return [];
-  const out=new Set();
-  for(const t of gameTypes) {
-    (GAME_TO_TCG[t]||[]).forEach(x=>out.add(x));
-  }
-  return [...out];
-}
-
-function typesMatch(p) {
-  if(p.num===493) return true;
-  if(state.selectedTypes.size===0) return false;
-  const tcg=getTcgTypes(p.gameTypes,p.num);
-  return tcg.some(t=>state.selectedTypes.has(t));
-}
-
-function stageMatch(p) {
-  return state.selectedStages.has(p.stage);
-}
-
 function matches(p) {
   return p.num>=state.lo && p.num<=state.hi &&
-    typesMatch(p) && stageMatch(p);
+    cardsNow(p.num) > 0; // au moins une carte d'un type et d'un stade cochés, dans les extensions ET dans l'intervalle de PV choisis
 }
 
 function renderTypeFilter() {
@@ -668,7 +800,8 @@ function renderTypeFilter() {
     const b=document.createElement("button");
     b.className="type-chip"+(state.selectedTypes.has(t)?" active":"");
     const bg=TCG_COLORS[t], fg=textOn(bg);
-    b.style.setProperty("--tc",bg);b.style.setProperty("--tf",fg);
+    const k=ink(fg);
+    b.style.backgroundImage=solid(bg);b.style.setProperty("--tf",k.color);b.style.setProperty("--ts",k.shadow);
     b.textContent=t;
     b.setAttribute("aria-pressed",state.selectedTypes.has(t)?"true":"false");
     b.onclick=()=>{
@@ -701,7 +834,7 @@ function badgeFor(gameType) {
   const bg=GAME_COLORS[gameType]||"#888888", fg=textOn(bg);
   const span=document.createElement("span");
   span.className="type-badge";
-  span.style.background=bg;span.style.color=fg;
+  span.style.backgroundImage=solid(bg);span.style.backgroundSize="100% 100%";span.style.color=ink(fg).color;span.style.textShadow=ink(fg).shadow;
   span.textContent=fr;
   span.title="Type des jeux : "+fr;
   return span;
@@ -710,7 +843,7 @@ function badgeFor(gameType) {
 function appendTypes(container,p) {
   if(!p.gameTypes.length) {
     const a=document.createElement("span");
-    a.className="type-badge";a.style.background="#eee";a.style.color="#555";
+    a.className="type-badge";a.style.backgroundImage=solid("#eeeeee");a.style.backgroundSize="100% 100%";a.style.color="transparent";a.style.textShadow="0 0 0 #555555";
     a.textContent="—";container.appendChild(a);return;
   }
   p.gameTypes.forEach(t=>container.appendChild(badgeFor(t)));
@@ -728,7 +861,7 @@ function render() {
   }
 
   const candidates=state.pokemon.filter(p=>p.num>=state.lo && p.num<=state.hi);
-  const matching=candidates.filter(p=>typesMatch(p)&&stageMatch(p));
+  const matching=candidates.filter(matches);
   const visible=state.showOthers ? candidates : matching;
   $("count").textContent=matching.length+" résultat(s) · "+visible.length+" affiché(s)";
 
@@ -747,9 +880,11 @@ function render() {
     name.textContent=p.displayName;name.title=p.displayName;
     const types=document.createElement("span");types.className="pokemon-types";
     appendTypes(types,p);
+    const cards=document.createElement("span");cards.className="pokemon-cards";
+    cards.innerHTML=`<span>${cardsNow(p.num)}</span>${CARDS_ICON}`;
     const stage=document.createElement("span");stage.className="pokemon-stage";
     stage.textContent=p.stage;
-    row.append(n,name,types,stage);
+    row.append(n,name,types,cards,stage);
     const choose=()=>{
       state.ref=p.num;
       render();
@@ -821,7 +956,7 @@ function reset() {
   state.showOthers=false;
   $("showOthers").checked=false;
   resetRarity();resetHp();
-  $("yearMin").value=YEAR_FIRST;$("yearMax").value=YEAR_LAST;
+  $("extMin").value=EXT_FIRST;$("extMax").value=EXT_LAST;
   $("lowerBtn").classList.add("selected");
   $("higherBtn").classList.remove("selected");
   renderTypeFilter();renderStageFilter();render();
@@ -894,7 +1029,7 @@ const Voisins = (() => {
 
   for (let i = 0; i < 9; i++) {
     rowsEl.insertAdjacentHTML("beforeend", `<div class="v-row">
-      <input class="v-in" data-f="name" list="vNames" placeholder="Carte ${i+1}" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" aria-label="Nom de la carte ${i+1}">
+      <input class="v-in" data-f="name" placeholder="Carte ${i+1}" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" aria-label="Nom de la carte ${i+1}">
       <div class="v-types"></div>
       <span class="v-lab" aria-hidden="true">Gén.</span>
       <select class="v-in" data-f="gen" aria-label="Génération">${genOpts}</select>
@@ -913,7 +1048,7 @@ const Voisins = (() => {
     const bg = GAME_COLORS[id] || "#888", fg = textOn(bg);
     const b = document.createElement("button");
     b.type = "button"; b.className = "v-pill " + (cls || "");
-    b.style.background = bg; b.style.color = fg; b.textContent = LABEL[id] || id;
+    b.style.backgroundImage = solid(bg); b.style.backgroundSize = "100% 100%"; b.style.color = ink(fg).color; b.style.textShadow = ink(fg).shadow; b.textContent = LABEL[id] || id;
     if (label) b.setAttribute("aria-label", label);
     return b;
   }
@@ -1107,7 +1242,7 @@ const Voisins = (() => {
 
   function badge(id) {
     const bg = GAME_COLORS[id] || "#888", fg = textOn(bg);
-    return `<span class="type-badge" style="background:${bg};color:${fg}">${LABEL[id] || id}</span>`;
+    return `<span class="type-badge" style="${bgStyle(bg)};${inkStyle(fg)}">${LABEL[id] || id}</span>`;
   }
 
   function show() {
@@ -1172,7 +1307,508 @@ const Voisins = (() => {
   rowTypes.forEach((_, i) => renderTypes(i)); // emplacements / bouton « + Type » dès l'arrivée
   updateDeg(); // les 9 cartes démarrent vides ; le bouton « Exemple » les remplit
   setOpen(true);
-  return { readCards, shared, solveCards, genOf, fromEntry, byName, norm, reset: resetAll };
+  return { readCards, shared, solveCards, genOf, fromEntry, byName, norm, baseName, reset: resetAll };
+})();
+
+// ---------- Vue Connexions : 16 Pokémon, 4 groupes de 4 qui ont un point commun ----------
+// place dans la famille : PLACE[n° - 1] = 0 n'évolue pas, 1 premier (bébés compris), 2 au milieu (a une pré-évolution et peut encore évoluer), 3 dernière évolution
+const PLACE = "12312312312312312313131323131231232313231212313131313131213123123123123131231313121131313131231131313131333113122101213132132200130013331131303000123001231231231313131331311112131233233312311311333131031131131313001121312113030133132101311103000123000123123123131212323123123131312313131231331231311130012313130000213131313013012313130000131313131313001312030113123133001231230000000000123123123123131312313131313313013131331313331311313111001231131313130131133333333333333333330000000000000000123123123131231313131313123131231313012312300123123131311231301313013131313131312312313123130131313013131231231312312313013013013120131300123130000000000001231231231312312313123131301312313131313131313131330001230131313130000001231231231231312313013130131313131313131230001313013000000001230000123300000000001300013123123123131231231313131313123133130131313131312312333333313001300001300001123000130000003333330123123123131313123131312301231331313131313130131313123130131300131301300033333000000000000123130000000000213000033000000";
+
+// Types de cartes du JCC par espèce : CTYPES[n° - 1] est un masque de bits (bit 0 = Plante … bit 10 = Fée) ; un bit est
+// levé quand l'espèce a AU MOINS UNE carte de ce type (≈ 20 000 cartes de la base TCGdex, noms anglais rapprochés des espèces ;
+// les cartes à plusieurs Pokémon comptent pour chacun). Comprend donc les types rares (cartes δ, anciennes cartes…).
+// Sortes de cartes par espèce : CKINDS[n° - 1] est un masque de bits (bit 0 = ex, 1 = GX, 2 = V, 3 = VMAX, 4 = VSTAR, 5 = Méga) ;
+// un bit est levé quand l'espèce a au moins une carte de cette sorte (même base TCGdex). HP300[n° - 1] vaut 1 quand une de ses cartes a 300 PV ou plus.
+const CKIND_NAMES = ["ex", "GX", "V", "VMAX", "VSTAR", "Méga"];
+const CKINDS = [0,0,47,0,0,63,0,0,47,0,0,12,0,0,5,0,0,5,0,2,0,0,0,1,15,7,0,0,0,0,0,0,0,1,1,33,20,7,34,3,0,0,0,0,3,0,0,0,2,0,1,13,3,2,0,0,0,0,5,0,0,1,0,0,5,0,0,15,0,0,0,0,0,0,0,3,0,5,2,37,0,0,0,0,4,0,0,0,3,0,0,0,0,47,2,0,0,0,12,1,7,0,7,0,3,0,1,0,0,0,0,0,1,0,35,0,0,0,0,0,39,3,1,1,1,1,35,3,2,47,15,12,15,15,15,15,0,0,4,0,1,23,15,7,7,7,0,0,55,23,15,0,0,33,0,0,21,0,0,33,0,0,0,0,0,0,0,0,13,0,1,0,2,2,2,0,0,0,0,0,39,0,0,1,0,1,0,0,1,0,0,0,0,0,0,15,15,0,13,0,20,4,0,0,1,0,0,37,0,4,0,15,3,33,1,0,0,0,3,0,0,0,0,0,0,0,33,0,5,3,0,1,0,0,0,0,0,0,0,0,0,5,7,7,7,0,0,39,23,7,15,0,0,3,0,0,47,0,0,33,0,1,0,0,0,0,0,0,1,0,0,0,0,0,3,0,0,0,0,0,0,47,0,0,0,4,0,0,5,0,0,0,0,0,1,0,1,0,0,0,1,38,55,0,0,13,0,5,0,33,0,0,0,0,0,0,0,0,33,0,7,0,33,4,0,0,0,0,0,7,0,1,0,35,1,0,0,0,0,0,0,1,0,1,0,1,0,1,0,5,0,0,0,3,0,1,0,0,33,0,0,1,0,0,1,0,0,0,0,0,0,0,15,0,0,15,5,1,1,35,3,5,1,47,7,31,0,0,1,0,0,5,2,0,5,0,0,0,0,1,0,4,0,0,5,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,35,1,6,0,0,0,0,4,0,0,0,0,0,0,0,0,0,7,0,0,55,0,0,0,20,0,1,0,0,4,0,0,33,3,21,1,4,0,1,0,13,1,31,31,0,1,0,37,1,0,33,21,0,0,0,23,23,15,21,23,1,0,1,55,21,23,13,2,0,21,0,0,33,0,0,20,0,0,0,0,4,0,4,0,0,0,20,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,33,33,0,0,4,0,0,1,0,0,0,0,0,0,0,0,0,23,0,20,0,0,0,1,0,12,0,0,0,0,33,2,0,1,0,0,0,0,0,12,0,23,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,33,0,0,0,0,45,0,0,0,0,0,0,0,0,5,0,0,0,0,37,0,0,1,0,0,0,1,0,1,0,0,1,0,6,3,1,7,15,3,7,3,1,15,7,1,7,0,0,5,0,2,37,0,0,39,0,0,0,0,5,0,0,0,0,33,0,33,1,0,0,0,0,0,0,1,0,0,13,0,0,0,0,0,45,0,0,0,33,0,0,0,0,0,1,0,1,15,33,3,0,0,0,20,0,0,13,0,1,0,0,0,7,3,3,35,33,7,5,2,0,23,0,0,7,0,0,3,0,0,0,0,2,0,0,6,0,5,3,0,0,0,15,3,0,2,0,0,0,0,0,3,0,0,0,3,0,2,0,0,7,0,4,1,0,35,0,3,0,0,2,0,0,2,1,15,0,6,13,0,0,2,15,2,2,2,0,0,3,3,2,3,2,2,2,2,3,7,5,2,0,2,2,3,63,0,15,0,0,12,0,0,13,0,0,12,0,13,0,0,12,0,0,12,0,0,0,4,0,4,0,12,0,12,0,0,12,0,12,4,0,12,12,0,0,0,13,0,12,0,4,0,4,0,0,12,0,0,13,0,4,4,4,4,0,0,13,4,5,0,0,12,5,5,13,0,13,12,0,4,4,12,0,0,13,21,20,12,0,12,4,12,20,0,0,12,4,20,5,0,4,0,4,1,0,1,1,0,1,0,0,1,0,1,0,1,0,0,0,0,1,0,1,0,1,0,0,1,1,0,0,1,0,1,1,0,1,0,1,0,1,0,1,0,0,0,1,1,0,1,0,1,0,1,0,0,1,0,1,1,0,1,0,1,1,1,0,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,0,0,1,1,0,1,0,0,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1];
+const HP300 = "00100100100100100000000010000000010100000000100000010000000000001001000000010001000000000000010000100010000000000010000010000000111111110000001111001110010000010000000010000000000010000000000000011010000000000001000000000000000001000000000001000001001000001000000000000000000000000100000010000000000000000100010000000010101000000100000000000000000000000000000000000000000010010000000101001000001000000000100010000000000000000001000000000000000010010000000000010100000101101010010000001100000001001001000000000000000000000000000001000000000000000000000010100001000000001000000000000000000000000000000000010000100000000000001000000000001000001000010000000010010000000001000000000000100000100010000000010000000010000000010000010010000000000000000010000000000000000010000100000000010010001000000000000000000000101001001001010010010000000101001010011000101000000100100000001000010010110001001101010100010000000001001001000000001000000100010000000000000000000000001000010000000000100010000000000000000000000000000000000000011000000";
+const CTYPE_NAMES = ["Plante", "Feu", "Eau", "Électrique", "Psy", "Combat", "Incolore", "Obscurité", "Métal", "Dragon", "Fée"];
+const CTYPES = [1,1,1,10,10,970,4,4,292,1,1,1,1,1,257,72,72,328,192,192,64,72,147,147,264,264,292,420,401,401,433,145,145,241,1104,1104,22,1046,1104,1104,145,145,21,17,273,1,1,1,1,288,288,448,448,12,140,34,34,34,34,4,4,36,16,16,16,32,32,32,1,1,1,20,20,40,40,104,18,18,20,148,264,392,96,64,64,68,68,145,145,36,36,144,144,144,32,16,144,4,262,9,137,49,561,32,434,32,160,80,145,145,32,160,64,1,64,38,38,4,4,4,276,1044,129,22,40,2,33,102,260,398,4,127,320,260,264,258,64,52,52,44,108,98,193,212,232,194,585,713,969,410,22,33,33,33,18,18,18,12,12,12,64,64,64,64,257,257,129,129,465,12,12,264,1104,1088,1108,1108,144,144,72,200,200,5,1044,1300,32,4,1,1,1,64,1,1,1,165,39,272,384,128,148,16,16,144,80,1,257,64,40,416,1104,1104,132,385,33,35,132,64,64,2,162,36,36,20,4,132,68,12,320,130,130,870,32,32,64,64,80,32,32,22,40,2,64,64,142,142,142,42,170,426,84,66,209,17,17,17,2,34,34,4,36,36,128,384,192,192,1,1,1,1,17,5,5,7,1,129,129,66,66,68,76,1042,1042,1298,5,1,1,33,64,64,64,1,1,17,64,64,64,32,34,1088,32,64,64,144,1296,288,288,416,48,48,8,136,8,8,1,1,17,145,145,164,164,4,4,2,2,162,16,16,64,49,625,881,129,161,68,1620,320,145,48,48,36,36,4,132,48,176,129,385,288,288,6,6,70,64,16,16,16,16,321,272,128,16,4,4,4,4,132,4,4,4,36,4,582,582,838,280,280,280,32,4,256,858,860,164,164,862,272,472,1,1,33,2,2,34,4,4,260,64,64,64,64,68,1,1,8,8,8,17,17,32,32,256,256,1,289,1,1,17,8,4,4,1,1,4,36,64,16,16,64,96,16,128,64,64,16,128,144,272,272,32,16,64,64,144,608,608,612,64,32,288,32,32,145,144,176,176,1,4,4,4,5,5,132,264,64,32,1,8,2,1104,1,1,4,32,36,64,48,288,16,5,95,16,16,16,772,772,258,64,528,144,4,4,144,65,1023,18,1,1,1,2,2,2,4,4,132,64,64,64,64,64,128,128,1,1,2,2,4,4,16,16,64,64,64,8,8,32,32,32,16,16,32,288,64,32,32,32,4,36,36,32,32,1,1,1,144,144,144,1041,1041,1,1,4,160,160,160,6,22,1,33,33,128,128,16,48,16,4,36,96,96,144,144,208,208,64,64,16,16,16,16,16,16,68,68,4,4,4,1,1,8,1,256,1,1,20,20,4,9,9,256,256,256,256,256,8,8,8,16,16,18,18,18,576,576,576,4,4,4,1,1,296,32,32,576,48,48,384,384,64,64,64,128,128,2,257,640,640,640,3,3,256,32,1,64,8,514,520,32,516,4,48,257,1,1,1,2,2,2,4,4,164,64,96,64,66,66,1,1,1,2,2,1040,1040,1040,1,1,32,160,64,16,16,272,272,272,1040,1040,1040,1040,144,144,36,36,144,656,4,4,72,72,32,544,4,4,1040,96,1048,1072,512,512,512,1296,17,17,16,16,4,4,576,576,1040,128,544,1072,176,6,1,1,33,2,2,130,4,4,4,64,64,64,64,64,1,8,8,32,36,26,1040,1040,32,32,4,148,148,32,32,5,5,1,1,1041,1041,146,146,96,96,1,1,5,1040,80,32,5,5,48,48,4,64,64,96,64,514,264,1044,4,576,17,512,512,512,8,1040,1,1028,16,16,272,16,144,33,1,8,320,257,640,784,256,48,144,656,288,18,8,256,256,1,1,1,2,2,2,4,4,4,64,64,64,64,320,1,17,17,128,128,1,1,64,64,4,4,8,8,32,32,32,513,513,513,32,32,68,4,4,136,168,2,2,32,32,16,16,16,16,16,144,144,144,128,256,16,32,4,32,16,16,32,8,4,4,32,6,80,136,256,256,8,8,516,4,768,528,528,528,272,288,640,32,164,129,8,512,4,16,21,80,32,96,4,128,128,16,1,1,1,2,2,258,4,4,4,64,64,1,1,1,129,8,8,8,64,64,16,16,1,1,1,64,32,32,32,2,2,18,8,8,8,8,128,128,192,192,17,17,33,33,32,1,3,1,17,16,17,272,272,272,4,12,192,4,4,256,264,576,256,32,32,16,16,96,4,4,4,4,516,48,128,208,64,384,32,16,128,16,32,32,256,4,8,64,2,8,4,4,4,16,256,1,132,32,130,128,16,544,520,4,1,513,1,1,160,144,144,39,256,1,2,512,48,272,64,128];
+
+const Connexions = (() => {
+  const { baseName, byName, norm, genOf } = Voisins;
+  const esc = s => String(s).replace(/[&<>"]/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[m]));
+  const DEMO = ["Balignon", "Riolu", "Évoli", "Flambino", "Boguérisse", "Yanma", "Aquali", "Galvagla",
+                "Entei", "Brutalibré", "Noctali", "Paragruel", "Dofin", "Bruyverne", "Phyllali", "Arrozard"];
+  // Couleurs des groupes proposés. Le vert (#3ddc84) est réservé aux groupes confirmés.
+  const COLORS = ["#7b8cff", "#ffd60a", "#f95587", "#38bdf8"];
+
+  // <algo> — logique du solveur (testée sur des grilles aléatoires : quelques ms par grille)
+  // Pokémon : { gen, letter, len, family, place }  (place : 0 n'évolue pas, 1 premier, 2 au milieu, 3 dernière évolution)
+  const PLACE_LABEL = ["N’évoluent pas", "Premiers de leur famille", "Au milieu de leur famille", "Dernières évolutions"];
+  
+  // Règles connues (clé -> libellé). famName(family) donne le nom de la famille.
+  // Règles « rares » : sorte de carte, 300 PV, collection. Elles passent après les règles classiques.
+  const isRareKey = k => k === "hp300" || k === "cardkind" || k === "collection" || k.startsWith("kind:");
+  function criteriaOf(p) {
+    const k = ["gen:" + p.gen, "letter:" + p.letter, "fam:" + p.family, "place:" + p.place];
+    if (p.len <= 5) k.push("short");
+    if (p.len >= 10) k.push("long");
+    for (let b = 0; b < CTYPE_NAMES.length; b++) if (p.ctypes & (1 << b)) k.push("ctype:" + b);
+    for (let b = 0; b < CKIND_NAMES.length; b++) if (p.ckinds & (1 << b)) k.push("kind:" + b);
+    if (p.hp300) k.push("hp300");
+    return k;
+  }
+  function labelOf(key, famName) {
+    const [t, v] = key.split(":");
+    if (t === "gen") return "Génération " + v;
+    if (t === "letter") return "Commencent par " + v;
+    if (t === "fam") return "Famille " + famName(+v);
+    if (t === "place") return PLACE_LABEL[+v];
+    if (t === "ctype") return "Type de carte : " + CTYPE_NAMES[+v];
+    if (t === "kind") return "Carte " + CKIND_NAMES[+v];
+    if (key === "hp300") return "300 PV ou plus";
+    if (key === "short") return "Noms de 5 lettres ou moins";
+    return "Noms de 10 lettres ou plus";
+  }
+  function combos4(arr) {
+    const out = [], n = arr.length;
+    for (let a = 0; a < n - 3; a++) for (let b = a + 1; b < n - 2; b++)
+      for (let c = b + 1; c < n - 1; c++) for (let d = c + 1; d < n; d++) out.push([arr[a], arr[b], arr[c], arr[d]]);
+    return out;
+  }
+  
+  // Tous les groupes de 4 qui respectent au moins une règle (un même groupe cumule ses règles).
+  function candidateGroups(pokes, famName, exclude = new Set()) {
+    const byKey = new Map();
+    pokes.forEach((p, i) => criteriaOf(p).forEach(k => { (byKey.get(k) || byKey.set(k, []).get(k)).push(i); }));
+    const groups = new Map();
+    for (const [key, idx] of byKey) {
+      if (idx.length < 4 || exclude.has(key)) continue;
+      const lab = labelOf(key, famName);
+      for (const m of combos4(idx)) {
+        const mask = m.reduce((s, i) => s | (1 << i), 0);
+        let g = groups.get(mask);
+        if (!g) groups.set(mask, g = { mask, members: m, labels: [], keys: [] });
+        g.labels.push(lab); g.keys.push(key);
+      }
+    }
+    const out = [...groups.values()];
+    out.forEach(g => { // dans un groupe, les règles classiques d'abord, les rares à la fin
+      const o = g.keys.map((k, i) => [k, g.labels[i]]).sort((a, b) => isRareKey(a[0]) - isRareKey(b[0]));
+      g.keys = o.map(x => x[0]); g.labels = o.map(x => x[1]);
+    });
+    return out;
+  }
+  
+  // Cherche les découpages de la grille avec le plus de groupes connus : 4, sinon 3 (le dernier est « non identifié »), etc.
+  function solveGrid(pokes, famName, cap = 20000, exclude = new Set()) {
+    const n = pokes.length, cands = candidateGroups(pokes, famName, exclude);
+    const byMin = Array.from({ length: n }, () => []);
+    cands.forEach(g => byMin[g.members[0]].push(g));
+    for (let K = 4; K >= 1; K--) {
+      const maxSkip = n - 4 * K, sols = []; let capped = false;
+      const chosen = [];
+      (function dfs(i, used, skipped) {
+        if (capped) return;
+        if (i === n) { if (chosen.length === K) sols.push(chosen.slice()); if (sols.length >= cap) capped = true; return; }
+        if (used & (1 << i)) { dfs(i + 1, used, skipped); return; }
+        if (chosen.length < K) {
+          for (const g of byMin[i]) {
+            if (g.mask & used) continue;
+            chosen.push(g); dfs(i + 1, used | g.mask, skipped); chosen.pop();
+            if (capped) return;
+          }
+        }
+        if (skipped < maxSkip) dfs(i + 1, used, skipped + 1);
+      })(0, 0, 0);
+      if (sols.length) return { K, solutions: sols, capped, cands: cands.length };
+    }
+    return { K: 0, solutions: [], capped: false, cands: cands.length };
+  }
+  // </algo>
+
+  const famName = f => baseName.get(f);
+  // Taille du réservoir de chaque règle sur les 1025 espèces : plus il est petit, moins un groupe de 4 s'y trouve par hasard.
+  const pool = new Map();
+  for (let n = 1; n <= 1025; n++) {
+    const f = featuresOf(n);
+    criteriaOf(f).forEach(k => pool.set(k, (pool.get(k) || 0) + 1));
+  }
+  const logC4 = N => Math.log(N * (N - 1) * (N - 2) * (N - 3) / 24);
+  // Vraisemblance d'un groupe : on retient la règle qui l'explique le mieux (réservoir le plus petit).
+  // Une règle rare n'est retenue qu'en dernier recours : pénalité qui la place après toute règle classique.
+  const RARE_PENALTY = 1000;
+  const groupCost = g => Math.min(...g.keys.map(k => logC4(pool.get(k)) + (isRareKey(k) ? RARE_PENALTY : 0)));
+  const solCost = s => s.reduce((c, g) => c + groupCost(g), 0);
+  const gridEl = $("xGrid");
+  const allNames = [...baseName.entries()].sort((a, b) => a[0] - b[0]).map(([num, n]) => ({ num, n }));
+  const fillList = used => {
+    $("xNames").innerHTML = allNames.filter(x => !used.has(x.num)).map(x => `<option value="${esc(x.n)}"></option>`).join("");
+  };
+  fillList(new Set());
+  for (let i = 0; i < 16; i++) {
+    gridEl.insertAdjacentHTML("beforeend", `<div class="x-cell">
+      <input class="v-in" data-i="${i}" placeholder="Pokémon ${i + 1}" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" aria-label="Pokémon ${i + 1}">
+      <small class="x-info"></small></div>`);
+  }
+  const inputs = [...gridEl.querySelectorAll("input")];
+  const infos = [...gridEl.querySelectorAll(".x-info")];
+
+  // Les Pokémon déjà saisis ne sont plus proposés dans la liste de suggestions (mise à jour seulement si la liste change).
+  let listSig = "";
+  function refreshList() {
+    const used = new Set();
+    inputs.forEach(inp => { const num = speciesOf(inp.value); if (num) used.add(num); });
+    const sig = [...used].sort((a, b) => a - b).join(",");
+    if (sig !== listSig) { listSig = sig; fillList(used); }
+  }
+
+  // Caractéristiques d'une espèce (les formes régionales sont ramenées à leur espèce).
+  function featuresOf(num) {
+    const name = baseName.get(num);
+    return { num, name, gen: genOf(num), letter: norm(name)[0].toUpperCase(),
+             len: name.replace(/[-\s.'’]/g, "").length, family: LINEAGE[num - 1], place: +PLACE[num - 1], ctypes: CTYPES[num - 1], ckinds: CKINDS[num - 1], hp300: HP300[num - 1] === "1" };
+  }
+  const speciesOf = text => { const r = byName.get(norm(text)); return r ? r[0] : null; };
+
+  // typing = true : on ne touche pas à la liste de suggestions pendant la frappe (la reconstruire alors qu'elle est ouverte
+  // fait planter certains navigateurs mobiles) ; elle est mise à jour à la validation du champ.
+  function refreshInfo(typing) {
+    if (!typing) refreshList();
+    const seen = new Map();
+    inputs.forEach((inp, i) => {
+      const num = speciesOf(inp.value);
+      if (num) seen.set(num, (seen.get(num) || 0) + 1);
+    });
+    inputs.forEach((inp, i) => {
+      const el = infos[i], v = inp.value.trim();
+      el.classList.remove("err");
+      if (!v) { el.textContent = ""; return; }
+      const num = speciesOf(v);
+      if (!num) { el.textContent = "Nom inconnu"; el.classList.add("err"); return; }
+      if (seen.get(num) > 1) { el.textContent = "Déjà dans la grille"; el.classList.add("err"); return; }
+      const f = featuresOf(num);
+      el.innerHTML = `Gén. ${f.gen} · ${f.letter} · ${f.len} lettres<br>${esc(famName(f.family))} · ${PLACE_LABEL[f.place].toLowerCase()}<br>Cartes : ${CTYPE_NAMES.filter((_, b) => f.ctypes & (1 << b)).join(", ")}${CKIND_NAMES.some((_, b) => f.ckinds & (1 << b)) || f.hp300 ? `<br>${[...CKIND_NAMES.filter((_, b) => f.ckinds & (1 << b)), ...(f.hp300 ? ["300 PV+"] : [])].join(", ")}` : ""}`;
+    });
+  }
+  // Modifier un Pokémon retire seulement le groupe confirmé qui le contient ; les autres groupes confirmés restent.
+  gridEl.addEventListener("input", e => {
+    const i = inputs.indexOf(e.target);
+    if (i >= 0) locked = locked.filter(l => !l.members.includes(i));
+    refreshInfo(true);
+    updateLockNote();
+  });
+  gridEl.addEventListener("change", e => {
+    // un nom reconnu est remplacé par le nom de l'espèce (ex. « Sabelette d'Alola » devient « Sabelette »)
+    const num = speciesOf(e.target.value);
+    if (num) e.target.value = baseName.get(num);
+    refreshInfo();
+  });
+
+  // ----- Résultat -----
+  let locked = [];        // groupes confirmés dans le jeu : { members (indices dans la grille de 16), labels, keys }
+  let registry = [];      // groupes proposés à l'écran, pour les boutons « Confirmer »
+  let lastRem = [];       // indices (dans la grille de 16) des Pokémon encore en jeu lors du dernier calcul
+  let gridNames = [];     // les 16 noms
+  let gridFeats = [];     // leurs caractéristiques
+  let picked = new Set(); // sélection manuelle (indices dans la grille de 16)
+  let solvedMode = false; // après « Résoudre », les champs deviennent des pastilles sélectionnables
+  const inputPanel = document.querySelector(".x-input-panel");
+
+  const chips = (idx, names) => idx.map(i => `<span class="x-chip">${esc(names[i])}</span>`).join("");
+  // Une seule règle : un bouton. Plusieurs règles possibles : on choisit laquelle est la bonne.
+  const lockBtn = g => {
+    const id = registry.push(g) - 1;
+    if (g.labels.length < 2) return `<button type="button" class="x-act" data-lock="${id}">Confirmer ce groupe</button>`;
+    return `<div class="x-gp x-choose"><span class="x-hint">Confirmer avec la règle :</span>` +
+      g.labels.map((l, k) => `<button type="button" class="x-act" data-lock="${id}" data-k="${k}">${esc(l)}</button>`).join("") + `</div>`;
+  };
+  const groupCard = (g, color, names) => `<div class="x-group" style="--gc-tint:${color}2a"><i class="x-bar" style="background-image:${solid(color)}"></i>
+    <div class="x-gt">${g.labels.map(esc).join(" · ")}</div>
+    <div class="x-gp">${chips(g.members, names)}</div>${lockBtn(g)}</div>`;
+  const unknownCard = (idx, names) => `<div class="x-group unknown"><i class="x-bar" style="background-image:${solid("#8d93a6")}"></i>
+    <div class="x-gt">Non identifié${idx.length > 4 ? " (2 groupes)" : ""}</div>
+    <div class="x-gp">${chips(idx, names)}</div>${idx.length === 4 ? lockBtn({ members: idx, labels: ["Règle non identifiée"] }) : ""}</div>`;
+  const lockedCard = (l, k) => `<div class="x-group locked"><i class="x-bar" style="background-image:${solid("#3ddc84")}"></i>
+    <div class="x-gt">✓ ${l.labels.map(esc).join(" · ")}</div>
+    <div class="x-gp">${chips(l.members, gridNames)}</div>
+    <button type="button" class="x-act" data-unlock="${k}">Retirer</button></div>`;
+
+  // Règles du jeu que l'application ne peut pas vérifier (données de cartes manquantes) : on les choisit à la main.
+  // rare = règle « plus rare » : au plus un groupe de ce genre par grille.
+  const UNVERIFIED = [
+    { key: "cardtype", label: "Un autre type de carte", rare: false },
+    { key: "cardkind", label: "Une autre sorte de carte", rare: true },
+    { key: "hp300", label: "300 PV ou plus", rare: true },
+    { key: "collection", label: "Dans ta collection", rare: true }
+  ];
+  // Règles « plus rares » (sorte de carte, 300 PV, collection) : une seule par grille.
+  const isRare = isRareKey;
+  const catLabel = k => { const u = UNVERIFIED.find(x => x.key === k); return u ? u.label : labelOf(k, famName); };
+
+  // Pastilles : on touche 4 Pokémon, puis la règle du groupe. Un Pokémon déjà dans un groupe confirmé est grisé.
+  function pillBlockHtml() {
+    const sel = [...picked], taken = new Set(locked.flatMap(l => l.members));
+    let h = `<div class="x-pillgrid">` + gridNames.map((nm, i) => !nm ? "" :
+      `<button type="button" class="x-pill${picked.has(i) ? " on" : ""}" data-pill="${i}"${taken.has(i) ? " disabled" : ""}>${esc(nm)}</button>`).join("") + `</div>`;
+    h += `<p class="x-sub">Confirmer un groupe vous-même : touchez 4 Pokémon${sel.length ? ` (${sel.length}/4)` : ""}.</p>`;
+    if (sel.length === 4) {
+      const used = new Set(locked.flatMap(l => l.keys || []));
+      let shared = null;
+      sel.forEach(i => { const ks = criteriaOf(gridFeats[i]); shared = shared ? shared.filter(k => ks.includes(k)) : ks; });
+      // Règles du jeu non encore confirmées ; une seule règle « plus rare » par grille.
+      const rareUsed = [...used].some(isRare);
+      shared = shared.filter(k => !used.has(k) && !(isRare(k) && rareUsed)); // une règle déjà utilisée par un groupe confirmé n'est plus proposée
+      const manual = UNVERIFIED.filter(u => !used.has(u.key) && !(u.rare && rareUsed) && !shared.includes(u.key));
+      h += `<p class="x-sub">Règles communes à ces 4 Pokémon (vérifiées) :</p><div class="x-gp">` +
+        (shared.length ? shared.map(k => `<button type="button" class="x-act" data-cat="${esc(k)}">${esc(labelOf(k, famName))}</button>`).join("")
+                       : `<span class="x-hint">Aucune règle vérifiable en commun.</span>`) + `</div>` +
+        `<p class="x-sub">Autres règles du jeu (non vérifiables ici, à choisir vous-même) :</p><div class="x-gp">` +
+        manual.map(u => `<button type="button" class="x-act x-act2" data-cat="${u.key}">${esc(u.label)}</button>`).join("") +
+        `<button type="button" class="x-act x-act2" data-cat="other">Autre règle</button></div>`;
+    }
+    return h + `<button type="button" class="x-act x-edit" data-edit>← Retour à la saisie</button>`;
+  }
+  // Même bloc à deux endroits : à gauche à la place des champs (desktop), en haut du résultat (mobile).
+  function renderPills() {
+    const html = solvedMode ? pillBlockHtml() : "";
+    $("xPillsLeft").innerHTML = html;
+    $("xPillsTop").innerHTML = html;
+    inputPanel.classList.toggle("solved", solvedMode);
+    // résultat devenu obsolète quand on est revenu à la saisie
+    document.querySelector(".x-result-panel").classList.toggle("stale", !solvedMode && !!$("xOut").querySelector(".x-group, .x-head, .x-err"));
+    updateLockNote();
+  }
+  function updateLockNote() {
+    $("xLockNote").textContent = !solvedMode && locked.length
+      ? `${locked.length} groupe${locked.length > 1 ? "s" : ""} confirmé${locked.length > 1 ? "s" : ""} conservé${locked.length > 1 ? "s" : ""}. Modifier un Pokémon d'un groupe confirmé retire ce groupe.`
+      : "";
+  }
+  // Retour à la saisie après « Résoudre » : on corrige un nom, puis on relance « Résoudre ».
+  function backToInput() {
+    solvedMode = false; picked = new Set(); renderPills(); setOpen(true);
+    const first = inputs.find(inp => !locked.some(l => l.members.includes(inputs.indexOf(inp)))) || inputs[0];
+    first.focus();
+  }
+
+  function showMessage(html, empty) {
+    $("xOut").innerHTML = html;
+    document.querySelector(".x-result-panel").classList.toggle("empty", !!empty);
+    renderPills();
+  }
+
+  function solve() {
+    const names = [], nums = [], errors = [];
+    inputs.forEach((inp, i) => {
+      const v = inp.value.trim(), num = speciesOf(v);
+      if (!v) { nums.push(null); names.push(""); return; } // champ vide : grille partielle
+      if (!num) errors.push(`Pokémon ${i + 1} : « ${esc(v)} » est inconnu`);
+      else if (nums.includes(num)) errors.push(`Pokémon ${i + 1} : « ${esc(baseName.get(num))} » est déjà dans la grille`);
+      nums.push(num); names.push(num ? baseName.get(num) : v);
+    });
+    const filled = nums.filter(Boolean).length;
+    if (!errors.length && filled < 4) errors.push("Saisissez au moins 4 Pokémon.");
+    if (errors.length) {
+      $("xSummary").textContent = "grille incomplète";
+      showMessage(`<p class="x-err">${errors.slice(0, 6).join("<br>")}${errors.length > 6 ? `<br>… et ${errors.length - 6} autre(s)` : ""}</p>`, true);
+      return;
+    }
+    gridNames = names; gridFeats = nums.map(n => n ? featuresOf(n) : null); registry = []; picked = new Set(); solvedMode = true;
+
+    // Seuls les Pokémon qui ne sont pas dans un groupe confirmé restent en jeu.
+    const taken = new Set(locked.flatMap(l => l.members));
+    const rem = [...Array(16).keys()].filter(i => nums[i] && !taken.has(i)); // seuls les champs remplis comptent
+    lastRem = rem;
+    const partial = filled < 16;
+    const n = rem.length, left = Math.floor(n / 4);
+    const remNames = rem.map(i => names[i]);
+    const feats = rem.map(i => gridFeats[i]);
+    let h = "";
+    if (locked.length) h += `<p class="x-sub">Groupes confirmés (${locked.length} sur 4)</p>` + locked.map(lockedCard).join("");
+    const done = () => { $("xSummary").textContent = `${locked.length} confirmé${locked.length > 1 ? "s" : ""}`; };
+
+    if (!n) {
+      h += `<p class="x-head">${partial ? "Tous les Pokémon saisis sont dans des groupes confirmés." : "Grille résolue : les 4 groupes sont confirmés."}</p>`;
+      done(); showMessage(h, false); setOpen(false); return;
+    }
+    const used = new Set(locked.flatMap(l => l.keys || []));
+    const res = solveGrid(feats, famName, undefined, used);
+    if (!res.K) {
+      if (n === 4) h += `<p class="x-sub">${partial ? "Aucune règle connue en commun pour ces 4 Pokémon :" : "Dernier groupe, par élimination :"}</p>` + unknownCard([0, 1, 2, 3], remNames);
+      else h += `<p class="x-err">Aucun groupe de 4 ne partage une règle connue parmi les ${n} Pokémon restants. Vérifiez les noms${locked.length ? " ou retirez un groupe confirmé" : ""}.</p>`;
+      done(); showMessage(h, false); setOpen(false); return;
+    }
+    const sols = res.solutions.slice().sort((a, b) => solCost(a) - solCost(b)), total = sols.length; // la plus vraisemblable d'abord
+    const count = new Map();
+    sols.forEach(s => s.forEach(g => { const c = count.get(g.mask); if (c) c.n++; else count.set(g.mask, { g, n: 1 }); }));
+    const sure = [...count.values()].filter(c => c.n === total).map(c => c.g).sort((a, b) => a.members[0] - b.members[0]);
+    const sureMasks = new Set(sure.map(g => g.mask));
+    const restOf = gs => { const m = gs.reduce((s, g) => s | g.mask, 0), r = []; for (let i = 0; i < n; i++) if (!(m & (1 << i))) r.push(i); return r; };
+
+    h += `<p class="x-head">${res.K} groupe${res.K > 1 ? "s" : ""} identifié${res.K > 1 ? "s" : ""} sur ${left} · ${total}${res.capped ? "+" : ""} possibilité${total > 1 ? "s" : ""}</p>`;
+    if (sure.length) {
+      h += `<p class="x-sub">${total > 1 ? "Groupes sûrs (présents dans toutes les possibilités)" : "Groupes trouvés"}</p>`;
+      h += sure.map((g, i) => groupCard(g, COLORS[(locked.length + i) % 4], remNames)).join("");
+    }
+    if (total === 1) {
+      const rest = restOf(sols[0]);
+      if (rest.length) h += unknownCard(rest, remNames);
+    } else {
+      const rest = restOf(sure);
+      h += `<p class="x-sub">Il reste ${rest.length} Pokémon à répartir : ${rest.map(i => esc(remNames[i])).join(", ")}. Possibilités, de la plus vraisemblable à la moins vraisemblable :</p>`;
+      sols.slice(0, 6).forEach((s, k) => {
+        const own = s.filter(g => !sureMasks.has(g.mask)), un = restOf(s);
+        h += `<div class="x-opt"><p class="x-sub">Possibilité ${k + 1}</p>` +
+          own.map((g, i) => groupCard(g, COLORS[(locked.length + sure.length + i) % 4], remNames)).join("") +
+          (un.length ? unknownCard(un, remNames) : "") + `</div>`;
+      });
+      if (total > 6) h += `<p class="x-sub">… et ${total - 6}${res.capped ? " ou plus" : ""} autre(s) possibilité(s).</p>`;
+    }
+    if (partial && n % 4) h += `<p class="x-sub">Vous avez saisi ${n} Pokémon : ce n’est pas un multiple de 4, certains resteront hors groupe.</p>`;
+    if (res.K < left) h += `<p class="x-sub">Les groupes « collection » et « autre règle » ne sont pas gérés : ils restent non identifiés.</p>`;
+    $("xSummary").textContent = `${locked.length ? locked.length + " confirmé" + (locked.length > 1 ? "s · " : " · ") : ""}${res.K} groupe${res.K > 1 ? "s" : ""} sur ${left}`;
+    showMessage(h, false);
+    setOpen(false); // mobile : referme la saisie et affiche le résultat
+  }
+
+  function lockGroup(members, labels, keys = []) { // members : indices dans la grille de 16
+    locked.push({ members, labels, keys });
+    solve(); // recalcul avec les Pokémon restants
+  }
+  $("viewConnexions").addEventListener("click", e => {
+    const lock = e.target.closest("[data-lock]"), un = e.target.closest("[data-unlock]"),
+          pill = e.target.closest("[data-pill]"), cat = e.target.closest("[data-cat]"), edit = e.target.closest("[data-edit]");
+    if (!solvedMode && (lock || un || cat)) return; // résultat obsolète : il faut relancer « Résoudre »
+    if (lock) {
+      const g = registry[+lock.dataset.lock], k = lock.dataset.k, mem = g.members.map(i => lastRem[i]);
+      if (k !== undefined) lockGroup(mem, [g.labels[+k]], [g.keys[+k]]); // règle choisie parmi plusieurs
+      else lockGroup(mem, g.labels, g.keys || []);
+    } else if (un) { locked.splice(+un.dataset.unlock, 1); solve(); }
+    else if (pill && !pill.disabled) {
+      const i = +pill.dataset.pill;
+      if (picked.has(i)) picked.delete(i); else if (picked.size < 4) picked.add(i);
+      renderPills();
+    } else if (cat) {
+      const k = cat.dataset.cat;
+      lockGroup([...picked], [k === "other" ? "Autre règle" : catLabel(k)], k === "other" ? [] : [k]);
+    } else if (edit) backToInput();
+  });
+
+  function setOpen(open) {
+    document.body.classList.toggle("x-open", open);
+    $("xToggle").setAttribute("aria-expanded", open ? "true" : "false");
+  }
+  function clearResults() {
+    $("xOut").innerHTML = '<p class="small">Pas encore résolu.</p>';
+    document.querySelector(".x-result-panel").classList.add("empty");
+    $("xSummary").textContent = "";
+  }
+  function resetAll() {
+    inputs.forEach(inp => { inp.value = ""; });
+    locked = []; solvedMode = false; picked = new Set(); refreshInfo(); clearResults(); renderPills(); setOpen(true);
+  }
+  $("xToggle").onclick = () => setOpen(!document.body.classList.contains("x-open"));
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && solvedMode && document.body.dataset.view === "connexions" && !(e.target.closest && e.target.closest("input"))) backToInput();
+  });
+  $("xGo").onclick = solve;
+  $("xReset").onclick = resetAll;
+  $("xDemo").onclick = () => { DEMO.forEach((n, i) => { inputs[i].value = n; }); locked = []; refreshInfo(); solve(); };
+
+  clearResults();
+  setOpen(true);
+  return { reset: resetAll, solveGrid, featuresOf, speciesOf, demo: DEMO };
+})();
+
+// ---------- Suggestions de noms (remplace la liste native <datalist>, qui fait planter Brave sur iPhone quand un nom complet
+// est le début d'un autre : Pohm / Pohmotte, Draco / Dracolosse…) ----------
+// Les listes #vNames et #xNames restent dans la page comme simples réservoirs de noms ; le menu est dessiné par l'application.
+(function nameSuggest() {
+  const nz = s => (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[’‘`]/g, "'").toLowerCase().trim();
+  const esc = s => String(s).replace(/[&<>"]/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[m]));
+  const box = document.createElement("div"); box.className = "sug"; box.hidden = true; document.body.appendChild(box);
+  let cur = null, group = null, listId = null, items = [], hi = -1;
+  const names = id => [...document.querySelectorAll("#" + id + " option")].map(o => o.value);
+  function hide() { box.hidden = true; cur = null; items = []; hi = -1; }
+  function place() {
+    if (!cur) return;
+    const r = cur.getBoundingClientRect(), vv = window.visualViewport;
+    const vh = vv ? vv.height : window.innerHeight, top = vv ? vv.offsetTop : 0;
+    const below = top + vh - r.bottom, above = r.top - top;
+    box.style.left = (r.left + window.scrollX) + "px"; box.style.width = r.width + "px";
+    box.style.maxHeight = Math.max(90, Math.min(220, (below >= 130 || below >= above ? below : above) - 10)) + "px";
+    const h = box.offsetHeight;
+    box.style.top = ((below >= 130 || below >= above ? r.bottom + 2 : r.top - h - 2) + window.scrollY) + "px";
+  }
+  function render() {
+    box.innerHTML = items.map((n, i) => `<div class="sug-i${i === hi ? " on" : ""}" data-i="${i}">${esc(n)}</div>`).join("");
+    const on = box.querySelector(".on"); if (on) on.scrollIntoView({ block: "nearest" });
+  }
+  function update() {
+    const key = nz(cur.value);
+    items = key ? names(listId).filter(n => nz(n).includes(key)) : [];
+    const rank = n => { const k = nz(n); return k === key ? 0 : k.startsWith(key) ? 1 : 2; };
+    items.sort((x, y) => rank(x) - rank(y)); // exact, puis début de nom, puis le reste (ordre du Pokédex conservé)
+    if (items.length === 1 && nz(items[0]) === key) items = []; // nom déjà complet et seul : rien à proposer
+    hi = -1;
+    if (!items.length) { hide(); return; }
+    box.hidden = false; render(); place();
+  }
+  function choose(i, advance) {
+    const inp = cur, g = group, name = items[i];
+    hide();
+    inp.value = name;
+    inp.dispatchEvent(new Event("input", { bubbles: true }));
+    inp.dispatchEvent(new Event("change", { bubbles: true }));
+    if (advance) { const next = g[g.indexOf(inp) + 1]; if (next) next.focus(); }
+  }
+  box.addEventListener("mousedown", e => e.preventDefault()); // garde le focus dans le champ
+  box.addEventListener("click", e => { const it = e.target.closest(".sug-i"); if (it && cur) choose(+it.dataset.i, true); });
+  document.addEventListener("scroll", place, true);
+  window.addEventListener("resize", place);
+  if (window.visualViewport) window.visualViewport.addEventListener("resize", place);
+  function attach(inputs, id) {
+    inputs.forEach(inp => {
+      inp.addEventListener("input", () => { cur = inp; group = inputs; listId = id; update(); });
+      inp.addEventListener("blur", () => { if (cur === inp) hide(); });
+      inp.addEventListener("keydown", e => {
+        if (cur !== inp || box.hidden) return;
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+          e.preventDefault(); e.stopImmediatePropagation();
+          hi = e.key === "ArrowDown" ? Math.min(items.length - 1, hi + 1) : Math.max(0, hi - 1); render();
+        } else if (e.key === "Enter" && hi >= 0 && !e.isComposing) {
+          e.preventDefault(); e.stopImmediatePropagation(); choose(hi, true);
+        } else if (e.key === "Escape") { e.stopImmediatePropagation(); hide(); }
+      });
+    });
+  }
+  attach([...document.querySelectorAll('#vRows [data-f="name"]')], "vNames");
+  attach([...document.querySelectorAll("#xGrid input")], "xNames");
+})();
+
+// ---------- Touches Entrée et Tab : complètent le nom avec le premier choix de la liste ----------
+// S'applique aux champs « Nom » de Voisins et aux 16 champs de Connexions (même liste de suggestions que le navigateur).
+(function enterToComplete() {
+  const normName = s => (s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’‘`]/g, "'").toLowerCase().trim();
+  function attach(inputs, listId) {
+    const read = () => [...document.querySelectorAll("#" + listId + " option")].map(o => ({ name: o.value, n: normName(o.value) }));
+    const all = read(); // liste complète au chargement : sert à reconnaître un nom déjà complet
+    const find = text => {
+      const key = normName(text);
+      if (!key) return null;
+      const exact = all.find(i => i.n === key);
+      if (exact) return exact; // nom déjà complet (ou choisi avec les flèches du menu)
+      // Même filtre que le menu de suggestions (le nom contient la saisie), limité aux noms encore proposés : on prend le premier.
+      const c = read().filter(i => i.n.includes(key));
+      return c.find(i => i.n.startsWith(key)) || c[0] || null; // même ordre que le menu : début de nom d’abord
+    };
+    inputs.forEach((inp, k) => inp.addEventListener("keydown", e => {
+      const isTab = e.key === "Tab" && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey;
+      if ((e.key !== "Enter" && !isTab) || e.isComposing) return;
+      const item = find(inp.value);
+      if (!item) return; // aucun choix : la touche garde son rôle habituel
+      inp.value = item.name;
+      inp.dispatchEvent(new Event("input", { bubbles: true }));
+      inp.dispatchEvent(new Event("change", { bubbles: true })); // déclenche le remplissage automatique
+      if (isTab) return; // Tab passe tout seul au champ suivant
+      e.preventDefault();
+      const next = inputs[k + 1];
+      if (next) next.focus(); else inp.blur();
+    }));
+  }
+  attach([...document.querySelectorAll('#vRows [data-f="name"]')], "vNames");
+  attach([...document.querySelectorAll("#xGrid input")], "xNames");
 })();
 
 // ---------- Vue Coffre : aide au Mastermind (4 pastilles, 6 types, doublons permis, 8 essais) ----------
@@ -1227,7 +1863,7 @@ const Coffre = (() => {
 
   const peg = (i, size, extra) => i == null
     ? `<span class="peg empty" style="--peg:${size}px"></span>`
-    : `<span class="peg ${extra || ""}" title="${PEGS[i].name}" style="--peg:${size}px;background:${PEGS[i].color}"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="${PEGS[i].d}" fill="#fff"></path></svg></span>`;
+    : `<span class="peg ${extra || ""}" title="${PEGS[i].name}" style="--peg:${size}px;background-image:${solid(PEGS[i].color)},linear-gradient(#111,#111)"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="${PEGS[i].d}" fill="#fff"></path></svg></span>`;
 
   let history = [], cands = ALL.slice(), cur = null, sugg = null, active = 0, over = null, msg = "";
 
@@ -1359,13 +1995,16 @@ const Coffre = (() => {
 })();
 
 // Le bouton « Réinitialiser » de l'en-tête agit sur la vue affichée (Cartodle ou Voisins).
-$("resetBtn").onclick = () => { if (document.body.dataset.view === "voisins") Voisins.reset(); else reset(); };
+$("resetBtn").onclick = () => {
+  const v = document.body.dataset.view;
+  if (v === "voisins") Voisins.reset(); else if (v === "connexions") Connexions.reset(); else reset();
+};
 
 // Safari iOS ignore user-scalable=no : on bloque aussi les gestes de zoom (pincement) à la main.
 ["gesturestart", "gesturechange", "gestureend"].forEach(ev =>
   document.addEventListener(ev, e => e.preventDefault(), { passive: false }));
 
-// ---------- Sélecteur de vues (Cartodle / Voisins / Coffre) ----------
+// ---------- Sélecteur de vues (Cartodle / Voisins / Coffre / Connexions) ----------
 function setView(view) {
   document.body.dataset.view = view;
   document.querySelectorAll(".tab").forEach(b => {
@@ -1377,7 +2016,7 @@ function setView(view) {
   if (view === "cartodle") render(); // recentre le listing une fois visible
 }
 document.querySelectorAll(".tab").forEach(b => { b.onclick = () => setView(b.dataset.view); });
-setView(["voisins", "coffre"].includes(location.hash.slice(1)) ? location.hash.slice(1) : "cartodle");
+setView(["voisins", "coffre", "connexions"].includes(location.hash.slice(1)) ? location.hash.slice(1) : "cartodle");
 
 renderTypeFilter();
 renderStageFilter();
