@@ -1,0 +1,655 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Cartodle</title>
+<style>
+:root {
+  color-scheme:dark;
+  --bg:#12141c; --panel:#1b1e2b; --text:#e6e8f0; --muted:#8d93a6;
+  --border:#2e3345; --accent:#7b8cff; --soft:#262c52;
+  --btn:#252a3b; --head:#222638; --hover:#252b47; --rowline:#252a3a;
+}
+* { box-sizing:border-box; }
+html,body { height:100%; }
+body {
+  margin:0; background:var(--bg); color:var(--text);
+  font:14px/1.35 system-ui,-apple-system,Segoe UI,sans-serif;
+  display:flex; flex-direction:column; overflow:hidden;
+}
+header {
+  flex:none; padding:6px 16px; background:#0c0e15; color:white;
+  font-size:18px; font-weight:800; letter-spacing:.3px;
+  border-bottom:1px solid var(--border);
+}
+main {
+  flex:1; min-height:0;
+  display:grid; grid-template-columns:250px minmax(0,720px);
+  grid-template-rows:minmax(0,1fr);
+  gap:10px; padding:10px; align-items:stretch;
+}
+.panel {
+  background:var(--panel); border:1px solid var(--border);
+  border-radius:10px; padding:10px; min-width:0; min-height:0;
+}
+aside.panel { overflow-y:auto; }
+section.panel { display:flex; flex-direction:column; }
+h2 { font-size:13px; margin:0; color:var(--muted); letter-spacing:.5px; }
+h3 { font-size:11px; margin:7px 0 3px; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; }
+.section { margin-bottom:0; }
+.small { font-size:12px; color:var(--muted); }
+.ref-number { font-size:30px; font-weight:800; text-align:center; line-height:1.1; padding:0; }
+button {
+  cursor:pointer; border:1px solid var(--border); background:var(--btn); color:var(--text);
+  border-radius:6px; padding:6px 8px; font:inherit; font-weight:600;
+}
+button:hover { filter:brightness(1.2); }
+button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+button.primary { background:var(--accent); color:#0c0e15; border-color:var(--accent); }
+button.selected { background:var(--soft); border-color:var(--accent); color:var(--accent); }
+button:disabled { opacity:.45; cursor:not-allowed; }
+.full { width:100%; }
+.direction { display:flex; align-items:center; justify-content:center; gap:4px; margin:0 0 2px; }
+.direction .ref-number { flex:none; min-width:68px; }
+.arrow-btn { width:68px; height:40px; padding:0; display:flex; align-items:center; justify-content:center; }
+.filters-toggle { display:none; }
+html { -webkit-text-size-adjust:100%; }
+button, select, input, .pokemon-row, .type-chip { touch-action:manipulation; }
+button, .pokemon-row { user-select:none; -webkit-user-select:none; -webkit-tap-highlight-color:transparent; }
+.type-actions { display:flex; gap:5px; margin-bottom:5px; }
+.type-actions button { flex:1; font-size:11px; padding:3px 2px; }
+.type-grid { display:grid; grid-template-columns:1fr 1fr; gap:4px; }
+.type-chip {
+  border:2px solid transparent; border-radius:6px; min-height:23px;
+  padding:2px 4px; font-size:12px; font-weight:750; line-height:1.1;
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  opacity:.38; filter:grayscale(.75); background:var(--tc); color:var(--tf);
+}
+.type-chip.active { opacity:1; filter:none; border-color:rgba(255,255,255,.75); }
+.stage-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; }
+.stage-chip { text-align:center; padding:4px 2px; font-size:11px; }
+.stage-chip.active { background:var(--soft); border-color:var(--accent); color:var(--accent); }
+select {
+  width:100%; min-width:0; border:1px solid var(--border); background:var(--btn);
+  color:var(--text); border-radius:5px; padding:3px 4px; font:inherit; font-size:12px;
+}
+.filter-line.rarity-line { grid-template-columns:30px minmax(0,1fr); row-gap:3px; }
+.rarity-line .line-title { grid-column:1 / -1; margin-bottom:-2px; }
+.rarity-line .mm { text-transform:none; font-weight:600; }
+.rarity-line select { font-size:13px; padding:2px 6px; }
+select { text-overflow:ellipsis; }
+input[type="number"] {
+  width:100%; min-width:0; border:1px solid var(--border); background:var(--btn);
+  color:var(--text); border-radius:5px; padding:3px 6px; font:inherit; font-size:12px;
+}
+.filter-line { display:grid; grid-template-columns:62px 1fr 1fr; gap:5px; align-items:center; margin-top:6px; }
+.filter-line span { font-size:11px; color:var(--muted); font-weight:700; text-transform:uppercase; }
+.checkline { flex:none; display:flex; align-items:center; gap:7px; font-size:12px; margin:0 0 8px; }
+.checkline { cursor:pointer; position:relative; }
+.checkline input { position:absolute; opacity:0; width:1px; height:1px; margin:0; }
+.switch {
+  flex:none; width:38px; height:22px; border-radius:11px; position:relative;
+  background:var(--btn); border:1px solid var(--border); transition:background .2s,border-color .2s;
+}
+.switch::after {
+  content:""; position:absolute; top:2px; left:2px; width:16px; height:16px;
+  border-radius:50%; background:var(--muted); transition:transform .2s,background .2s;
+}
+.checkline input:checked + .switch { background:var(--accent); border-color:var(--accent); }
+.checkline input:checked + .switch::after { transform:translateX(16px); background:#fff; }
+.checkline input:focus-visible + .switch { outline:2px solid var(--accent); outline-offset:2px; }
+.results-head {
+  flex:none; display:flex; align-items:center; justify-content:space-between;
+  gap:8px; flex-wrap:wrap; margin-bottom:6px;
+}
+#count { font-size:12px; color:var(--muted); }
+#results {
+  flex:1; min-height:200px; overflow:auto;
+  border:1px solid var(--border); border-radius:7px;
+  background:#161926; position:relative; overflow-anchor:none;
+}
+#validateBtn { margin-top:2px; padding:8px; font-size:14px; }
+header { display:flex; align-items:center; justify-content:space-between; }
+header button { padding:3px 10px; font-size:12px; }
+.dex-header,.pokemon-row {
+  display:grid;
+  grid-template-columns:36px minmax(130px,1fr) 145px 75px;
+  gap:7px; align-items:center;
+}
+.dex-header {
+  position:sticky; top:0; z-index:2; padding:6px 8px;
+  background:var(--head); color:var(--muted); font-size:11px;
+  font-weight:800; border-bottom:1px solid var(--border);
+}
+#rows { padding:0 5px; }
+.pokemon-row {
+  min-height:31px; padding:3px 3px; border-bottom:1px solid var(--rowline);
+  cursor:pointer; border-radius:3px;
+}
+.pokemon-row:hover { background:var(--hover); }
+.pokemon-row.reference { outline:2px solid var(--accent); outline-offset:-2px; }
+.pokemon-row.outside { opacity:.3; filter:grayscale(1); }
+.dexnum { color:var(--muted); font-size:11px; font-variant-numeric:tabular-nums; }
+.pokemon-name {
+  min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  font-size:12px; font-weight:650;
+}
+.pokemon-types { display:flex; align-items:center; gap:3px; min-width:0; }
+.type-badge {
+  display:inline-flex; justify-content:center; align-items:center;
+  padding:3px 5px; min-height:20px; border-radius:5px;
+  white-space:nowrap; font-size:10px; font-weight:800;
+}
+.pokemon-stage { font-size:10px; color:var(--muted); white-space:nowrap; text-align:left; }
+@media(max-width:760px) {
+  body { height:100vh; height:100dvh; overflow:hidden; }
+  main { display:flex; flex-direction:column; gap:7px; }
+  .filters-toggle {
+    flex:none; display:flex; align-items:center; gap:10px;
+    width:100%; padding:10px 12px; font-size:15px;
+  }
+  .filters-toggle .summary { flex:1; text-align:right; font-size:12px; font-weight:500; color:var(--muted); }
+  .filters-toggle svg { transition:transform .2s; }
+  body.filters-open .filters-toggle svg { transform:rotate(180deg); }
+  aside.panel { display:none; }
+  body.filters-open aside.panel { display:block; flex:1; }
+  section.results-panel { flex:1; }
+  body.filters-open section.results-panel { display:none; }
+  #results { min-height:0; }
+  .type-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .arrow-btn { width:96px; height:42px; }
+  .filter-line { margin-top:4px; }
+  select, input[type="number"], .rarity-line select { font-size:16px; padding:4px 8px; }
+  .type-chip { min-height:30px; font-size:14px; }
+  .stage-chip { font-size:13px; padding:6px 2px; }
+  .type-actions button { font-size:13px; padding:5px 2px; }
+  #validateBtn { padding:10px; font-size:16px; margin-top:6px; }
+  .checkline { font-size:14px; }
+}
+@media(max-width:470px) {
+  header { padding:8px 12px; }
+  main { padding:7px; gap:7px; }
+  .panel { padding:9px; }
+  .dex-header,.pokemon-row {
+    grid-template-columns:31px minmax(90px,1fr) 105px 62px; gap:4px;
+  }
+  .pokemon-name { font-size:11px; }
+  .type-badge { font-size:9px; padding:2px 3px; }
+  .pokemon-stage { font-size:9px; }
+}
+</style>
+</head>
+<body>
+<header><span>Cartodle</span><button id="resetBtn">Réinitialiser</button></header>
+<main>
+  <button id="filtersToggle" class="filters-toggle" aria-expanded="true" aria-controls="filtersPanel">
+    <span>Filtres</span>
+    <span id="filtersSummary" class="summary"></span>
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+  </button>
+  <aside class="panel" id="filtersPanel">
+    <section class="section">
+      <div class="direction">
+        <button id="lowerBtn" class="arrow-btn selected" title="Plus petit" aria-label="Plus petit">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <div id="refNumber" class="ref-number">511</div>
+        <button id="higherBtn" class="arrow-btn" title="Plus grand" aria-label="Plus grand">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+      <div id="interval" class="small" style="text-align:center">N° 1 – 1025</div>
+    </section>
+
+    <section class="section">
+      <h3>Types JCC</h3>
+      <div class="type-actions">
+        <button id="noneTypes">Tout décocher</button>
+        <button id="allTypes">Tout cocher</button>
+      </div>
+      <div id="typeFilters" class="type-grid"></div>
+    </section>
+
+    <section class="section">
+      <h3>Stade évolutif</h3>
+      <div id="stageFilters" class="stage-grid"></div>
+    </section>
+
+    <section class="section">
+      <div class="filter-line">
+        <span>Année</span>
+        <select id="yearMin" aria-label="Année minimale"></select>
+        <select id="yearMax" aria-label="Année maximale"></select>
+      </div>
+      <div class="filter-line">
+        <span>PV</span>
+        <select id="hpMin" aria-label="PV minimum"></select>
+        <select id="hpMax" aria-label="PV maximum"></select>
+      </div>
+      <div class="filter-line rarity-line">
+        <span class="line-title">Rareté</span>
+        <span class="mm">Min</span><select id="rarityMin" aria-label="Rareté minimale"></select>
+        <span class="mm">Max</span><select id="rarityMax" aria-label="Rareté maximale"></select>
+      </div>
+    </section>
+
+    <button id="validateBtn" class="primary full">Valider le tour</button>
+  </aside>
+
+  <section class="panel results-panel">
+    <label class="checkline">
+      <input type="checkbox" id="showOthers" role="switch">
+      <span class="switch" aria-hidden="true"></span>
+      <span>Afficher les autres</span>
+    </label>
+    <div class="results-head">
+      <h2>Pokémon</h2>
+      <span id="count">Chargement…</span>
+    </div>
+    <div id="results">
+      <div class="dex-header">
+        <span>N°</span><span>Nom</span><span>Type(s)</span><span>Stade</span>
+      </div>
+      <div id="rows"></div>
+    </div>
+  </section>
+</main>
+
+<script>
+"use strict";
+
+
+const TCG = [
+  "Plante","Feu","Eau","Électrique","Psy","Combat",
+  "Incolore","Obscurité","Métal","Dragon","Fée"
+];
+const STAGES = ["Base","Niveau 1","Niveau 2"];
+
+// Couleurs des énergies du JCC Pokémon (filtres).
+const TCG_COLORS = {
+  "Plante":"#5FB946",
+  "Feu":"#E8432B",
+  "Eau":"#2D9CDB",
+  "Électrique":"#F7C913",
+  "Psy":"#A8479F",
+  "Combat":"#B5651D",
+  "Incolore":"#D4D0C8",
+  "Obscurité":"#2F3A4A",
+  "Métal":"#9AA5AE",
+  "Dragon":"#C8A12A",
+  "Fée":"#F29DC4"
+};
+
+// Couleurs officielles des types des jeux (badges du listing).
+const GAME_COLORS = {
+  normal:"#A8A77A", fire:"#EE8130", water:"#6390F0", electric:"#F7D02C",
+  grass:"#7AC74C", ice:"#96D9D6", fighting:"#C22E28", poison:"#A33EA1",
+  ground:"#E2BF65", flying:"#A98FF3", psychic:"#F95587", bug:"#A6B91A",
+  rock:"#B6A136", ghost:"#735797", dragon:"#6F35FC", dark:"#705746",
+  steel:"#B7B7CE", fairy:"#D685AD", stellar:"#40B5A5"
+};
+
+function textOn(hex) {
+  const n=parseInt(hex.slice(1),16);
+  const lum=(0.299*(n>>16)+0.587*((n>>8)&255)+0.114*(n&255))/255;
+  return lum>0.6 ? "#1a1a1a" : "#ffffff";
+}
+
+const GAME_TO_TCG = {
+  grass:["Plante"],
+  fire:["Feu"],
+  water:["Eau"],
+  electric:["Électrique"],
+  psychic:["Psy"],
+  ghost:["Psy"],
+  poison:["Plante","Psy","Obscurité"],
+  fairy:["Psy","Fée"],
+  fighting:["Combat"],
+  rock:["Combat"],
+  ground:["Combat"],
+  normal:["Incolore"],
+  flying:["Incolore"],
+  dragon:["Incolore","Dragon"],
+  dark:["Obscurité"],
+  steel:["Métal"],
+  ice:["Eau"],
+  bug:["Plante"],
+  stellar:[]
+};
+
+const TYPE_FR = {
+  grass:"Plante",fire:"Feu",water:"Eau",electric:"Électrique",
+  psychic:"Psy",ghost:"Spectre",poison:"Poison",fairy:"Fée",
+  fighting:"Combat",rock:"Roche",ground:"Sol",normal:"Normal",
+  flying:"Vol",dragon:"Dragon",dark:"Ténèbres",steel:"Acier",
+  ice:"Glace",bug:"Insecte",stellar:"Stellaire"
+};
+
+const MAP_TCG_TO_GAME = {
+  "Plante":["grass","bug","poison"],
+  "Feu":["fire"],
+  "Eau":["water","ice"],
+  "Électrique":["electric"],
+  "Psy":["psychic","ghost","poison","fairy"],
+  "Combat":["fighting","rock","ground"],
+  "Incolore":["normal","flying","dragon"],
+  "Obscurité":["dark","poison"],
+  "Métal":["steel"],
+  "Dragon":["dragon"],
+  "Fée":["fairy"]
+};
+
+const state = {
+  ref:511, lo:1, hi:1025, direction:"lower",
+  selectedTypes:new Set(TCG), selectedStages:new Set(STAGES),
+  showOthers:false, pokemon:[], loaded:false
+};
+
+const $ = id => document.getElementById(id);
+
+const YEAR_FIRST = 1999;
+const YEAR_LAST = new Date().getFullYear();
+["yearMin","yearMax"].forEach(id=>{
+  const sel=$(id);
+  for(let y=YEAR_FIRST;y<=YEAR_LAST;y++) sel.add(new Option(y,y));
+});
+$("yearMin").value=YEAR_FIRST;
+$("yearMax").value=YEAR_LAST;
+// PV (filtre informatif) : de 30 à 380 par pas de 10.
+const HP_FIRST = 30, HP_LAST = 380;
+["hpMin","hpMax"].forEach(id=>{
+  const sel=$(id);
+  for(let v=HP_FIRST;v<=HP_LAST;v+=10) sel.add(new Option(v,v));
+});
+function resetHp() {
+  $("hpMin").value=HP_FIRST; $("hpMax").value=HP_LAST;
+}
+resetHp();
+$("hpMin").onchange=()=>{
+  if(Number($("hpMax").value)<Number($("hpMin").value))
+    $("hpMax").value=$("hpMin").value;
+};
+$("hpMax").onchange=()=>{
+  if(Number($("hpMin").value)>Number($("hpMax").value))
+    $("hpMin").value=$("hpMax").value;
+};
+
+// Raretés simplifiées (filtre informatif).
+const RARITIES = [
+  {label:"● Commune",               bg:"#d9d9de"},
+  {label:"◆ Peu commune",           bg:"#4ade80"},
+  {label:"★ Rare",                  bg:"#38bdf8"},
+  {label:"★ Rare Holo",             bg:"#c084fc"},
+  {label:"★★ Double rare",          bg:"#c084fc"},
+  {label:"★★ Double rare brillante",bg:"#fcd34d"},
+  {label:"★★★ Ultra rares",         bg:"linear-gradient(90deg,#f9a8d4,#a5b4fc,#99f6e4,#fde68a)"}
+];
+function paintRarity(sel) {
+  const r=RARITIES[Number(sel.value)-1];
+  sel.style.background=r.bg; sel.style.color="#14161f";
+  sel.style.fontWeight="700"; sel.title=r.label;
+}
+["rarityMin","rarityMax"].forEach(id=>{
+  const sel=$(id);
+  RARITIES.forEach((r,i)=>{
+    const o=new Option(r.label,i+1);
+    o.style.background=r.bg.startsWith("#")?r.bg:"#c4b5fd"; o.style.color="#14161f";
+    sel.add(o);
+  });
+});
+function resetRarity() {
+  $("rarityMin").value=1; $("rarityMax").value=RARITIES.length;
+  paintRarity($("rarityMin")); paintRarity($("rarityMax"));
+}
+resetRarity();
+// Garde-fou rareté : max >= min.
+$("rarityMin").onchange=()=>{
+  if(Number($("rarityMax").value)<Number($("rarityMin").value))
+    $("rarityMax").value=$("rarityMin").value;
+  paintRarity($("rarityMin")); paintRarity($("rarityMax"));
+};
+$("rarityMax").onchange=()=>{
+  if(Number($("rarityMin").value)>Number($("rarityMax").value))
+    $("rarityMin").value=$("rarityMax").value;
+  paintRarity($("rarityMin")); paintRarity($("rarityMax"));
+};
+// Garde-fou : l'année max reste toujours >= à l'année min.
+$("yearMin").onchange=()=>{
+  if(Number($("yearMax").value)<Number($("yearMin").value))
+    $("yearMax").value=$("yearMin").value;
+};
+$("yearMax").onchange=()=>{
+  if(Number($("yearMin").value)>Number($("yearMax").value))
+    $("yearMin").value=$("yearMax").value;
+};
+function getTcgTypes(gameTypes, num) {
+  // Arceus reste toujours admissible au filtre de type.
+  if(num===493) return [];
+  const out=new Set();
+  for(const t of gameTypes) {
+    (GAME_TO_TCG[t]||[]).forEach(x=>out.add(x));
+  }
+  return [...out];
+}
+
+function typesMatch(p) {
+  if(p.num===493) return true;
+  if(state.selectedTypes.size===0) return false;
+  const tcg=getTcgTypes(p.gameTypes,p.num);
+  return tcg.some(t=>state.selectedTypes.has(t));
+}
+
+function stageMatch(p) {
+  return state.selectedStages.has(p.stage);
+}
+
+function matches(p) {
+  return p.num>=state.lo && p.num<=state.hi &&
+    typesMatch(p) && stageMatch(p);
+}
+
+function renderTypeFilter() {
+  $("typeFilters").innerHTML="";
+  TCG.forEach(t=>{
+    const b=document.createElement("button");
+    b.className="type-chip"+(state.selectedTypes.has(t)?" active":"");
+    const bg=TCG_COLORS[t], fg=textOn(bg);
+    b.style.setProperty("--tc",bg);b.style.setProperty("--tf",fg);
+    b.textContent=t;
+    b.setAttribute("aria-pressed",state.selectedTypes.has(t)?"true":"false");
+    b.onclick=()=>{
+      if(state.selectedTypes.has(t)) state.selectedTypes.delete(t);
+      else state.selectedTypes.add(t);
+      renderTypeFilter();render();
+    };
+    $("typeFilters").appendChild(b);
+  });
+}
+
+function renderStageFilter() {
+  $("stageFilters").innerHTML="";
+  STAGES.forEach(s=>{
+    const b=document.createElement("button");
+    b.className="stage-chip"+(state.selectedStages.has(s)?" active":"");
+    b.textContent=s;
+    b.setAttribute("aria-pressed",state.selectedStages.has(s)?"true":"false");
+    b.onclick=()=>{
+      if(state.selectedStages.has(s)) state.selectedStages.delete(s);
+      else state.selectedStages.add(s);
+      renderStageFilter();render();
+    };
+    $("stageFilters").appendChild(b);
+  });
+}
+
+function badgeFor(gameType) {
+  const fr=TYPE_FR[gameType]||gameType;
+  const bg=GAME_COLORS[gameType]||"#888888", fg=textOn(bg);
+  const span=document.createElement("span");
+  span.className="type-badge";
+  span.style.background=bg;span.style.color=fg;
+  span.textContent=fr;
+  span.title="Type des jeux : "+fr;
+  return span;
+}
+
+function appendTypes(container,p) {
+  if(!p.gameTypes.length) {
+    const a=document.createElement("span");
+    a.className="type-badge";a.style.background="#eee";a.style.color="#555";
+    a.textContent="—";container.appendChild(a);return;
+  }
+  p.gameTypes.forEach(t=>container.appendChild(badgeFor(t)));
+}
+
+function render() {
+  $("refNumber").textContent=String(state.ref).padStart(3,"0");
+  $("interval").textContent="N° "+state.lo+" – "+state.hi;
+  $("filtersSummary").textContent=
+    "ID "+String(state.ref).padStart(3,"0")+" · N° "+state.lo+" – "+state.hi;
+  const rows=$("rows");rows.innerHTML="";
+  if(!state.loaded) {
+    $("count").textContent="Chargement…";
+    return;
+  }
+
+  const candidates=state.pokemon.filter(p=>p.num>=state.lo && p.num<=state.hi);
+  const matching=candidates.filter(p=>typesMatch(p)&&stageMatch(p));
+  const visible=state.showOthers ? candidates : matching;
+  $("count").textContent=matching.length+" résultat(s) · "+visible.length+" affiché(s)";
+
+  visible.sort((a,b)=>a.num-b.num || a.displayName.localeCompare(b.displayName,"fr"));
+  visible.forEach((p,i)=>{
+    const row=document.createElement("div");
+    row.className="pokemon-row";
+    if(!matches(p)) row.classList.add("outside");
+    if(p.num===state.ref) row.classList.add("reference");
+    row.tabIndex=0;
+    row.setAttribute("role","button");
+    row.setAttribute("aria-label",p.displayName+", numéro "+p.num);
+    const n=document.createElement("span");n.className="dexnum";
+    n.textContent=String(p.num).padStart(3,"0");
+    const name=document.createElement("span");name.className="pokemon-name";
+    name.textContent=p.displayName;name.title=p.displayName;
+    const types=document.createElement("span");types.className="pokemon-types";
+    appendTypes(types,p);
+    const stage=document.createElement("span");stage.className="pokemon-stage";
+    stage.textContent=p.stage;
+    row.append(n,name,types,stage);
+    const choose=()=>{
+      state.ref=p.num;
+      render();
+    };
+    row.onclick=choose;
+    row.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();choose();}};
+    rows.appendChild(row);
+  });
+
+  // Centrer le candidat médian dans la zone de résultats.
+  if(!state.showOthers && matching.length) {
+    const mid=Math.floor(matching.length/2);
+    const median=matching[mid];
+    const index=visible.findIndex(p=>p.id===median.id);
+    const target=rows.children[index];
+    if(target) {
+      const center=()=>{
+        const box=$("results");
+        if(!box.clientHeight || !target.isConnected) return; // listing masqué
+        const headerH=box.querySelector(".dex-header").offsetHeight;
+        const mid=(box.clientHeight+headerH)/2;
+        box.scrollTop=Math.max(0,target.offsetTop+target.offsetHeight/2-mid);
+      };
+      // Plusieurs passes : sur mobile la mise en page (affichage du listing,
+      // barre d'adresse) peut ne pas être stabilisée au premier rendu.
+      const token=++centerToken;
+      requestAnimationFrame(()=>{
+        center();
+        requestAnimationFrame(center);
+        setTimeout(()=>{ if(token===centerToken) center(); },120);
+      });
+    }
+  }
+}
+let centerToken=0;
+
+function validateTurn() {
+  const n=state.ref;
+  let lo=state.lo,hi=state.hi;
+  if(state.direction==="lower") hi=Math.min(hi,n-1);
+  else lo=Math.max(lo,n+1);
+  if(lo>hi) {
+    alert("Il n’y a plus de Pokémon dans cette direction.");
+    return;
+  }
+  state.lo=lo;state.hi=hi;
+  // Sélectionne automatiquement la ligne du milieu des résultats (comme un clic).
+  const matching=state.pokemon.filter(matches)
+    .sort((a,b)=>a.num-b.num || a.displayName.localeCompare(b.displayName,"fr"));
+  if(matching.length) state.ref=matching[Math.floor(matching.length/2)].num;
+  setFiltersOpen(false); // mobile : referme les filtres et affiche le listing
+  render();
+}
+
+// Mobile : section des filtres enroulable / déroulable (sans effet sur desktop).
+function setFiltersOpen(open) {
+  document.body.classList.toggle("filters-open",open);
+  $("filtersToggle").setAttribute("aria-expanded",open?"true":"false");
+}
+$("filtersToggle").onclick=()=>{
+  setFiltersOpen(!document.body.classList.contains("filters-open"));
+  render(); // recentre le listing une fois visible
+};
+setFiltersOpen(true);
+
+function reset() {
+  state.ref=511;state.lo=1;state.hi=1025;state.direction="lower";
+  state.selectedTypes=new Set(TCG);state.selectedStages=new Set(STAGES);
+  state.showOthers=false;
+  $("showOthers").checked=false;
+  resetRarity();resetHp();
+  $("yearMin").value=YEAR_FIRST;$("yearMax").value=YEAR_LAST;
+  $("lowerBtn").classList.add("selected");
+  $("higherBtn").classList.remove("selected");
+  renderTypeFilter();renderStageFilter();render();
+}
+
+$("lowerBtn").onclick=()=>{
+  state.direction="lower";
+  $("lowerBtn").classList.add("selected");
+  $("higherBtn").classList.remove("selected");
+};
+$("higherBtn").onclick=()=>{
+  state.direction="higher";
+  $("higherBtn").classList.add("selected");
+  $("lowerBtn").classList.remove("selected");
+};
+$("validateBtn").onclick=validateTurn;
+$("resetBtn").onclick=reset;
+$("allTypes").onclick=()=>{state.selectedTypes=new Set(TCG);renderTypeFilter();render();};
+$("noneTypes").onclick=()=>{state.selectedTypes.clear();renderTypeFilter();render();};
+$("showOthers").onchange=e=>{state.showOthers=e.target.checked;render();};
+
+// Pokédex embarqué (généré une fois depuis le dataset steffanossa/pokemon_dataset
+// et les CSV PokeAPI). Format : [n° national, nom affiché, types des jeux, stade (0=Base, 1=Niveau 1, 2=Niveau 2)].
+// Les formes d’Alola, Galar, Hisui et Paldea qui changent les types ont leur propre ligne, avec le même n°.
+const POKEDEX = [[1,"Bulbizarre",["grass","poison"],0],[2,"Herbizarre",["grass","poison"],1],[3,"Florizarre",["grass","poison"],2],[4,"Salamèche",["fire"],0],[5,"Reptincel",["fire"],1],[6,"Dracaufeu",["fire","flying"],2],[7,"Carapuce",["water"],0],[8,"Carabaffe",["water"],1],[9,"Tortank",["water"],2],[10,"Chenipan",["bug"],0],[11,"Chrysacier",["bug"],1],[12,"Papilusion",["bug","flying"],2],[13,"Aspicot",["bug","poison"],0],[14,"Coconfort",["bug","poison"],1],[15,"Dardargnan",["bug","poison"],2],[16,"Roucool",["normal","flying"],0],[17,"Roucoups",["normal","flying"],1],[18,"Roucarnage",["normal","flying"],2],[19,"Rattata",["normal"],0],[19,"Rattata d’Alola",["dark","normal"],0],[20,"Rattatac",["normal"],1],[20,"Rattatac d’Alola",["dark","normal"],1],[21,"Piafabec",["normal","flying"],0],[22,"Rapasdepic",["normal","flying"],1],[23,"Abo",["poison"],0],[24,"Arbok",["poison"],1],[25,"Pikachu",["electric"],0],[26,"Raichu",["electric"],1],[26,"Raichu d’Alola",["electric","psychic"],1],[27,"Sabelette",["ground"],0],[27,"Sabelette d’Alola",["ice","steel"],0],[28,"Sablaireau",["ground"],1],[28,"Sablaireau d’Alola",["ice","steel"],1],[29,"Nidoran♀",["poison"],0],[30,"Nidorina",["poison"],1],[31,"Nidoqueen",["poison","ground"],2],[32,"Nidoran♂",["poison"],0],[33,"Nidorino",["poison"],1],[34,"Nidoking",["poison","ground"],2],[35,"Mélofée",["fairy"],0],[36,"Mélodelfe",["fairy"],1],[37,"Goupix",["fire"],0],[37,"Goupix d’Alola",["ice"],0],[38,"Feunard",["fire"],1],[38,"Feunard d’Alola",["ice","fairy"],1],[39,"Rondoudou",["normal","fairy"],0],[40,"Grodoudou",["normal","fairy"],1],[41,"Nosferapti",["poison","flying"],0],[42,"Nosferalto",["poison","flying"],1],[43,"Mystherbe",["grass","poison"],0],[44,"Ortide",["grass","poison"],1],[45,"Rafflesia",["grass","poison"],2],[46,"Paras",["bug","grass"],0],[47,"Parasect",["bug","grass"],1],[48,"Mimitoss",["bug","poison"],0],[49,"Aéromite",["bug","poison"],1],[50,"Taupiqueur",["ground"],0],[50,"Taupiqueur d’Alola",["ground","steel"],0],[51,"Triopikeur",["ground"],1],[51,"Triopikeur d’Alola",["ground","steel"],1],[52,"Miaouss",["normal"],0],[52,"Miaouss d’Alola",["dark"],0],[52,"Miaouss de Galar",["steel"],0],[53,"Persian",["normal"],1],[53,"Persian d’Alola",["dark"],1],[54,"Psykokwak",["water"],0],[55,"Akwakwak",["water"],1],[56,"Férosinge",["fighting"],0],[57,"Colossinge",["fighting"],1],[58,"Caninos",["fire"],0],[58,"Caninos de Hisui",["fire","rock"],0],[59,"Arcanin",["fire"],1],[59,"Arcanin de Hisui",["fire","rock"],1],[60,"Ptitard",["water"],0],[61,"Têtarte",["water"],1],[62,"Tartard",["water","fighting"],2],[63,"Abra",["psychic"],0],[64,"Kadabra",["psychic"],1],[65,"Alakazam",["psychic"],2],[66,"Machoc",["fighting"],0],[67,"Machopeur",["fighting"],1],[68,"Mackogneur",["fighting"],2],[69,"Chétiflor",["grass","poison"],0],[70,"Boustiflor",["grass","poison"],1],[71,"Empiflor",["grass","poison"],2],[72,"Tentacool",["water","poison"],0],[73,"Tentacruel",["water","poison"],1],[74,"Racaillou",["rock","ground"],0],[74,"Racaillou d’Alola",["rock","electric"],0],[75,"Gravalanch",["rock","ground"],1],[75,"Gravalanch d’Alola",["rock","electric"],1],[76,"Grolem",["rock","ground"],2],[76,"Grolem d’Alola",["rock","electric"],2],[77,"Ponyta",["fire"],0],[77,"Ponyta de Galar",["psychic"],0],[78,"Galopa",["fire"],1],[78,"Galopa de Galar",["psychic","fairy"],1],[79,"Ramoloss",["water","psychic"],0],[79,"Ramoloss de Galar",["psychic"],0],[80,"Flagadoss",["water","psychic"],1],[80,"Flagadoss de Galar",["poison","psychic"],1],[81,"Magnéti",["electric","steel"],0],[82,"Magnéton",["electric","steel"],1],[83,"Canarticho",["normal","flying"],0],[83,"Canarticho de Galar",["fighting"],0],[84,"Doduo",["normal","flying"],0],[85,"Dodrio",["normal","flying"],1],[86,"Otaria",["water"],0],[87,"Lamantine",["water","ice"],1],[88,"Tadmorv",["poison"],0],[88,"Tadmorv d’Alola",["poison","dark"],0],[89,"Grotadmorv",["poison"],1],[89,"Grotadmorv d’Alola",["poison","dark"],1],[90,"Kokiyas",["water"],0],[91,"Crustabri",["water","ice"],1],[92,"Fantominus",["ghost","poison"],0],[93,"Spectrum",["ghost","poison"],1],[94,"Ectoplasma",["ghost","poison"],2],[95,"Onix",["rock","ground"],0],[96,"Soporifik",["psychic"],0],[97,"Hypnomade",["psychic"],1],[98,"Krabby",["water"],0],[99,"Krabboss",["water"],1],[100,"Voltorbe",["electric"],0],[100,"Voltorbe de Hisui",["electric","grass"],0],[101,"Électrode",["electric"],1],[101,"Électrode de Hisui",["electric","grass"],1],[102,"Noeunoeuf",["grass","psychic"],0],[103,"Noadkoko",["grass","psychic"],1],[103,"Noadkoko d’Alola",["grass","dragon"],1],[104,"Osselait",["ground"],0],[105,"Ossatueur",["ground"],1],[105,"Ossatueur d’Alola",["fire","ghost"],1],[106,"Kicklee",["fighting"],0],[107,"Tygnon",["fighting"],0],[108,"Excelangue",["normal"],0],[109,"Smogo",["poison"],0],[110,"Smogogo",["poison"],1],[110,"Smogogo de Galar",["poison","fairy"],1],[111,"Rhinocorne",["ground","rock"],0],[112,"Rhinoféros",["ground","rock"],1],[113,"Leveinard",["normal"],0],[114,"Saquedeneu",["grass"],0],[115,"Kangourex",["normal"],0],[116,"Hypotrempe",["water"],0],[117,"Hypocéan",["water"],1],[118,"Poissirène",["water"],0],[119,"Poissoroy",["water"],1],[120,"Stari",["water"],0],[121,"Staross",["water","psychic"],1],[122,"M. Mime",["psychic","fairy"],0],[122,"M. Mime de Galar",["ice","psychic"],0],[123,"Insécateur",["bug","flying"],0],[124,"Lippoutou",["ice","psychic"],0],[125,"Élektek",["electric"],0],[126,"Magmar",["fire"],0],[127,"Scarabrute",["bug"],0],[128,"Tauros",["normal"],0],[128,"Tauros de Paldea (race Aqua)",["fighting","water"],0],[128,"Tauros de Paldea (race Combat)",["fighting"],0],[128,"Tauros de Paldea (race Flamme)",["fighting","fire"],0],[129,"Magicarpe",["water"],0],[130,"Léviator",["water","flying"],1],[131,"Lokhlass",["water","ice"],0],[132,"Métamorph",["normal"],0],[133,"Évoli",["normal"],0],[134,"Aquali",["water"],1],[135,"Voltali",["electric"],1],[136,"Pyroli",["fire"],1],[137,"Porygon",["normal"],0],[138,"Amonita",["rock","water"],0],[139,"Amonistar",["rock","water"],1],[140,"Kabuto",["rock","water"],0],[141,"Kabutops",["rock","water"],1],[142,"Ptéra",["rock","flying"],0],[143,"Ronflex",["normal"],0],[144,"Artikodin",["ice","flying"],0],[144,"Artikodin de Galar",["psychic","flying"],0],[145,"Électhor",["electric","flying"],0],[145,"Électhor de Galar",["fighting","flying"],0],[146,"Sulfura",["fire","flying"],0],[146,"Sulfura de Galar",["dark","flying"],0],[147,"Minidraco",["dragon"],0],[148,"Draco",["dragon"],1],[149,"Dracolosse",["dragon","flying"],2],[150,"Mewtwo",["psychic"],0],[151,"Mew",["psychic"],0],[152,"Germignon",["grass"],0],[153,"Macronium",["grass"],1],[154,"Méganium",["grass"],2],[155,"Héricendre",["fire"],0],[156,"Feurisson",["fire"],1],[157,"Typhlosion",["fire"],2],[157,"Typhlosion de Hisui",["fire","ghost"],2],[158,"Kaiminus",["water"],0],[159,"Crocrodil",["water"],1],[160,"Aligatueur",["water"],2],[161,"Fouinette",["normal"],0],[162,"Fouinar",["normal"],1],[163,"Hoothoot",["normal","flying"],0],[164,"Noarfang",["normal","flying"],1],[165,"Coxy",["bug","flying"],0],[166,"Coxyclaque",["bug","flying"],1],[167,"Mimigal",["bug","poison"],0],[168,"Migalos",["bug","poison"],1],[169,"Nostenfer",["poison","flying"],2],[170,"Loupio",["water","electric"],0],[171,"Lanturn",["water","electric"],1],[172,"Pichu",["electric"],0],[173,"Mélo",["fairy"],0],[174,"Toudoudou",["normal","fairy"],0],[175,"Togepi",["fairy"],0],[176,"Togetic",["fairy","flying"],1],[177,"Natu",["psychic","flying"],0],[178,"Xatu",["psychic","flying"],1],[179,"Wattouat",["electric"],0],[180,"Lainergie",["electric"],1],[181,"Pharamp",["electric"],2],[182,"Joliflor",["grass"],2],[183,"Marill",["water","fairy"],0],[184,"Azumarill",["water","fairy"],1],[185,"Simularbre",["rock"],0],[186,"Tarpaud",["water"],2],[187,"Granivol",["grass","flying"],0],[188,"Floravol",["grass","flying"],1],[189,"Cotovol",["grass","flying"],2],[190,"Capumain",["normal"],0],[191,"Tournegrin",["grass"],0],[192,"Héliatronc",["grass"],1],[193,"Yanma",["bug","flying"],0],[194,"Axoloto",["water","ground"],0],[194,"Axoloto de Paldea",["poison","ground"],0],[195,"Maraiste",["water","ground"],1],[196,"Mentali",["psychic"],1],[197,"Noctali",["dark"],1],[198,"Cornèbre",["dark","flying"],0],[199,"Roigada",["water","psychic"],1],[199,"Roigada de Galar",["poison","psychic"],1],[200,"Feuforêve",["ghost"],0],[201,"Zarbi",["psychic"],0],[202,"Qulbutoké",["psychic"],0],[203,"Girafarig",["normal","psychic"],0],[204,"Pomdepik",["bug"],0],[205,"Foretress",["bug","steel"],1],[206,"Insolourdo",["normal"],0],[207,"Scorplane",["ground","flying"],0],[208,"Steelix",["steel","ground"],1],[209,"Snubbull",["fairy"],0],[210,"Granbull",["fairy"],1],[211,"Qwilfish",["water","poison"],0],[211,"Qwilfish de Hisui",["dark","poison"],0],[212,"Cizayox",["bug","steel"],1],[213,"Caratroc",["bug","rock"],0],[214,"Scarhino",["bug","fighting"],0],[215,"Farfuret",["dark","ice"],0],[215,"Farfuret de Hisui",["fighting","poison"],0],[216,"Teddiursa",["normal"],0],[217,"Ursaring",["normal"],1],[218,"Limagma",["fire"],0],[219,"Volcaropod",["fire","rock"],1],[220,"Marcacrin",["ice","ground"],0],[221,"Cochignon",["ice","ground"],1],[222,"Corayon",["water","rock"],0],[222,"Corayon de Galar",["ghost"],0],[223,"Rémoraid",["water"],0],[224,"Octillery",["water"],1],[225,"Cadoizo",["ice","flying"],0],[226,"Démanta",["water","flying"],0],[227,"Airmure",["steel","flying"],0],[228,"Malosse",["dark","fire"],0],[229,"Démolosse",["dark","fire"],1],[230,"Hyporoi",["water","dragon"],2],[231,"Phanpy",["ground"],0],[232,"Donphan",["ground"],1],[233,"Porygon2",["normal"],1],[234,"Cerfrousse",["normal"],0],[235,"Queulorior",["normal"],0],[236,"Debugant",["fighting"],0],[237,"Kapoera",["fighting"],0],[238,"Lippouti",["ice","psychic"],0],[239,"Élekid",["electric"],0],[240,"Magby",["fire"],0],[241,"Écrémeuh",["normal"],0],[242,"Leuphorie",["normal"],1],[243,"Raikou",["electric"],0],[244,"Entei",["fire"],0],[245,"Suicune",["water"],0],[246,"Embrylex",["rock","ground"],0],[247,"Ymphect",["rock","ground"],1],[248,"Tyranocif",["rock","dark"],2],[249,"Lugia",["psychic","flying"],0],[250,"Ho-Oh",["fire","flying"],0],[251,"Celebi",["psychic","grass"],0],[252,"Arcko",["grass"],0],[253,"Massko",["grass"],1],[254,"Jungko",["grass"],2],[255,"Poussifeu",["fire"],0],[256,"Galifeu",["fire","fighting"],1],[257,"Braségali",["fire","fighting"],2],[258,"Gobou",["water"],0],[259,"Flobio",["water","ground"],1],[260,"Laggron",["water","ground"],2],[261,"Medhyèna",["dark"],0],[262,"Grahyèna",["dark"],1],[263,"Zigzaton",["normal"],0],[263,"Zigzaton de Galar",["dark","normal"],0],[264,"Linéon",["normal"],1],[264,"Linéon de Galar",["dark","normal"],1],[265,"Chenipotte",["bug"],0],[266,"Armulys",["bug"],1],[267,"Charmillon",["bug","flying"],2],[268,"Blindalys",["bug"],1],[269,"Papinox",["bug","poison"],2],[270,"Nénupiot",["water","grass"],0],[271,"Lombre",["water","grass"],1],[272,"Ludicolo",["water","grass"],2],[273,"Grainipiot",["grass"],0],[274,"Pifeuil",["grass","dark"],1],[275,"Tengalice",["grass","dark"],2],[276,"Nirondelle",["normal","flying"],0],[277,"Hélédelle",["normal","flying"],1],[278,"Goélise",["water","flying"],0],[279,"Bekipan",["water","flying"],1],[280,"Tarsal",["psychic","fairy"],0],[281,"Kirlia",["psychic","fairy"],1],[282,"Gardevoir",["psychic","fairy"],2],[283,"Arakdo",["bug","water"],0],[284,"Maskadra",["bug","flying"],1],[285,"Balignon",["grass"],0],[286,"Chapignon",["grass","fighting"],1],[287,"Parecool",["normal"],0],[288,"Vigoroth",["normal"],1],[289,"Monaflèmit",["normal"],2],[290,"Ningale",["bug","ground"],0],[291,"Ninjask",["bug","flying"],1],[292,"Munja",["bug","ghost"],1],[293,"Chuchmur",["normal"],0],[294,"Ramboum",["normal"],1],[295,"Brouhabam",["normal"],2],[296,"Makuhita",["fighting"],0],[297,"Hariyama",["fighting"],1],[298,"Azurill",["normal","fairy"],0],[299,"Tarinor",["rock"],0],[300,"Skitty",["normal"],0],[301,"Delcatty",["normal"],1],[302,"Ténéfix",["dark","ghost"],0],[303,"Mysdibule",["steel","fairy"],0],[304,"Galekid",["steel","rock"],0],[305,"Galegon",["steel","rock"],1],[306,"Galeking",["steel","rock"],2],[307,"Méditikka",["fighting","psychic"],0],[308,"Charmina",["fighting","psychic"],1],[309,"Dynavolt",["electric"],0],[310,"Élecsprint",["electric"],1],[311,"Posipi",["electric"],0],[312,"Négapi",["electric"],0],[313,"Muciole",["bug"],0],[314,"Lumivole",["bug"],0],[315,"Rosélia",["grass","poison"],0],[316,"Gloupti",["poison"],0],[317,"Avaltout",["poison"],1],[318,"Carvanha",["water","dark"],0],[319,"Sharpedo",["water","dark"],1],[320,"Wailmer",["water"],0],[321,"Wailord",["water"],1],[322,"Chamallot",["fire","ground"],0],[323,"Camérupt",["fire","ground"],1],[324,"Chartor",["fire"],0],[325,"Spoink",["psychic"],0],[326,"Groret",["psychic"],1],[327,"Spinda",["normal"],0],[328,"Kraknoix",["ground"],0],[329,"Vibraninf",["ground","dragon"],1],[330,"Libégon",["ground","dragon"],2],[331,"Cacnea",["grass"],0],[332,"Cacturne",["grass","dark"],1],[333,"Tylton",["normal","flying"],0],[334,"Altaria",["dragon","flying"],1],[335,"Mangriff",["normal"],0],[336,"Séviper",["poison"],0],[337,"Séléroc",["rock","psychic"],0],[338,"Solaroc",["rock","psychic"],0],[339,"Barloche",["water","ground"],0],[340,"Barbicha",["water","ground"],1],[341,"Écrapince",["water"],0],[342,"Colhomard",["water","dark"],1],[343,"Balbuto",["ground","psychic"],0],[344,"Kaorine",["ground","psychic"],1],[345,"Lilia",["rock","grass"],0],[346,"Vacilys",["rock","grass"],1],[347,"Anorith",["rock","bug"],0],[348,"Armaldo",["rock","bug"],1],[349,"Barpau",["water"],0],[350,"Milobellus",["water"],1],[351,"Morphéo",["normal"],0],[352,"Kecleon",["normal"],0],[353,"Polichombr",["ghost"],0],[354,"Branette",["ghost"],1],[355,"Skelénox",["ghost"],0],[356,"Téraclope",["ghost"],1],[357,"Tropius",["grass","flying"],0],[358,"Éoko",["psychic"],0],[359,"Absol",["dark"],0],[360,"Okéoké",["psychic"],0],[361,"Stalgamin",["ice"],0],[362,"Oniglali",["ice"],1],[363,"Obalie",["ice","water"],0],[364,"Phogleur",["ice","water"],1],[365,"Kaimorse",["ice","water"],2],[366,"Coquiperl",["water"],0],[367,"Serpang",["water"],1],[368,"Rosabyss",["water"],1],[369,"Relicanth",["water","rock"],0],[370,"Lovdisc",["water"],0],[371,"Draby",["dragon"],0],[372,"Drackhaus",["dragon"],1],[373,"Drattak",["dragon","flying"],2],[374,"Terhal",["steel","psychic"],0],[375,"Métang",["steel","psychic"],1],[376,"Métalosse",["steel","psychic"],2],[377,"Regirock",["rock"],0],[378,"Regice",["ice"],0],[379,"Registeel",["steel"],0],[380,"Latias",["dragon","psychic"],0],[381,"Latios",["dragon","psychic"],0],[382,"Kyogre",["water"],0],[383,"Groudon",["ground"],0],[384,"Rayquaza",["dragon","flying"],0],[385,"Jirachi",["steel","psychic"],0],[386,"Deoxys",["psychic"],0],[387,"Tortipouss",["grass"],0],[388,"Boskara",["grass"],1],[389,"Torterra",["grass","ground"],2],[390,"Ouisticram",["fire"],0],[391,"Chimpenfeu",["fire","fighting"],1],[392,"Simiabraz",["fire","fighting"],2],[393,"Tiplouf",["water"],0],[394,"Prinplouf",["water"],1],[395,"Pingoléon",["water","steel"],2],[396,"Étourmi",["normal","flying"],0],[397,"Étourvol",["normal","flying"],1],[398,"Étouraptor",["normal","flying"],2],[399,"Keunotor",["normal"],0],[400,"Castorno",["normal","water"],1],[401,"Crikzik",["bug"],0],[402,"Mélokrik",["bug"],1],[403,"Lixy",["electric"],0],[404,"Luxio",["electric"],1],[405,"Luxray",["electric"],2],[406,"Rozbouton",["grass","poison"],0],[407,"Roserade",["grass","poison"],1],[408,"Kranidos",["rock"],0],[409,"Charkos",["rock"],1],[410,"Dinoclier",["rock","steel"],0],[411,"Bastiodon",["rock","steel"],1],[412,"Cheniti",["bug"],0],[413,"Cheniselle",["bug","grass"],1],[414,"Papilord",["bug","flying"],1],[415,"Apitrini",["bug","flying"],0],[416,"Apireine",["bug","flying"],1],[417,"Pachirisu",["electric"],0],[418,"Mustébouée",["water"],0],[419,"Mustéflott",["water"],1],[420,"Ceribou",["grass"],0],[421,"Ceriflor",["grass"],1],[422,"Sancoki",["water"],0],[423,"Tritosor",["water","ground"],1],[424,"Capidextre",["normal"],1],[425,"Baudrive",["ghost","flying"],0],[426,"Grodrive",["ghost","flying"],1],[427,"Laporeille",["normal"],0],[428,"Lockpin",["normal"],1],[429,"Magirêve",["ghost"],1],[430,"Corboss",["dark","flying"],1],[431,"Chaglam",["normal"],0],[432,"Chaffreux",["normal"],1],[433,"Korillon",["psychic"],0],[434,"Moufouette",["poison","dark"],0],[435,"Moufflair",["poison","dark"],1],[436,"Archéomire",["steel","psychic"],0],[437,"Archéodong",["steel","psychic"],1],[438,"Manzaï",["rock"],0],[439,"Mime Jr.",["psychic","fairy"],0],[440,"Ptiravi",["normal"],0],[441,"Pijako",["normal","flying"],0],[442,"Spiritomb",["ghost","dark"],0],[443,"Griknot",["dragon","ground"],0],[444,"Carmache",["dragon","ground"],1],[445,"Carchacrok",["dragon","ground"],2],[446,"Goinfrex",["normal"],0],[447,"Riolu",["fighting"],0],[448,"Lucario",["fighting","steel"],1],[449,"Hippopotas",["ground"],0],[450,"Hippodocus",["ground"],1],[451,"Rapion",["poison","bug"],0],[452,"Drascore",["poison","dark"],1],[453,"Cradopaud",["poison","fighting"],0],[454,"Coatox",["poison","fighting"],1],[455,"Vortente",["grass"],0],[456,"Écayon",["water"],0],[457,"Luminéon",["water"],1],[458,"Babimanta",["water","flying"],0],[459,"Blizzi",["grass","ice"],0],[460,"Blizzaroi",["grass","ice"],1],[461,"Dimoret",["dark","ice"],1],[462,"Magnézone",["electric","steel"],2],[463,"Coudlangue",["normal"],1],[464,"Rhinastoc",["ground","rock"],2],[465,"Bouldeneu",["grass"],1],[466,"Élekable",["electric"],1],[467,"Maganon",["fire"],1],[468,"Togekiss",["fairy","flying"],2],[469,"Yanméga",["bug","flying"],1],[470,"Phyllali",["grass"],1],[471,"Givrali",["ice"],1],[472,"Scorvol",["ground","flying"],1],[473,"Mammochon",["ice","ground"],2],[474,"Porygon-Z",["normal"],2],[475,"Gallame",["psychic","fighting"],2],[476,"Tarinorme",["rock","steel"],1],[477,"Noctunoir",["ghost"],2],[478,"Momartik",["ice","ghost"],1],[479,"Motisma",["electric","ghost"],0],[480,"Créhelf",["psychic"],0],[481,"Créfollet",["psychic"],0],[482,"Créfadet",["psychic"],0],[483,"Dialga",["steel","dragon"],0],[484,"Palkia",["water","dragon"],0],[485,"Heatran",["fire","steel"],0],[486,"Regigigas",["normal"],0],[487,"Giratina",["ghost","dragon"],0],[488,"Cresselia",["psychic"],0],[489,"Phione",["water"],0],[490,"Manaphy",["water"],0],[491,"Darkrai",["dark"],0],[492,"Shaymin",["grass"],0],[493,"Arceus",["normal"],0],[494,"Victini",["psychic","fire"],0],[495,"Vipélierre",["grass"],0],[496,"Lianaja",["grass"],1],[497,"Majaspic",["grass"],2],[498,"Gruikui",["fire"],0],[499,"Grotichon",["fire","fighting"],1],[500,"Roitiflam",["fire","fighting"],2],[501,"Moustillon",["water"],0],[502,"Mateloutre",["water"],1],[503,"Clamiral",["water"],2],[503,"Clamiral de Hisui",["water","dark"],2],[504,"Ratentif",["normal"],0],[505,"Miradar",["normal"],1],[506,"Ponchiot",["normal"],0],[507,"Ponchien",["normal"],1],[508,"Mastouffe",["normal"],2],[509,"Chacripan",["dark"],0],[510,"Léopardus",["dark"],1],[511,"Feuillajou",["grass"],0],[512,"Feuilloutan",["grass"],1],[513,"Flamajou",["fire"],0],[514,"Flamoutan",["fire"],1],[515,"Flotajou",["water"],0],[516,"Flotoutan",["water"],1],[517,"Munna",["psychic"],0],[518,"Mushana",["psychic"],1],[519,"Poichigeon",["normal","flying"],0],[520,"Colombeau",["normal","flying"],1],[521,"Déflaisan",["normal","flying"],2],[522,"Zébibron",["electric"],0],[523,"Zéblitz",["electric"],1],[524,"Nodulithe",["rock"],0],[525,"Géolithe",["rock"],1],[526,"Gigalithe",["rock"],2],[527,"Chovsourir",["psychic","flying"],0],[528,"Rhinolove",["psychic","flying"],1],[529,"Rototaupe",["ground"],0],[530,"Minotaupe",["ground","steel"],1],[531,"Nanméouïe",["normal"],0],[532,"Charpenti",["fighting"],0],[533,"Ouvrifier",["fighting"],1],[534,"Bétochef",["fighting"],2],[535,"Tritonde",["water"],0],[536,"Batracné",["water","ground"],1],[537,"Crapustule",["water","ground"],2],[538,"Judokrak",["fighting"],0],[539,"Karaclée",["fighting"],0],[540,"Larveyette",["bug","grass"],0],[541,"Couverdure",["bug","grass"],1],[542,"Manternel",["bug","grass"],2],[543,"Venipatte",["bug","poison"],0],[544,"Scobolide",["bug","poison"],1],[545,"Brutapode",["bug","poison"],2],[546,"Doudouvet",["grass","fairy"],0],[547,"Farfaduvet",["grass","fairy"],1],[548,"Chlorobule",["grass"],0],[549,"Fragilady",["grass"],1],[549,"Fragilady de Hisui",["grass","fighting"],1],[550,"Bargantua",["water"],0],[551,"Mascaïman",["ground","dark"],0],[552,"Escroco",["ground","dark"],1],[553,"Crocorible",["ground","dark"],2],[554,"Darumarond",["fire"],0],[554,"Darumarond de Galar",["ice"],0],[555,"Darumacho",["fire"],1],[555,"Darumacho de Galar",["ice"],1],[556,"Maracachi",["grass"],0],[557,"Crabicoque",["bug","rock"],0],[558,"Crabaraque",["bug","rock"],1],[559,"Baggiguane",["dark","fighting"],0],[560,"Baggaïd",["dark","fighting"],1],[561,"Cryptéro",["psychic","flying"],0],[562,"Tutafeh",["ghost"],0],[562,"Tutafeh de Galar",["ground","ghost"],0],[563,"Tutankafer",["ghost"],1],[564,"Carapagos",["water","rock"],0],[565,"Mégapagos",["water","rock"],1],[566,"Arkéapti",["rock","flying"],0],[567,"Aéroptéryx",["rock","flying"],1],[568,"Miamiasme",["poison"],0],[569,"Miasmax",["poison"],1],[570,"Zorua",["dark"],0],[570,"Zorua de Hisui",["normal","ghost"],0],[571,"Zoroark",["dark"],1],[571,"Zoroark de Hisui",["normal","ghost"],1],[572,"Chinchidou",["normal"],0],[573,"Pashmilla",["normal"],1],[574,"Scrutella",["psychic"],0],[575,"Mesmérella",["psychic"],1],[576,"Sidérella",["psychic"],2],[577,"Nucléos",["psychic"],0],[578,"Méios",["psychic"],1],[579,"Symbios",["psychic"],2],[580,"Couaneton",["water","flying"],0],[581,"Lakmécygne",["water","flying"],1],[582,"Sorbébé",["ice"],0],[583,"Sorboul",["ice"],1],[584,"Sorbouboul",["ice"],2],[585,"Vivaldaim",["normal","grass"],0],[586,"Haydaim",["normal","grass"],1],[587,"Emolga",["electric","flying"],0],[588,"Carabing",["bug"],0],[589,"Lançargot",["bug","steel"],1],[590,"Trompignon",["grass","poison"],0],[591,"Gaulet",["grass","poison"],1],[592,"Viskuse",["water","ghost"],0],[593,"Moyade",["water","ghost"],1],[594,"Mamanbo",["water"],0],[595,"Statitik",["bug","electric"],0],[596,"Mygavolt",["bug","electric"],1],[597,"Grindur",["grass","steel"],0],[598,"Noacier",["grass","steel"],1],[599,"Tic",["steel"],0],[600,"Clic",["steel"],1],[601,"Cliticlic",["steel"],2],[602,"Anchwatt",["electric"],0],[603,"Lampéroie",["electric"],1],[604,"Ohmassacre",["electric"],2],[605,"Lewsor",["psychic"],0],[606,"Neitram",["psychic"],1],[607,"Funécire",["ghost","fire"],0],[608,"Mélancolux",["ghost","fire"],1],[609,"Lugulabre",["ghost","fire"],2],[610,"Coupenotte",["dragon"],0],[611,"Incisache",["dragon"],1],[612,"Tranchodon",["dragon"],2],[613,"Polarhume",["ice"],0],[614,"Polagriffe",["ice"],1],[615,"Hexagel",["ice"],0],[616,"Escargaume",["bug"],0],[617,"Limaspeed",["bug"],1],[618,"Limonde",["ground","electric"],0],[618,"Limonde de Galar",["ground","steel"],0],[619,"Kungfouine",["fighting"],0],[620,"Shaofouine",["fighting"],1],[621,"Drakkarmin",["dragon"],0],[622,"Gringolem",["ground","ghost"],0],[623,"Golemastoc",["ground","ghost"],1],[624,"Scalpion",["dark","steel"],0],[625,"Scalproie",["dark","steel"],1],[626,"Frison",["normal"],0],[627,"Furaiglon",["normal","flying"],0],[628,"Gueriaigle",["normal","flying"],1],[628,"Gueriaigle de Hisui",["psychic","flying"],1],[629,"Vostourno",["dark","flying"],0],[630,"Vaututrice",["dark","flying"],1],[631,"Aflamanoir",["fire"],0],[632,"Fermite",["bug","steel"],0],[633,"Solochi",["dark","dragon"],0],[634,"Diamat",["dark","dragon"],1],[635,"Trioxhydre",["dark","dragon"],2],[636,"Pyronille",["bug","fire"],0],[637,"Pyrax",["bug","fire"],1],[638,"Cobaltium",["steel","fighting"],0],[639,"Terrakium",["rock","fighting"],0],[640,"Viridium",["grass","fighting"],0],[641,"Boréas",["flying"],0],[642,"Fulguris",["electric","flying"],0],[643,"Reshiram",["dragon","fire"],0],[644,"Zekrom",["dragon","electric"],0],[645,"Démétéros",["ground","flying"],0],[646,"Kyurem",["dragon","ice"],0],[647,"Keldeo",["water","fighting"],0],[648,"Meloetta",["normal","psychic"],0],[649,"Genesect",["bug","steel"],0],[650,"Marisson",["grass"],0],[651,"Boguérisse",["grass"],1],[652,"Blindépique",["grass","fighting"],2],[653,"Feunnec",["fire"],0],[654,"Roussil",["fire"],1],[655,"Goupelin",["fire","psychic"],2],[656,"Grenousse",["water"],0],[657,"Croâporal",["water"],1],[658,"Amphinobi",["water","dark"],2],[659,"Sapereau",["normal"],0],[660,"Excavarenne",["normal","ground"],1],[661,"Passerouge",["normal","flying"],0],[662,"Braisillon",["fire","flying"],1],[663,"Flambusard",["fire","flying"],2],[664,"Lépidonille",["bug"],0],[665,"Pérégrain",["bug"],1],[666,"Prismillon",["bug","flying"],2],[667,"Hélionceau",["fire","normal"],0],[668,"Némélios",["fire","normal"],1],[669,"Flabébé",["fairy"],0],[670,"Floette",["fairy"],1],[671,"Florges",["fairy"],2],[672,"Cabriolaine",["grass"],0],[673,"Chevroum",["grass"],1],[674,"Pandespiègle",["fighting"],0],[675,"Pandarbare",["fighting","dark"],1],[676,"Couafarel",["normal"],0],[677,"Psystigri",["psychic"],0],[678,"Mistigrix",["psychic"],1],[679,"Monorpale",["steel","ghost"],0],[680,"Dimoclès",["steel","ghost"],1],[681,"Exagide",["steel","ghost"],2],[682,"Fluvetin",["fairy"],0],[683,"Cocotine",["fairy"],1],[684,"Sucroquin",["fairy"],0],[685,"Cupcanaille",["fairy"],1],[686,"Sepiatop",["dark","psychic"],0],[687,"Sepiatroce",["dark","psychic"],1],[688,"Opermine",["rock","water"],0],[689,"Golgopathe",["rock","water"],1],[690,"Venalgue",["poison","water"],0],[691,"Kravarech",["poison","dragon"],1],[692,"Flingouste",["water"],0],[693,"Gamblast",["water"],1],[694,"Galvaran",["electric","normal"],0],[695,"Iguolta",["electric","normal"],1],[696,"Ptyranidur",["rock","dragon"],0],[697,"Rexillius",["rock","dragon"],1],[698,"Amagara",["rock","ice"],0],[699,"Dragmara",["rock","ice"],1],[700,"Nymphali",["fairy"],1],[701,"Brutalibré",["fighting","flying"],0],[702,"Dedenne",["electric","fairy"],0],[703,"Strassie",["rock","fairy"],0],[704,"Mucuscule",["dragon"],0],[705,"Colimucus",["dragon"],1],[705,"Colimucus de Hisui",["steel","dragon"],1],[706,"Muplodocus",["dragon"],2],[706,"Muplodocus de Hisui",["steel","dragon"],2],[707,"Trousselin",["steel","fairy"],0],[708,"Brocélôme",["ghost","grass"],0],[709,"Desséliande",["ghost","grass"],1],[710,"Pitrouille",["ghost","grass"],0],[711,"Banshitrouye",["ghost","grass"],1],[712,"Grelaçon",["ice"],0],[713,"Séracrawl",["ice"],1],[713,"Séracrawl de Hisui",["ice","rock"],1],[714,"Sonistrelle",["flying","dragon"],0],[715,"Bruyverne",["flying","dragon"],1],[716,"Xerneas",["fairy"],0],[717,"Yveltal",["dark","flying"],0],[718,"Zygarde",["dragon","ground"],0],[719,"Diancie",["rock","fairy"],0],[720,"Hoopa",["psychic","ghost"],0],[721,"Volcanion",["fire","water"],0],[722,"Brindibou",["grass","flying"],0],[723,"Efflèche",["grass","flying"],1],[724,"Archéduc",["grass","ghost"],2],[724,"Archéduc de Hisui",["grass","fighting"],2],[725,"Flamiaou‎‎",["fire"],0],[726,"Matoufeu",["fire"],1],[727,"Félinferno",["fire","dark"],2],[728,"Otaquin",["water"],0],[729,"Otarlette",["water"],1],[730,"Oratoria",["water","fairy"],2],[731,"Picassaut",["normal","flying"],0],[732,"Piclairon",["normal","flying"],1],[733,"Bazoucan",["normal","flying"],2],[734,"Manglouton",["normal"],0],[735,"Argouste",["normal"],1],[736,"Larvibule",["bug"],0],[737,"Chrysapile",["bug","electric"],1],[738,"Lucanon",["bug","electric"],2],[739,"Crabagarre",["fighting"],0],[740,"Crabominable",["fighting","ice"],1],[741,"Plumeline",["fire","flying"],0],[742,"Bombydou",["bug","fairy"],0],[743,"Rubombelle",["bug","fairy"],1],[744,"Rocabot",["rock"],0],[745,"Lougaroc",["rock"],1],[746,"Froussardine",["water"],0],[747,"Vorastérie",["poison","water"],0],[748,"Prédastérie",["poison","water"],1],[749,"Tiboudet",["ground"],0],[750,"Bourrinos",["ground"],1],[751,"Araqua",["water","bug"],0],[752,"Tarenbulle",["water","bug"],1],[753,"Mimantis",["grass"],0],[754,"Floramantis",["grass"],1],[755,"Spododo",["grass","fairy"],0],[756,"Lampignon",["grass","fairy"],1],[757,"Tritox",["poison","fire"],0],[758,"Malamandre",["poison","fire"],1],[759,"Nounourson",["normal","fighting"],0],[760,"Chelours",["normal","fighting"],1],[761,"Croquine",["grass"],0],[762,"Candine",["grass"],1],[763,"Sucreine",["grass"],2],[764,"Guérilande",["fairy"],0],[765,"Gouroutan",["normal","psychic"],0],[766,"Quartermac",["fighting"],0],[767,"Sovkipou",["bug","water"],0],[768,"Sarmuraï",["bug","water"],1],[769,"Bacabouh",["ghost","ground"],0],[770,"Trépassable",["ghost","ground"],1],[771,"Concombaffe",["water"],0],[772,"Type:0",["normal"],0],[773,"Silvallié",["normal"],1],[774,"Météno",["rock","flying"],0],[775,"Dodoala",["normal"],0],[776,"Boumata",["fire","dragon"],0],[777,"Togedemaru",["electric","steel"],0],[778,"Mimiqui",["ghost","fairy"],0],[779,"Denticrisse",["water","psychic"],0],[780,"Draïeul",["normal","dragon"],0],[781,"Sinistrail",["ghost","grass"],0],[782,"Bébécaille",["dragon"],0],[783,"Écaïd",["dragon","fighting"],1],[784,"Ékaïser",["dragon","fighting"],2],[785,"Tokorico",["electric","fairy"],0],[786,"Tokopiyon",["psychic","fairy"],0],[787,"Tokotoro",["grass","fairy"],0],[788,"Tokopisco",["water","fairy"],0],[789,"Cosmog",["psychic"],0],[790,"Cosmovum",["psychic"],1],[791,"Solgaleo",["psychic","steel"],2],[792,"Lunala",["psychic","ghost"],2],[793,"Zéroïd",["rock","poison"],0],[794,"Mouscoto",["bug","fighting"],0],[795,"Cancrelove",["bug","fighting"],0],[796,"Câblifère",["electric"],0],[797,"Bamboiselle",["steel","flying"],0],[798,"Katagami",["grass","steel"],0],[799,"Engloutyran",["dark","dragon"],0],[800,"Necrozma",["psychic"],0],[801,"Magearna",["steel","fairy"],0],[802,"Marshadow",["fighting","ghost"],0],[803,"Vémini",["poison"],0],[804,"Mandrillon",["poison","dragon"],1],[805,"Ama-Ama",["rock","steel"],0],[806,"Pierroteknik",["fire","ghost"],0],[807,"Zeraora",["electric"],0],[808,"Meltan",["steel"],0],[809,"Melmetal",["steel"],1],[810,"Ouistempo",["grass"],0],[811,"Badabouin",["grass"],1],[812,"Gorythmic",["grass"],2],[813,"Flambino",["fire"],0],[814,"Lapyro",["fire"],1],[815,"Pyrobut",["fire"],2],[816,"Larméléon",["water"],0],[817,"Arrozard",["water"],1],[818,"Lézargus",["water"],2],[819,"Rongourmand",["normal"],0],[820,"Rongrigou",["normal"],1],[821,"Minisange",["flying"],0],[822,"Bleuseille",["flying"],1],[823,"Corvaillus",["flying","steel"],2],[824,"Larvadar",["bug"],0],[825,"Coléodôme",["bug","psychic"],1],[826,"Astronelle",["bug","psychic"],2],[827,"Goupilou",["dark"],0],[828,"Roublenard",["dark"],1],[829,"Tournicoton",["grass"],0],[830,"Blancoton",["grass"],1],[831,"Moumouton",["normal"],0],[832,"Moumouflon",["normal"],1],[833,"Khélocrok",["water"],0],[834,"Torgamord",["water","rock"],1],[835,"Voltoutou",["electric"],0],[836,"Fulgudog",["electric"],1],[837,"Charbi",["rock"],0],[838,"Wagomine",["rock","fire"],1],[839,"Monthracite",["rock","fire"],2],[840,"Verpom",["grass","dragon"],0],[841,"Pomdrapi",["grass","dragon"],1],[842,"Dratatin",["grass","dragon"],1],[843,"Dunaja",["ground"],0],[844,"Dunaconda",["ground"],1],[845,"Nigosier",["flying","water"],0],[846,"Embrochet",["water"],0],[847,"Hastacuda",["water"],1],[848,"Toxizap",["electric","poison"],0],[849,"Salarsen",["electric","poison"],1],[850,"Grillepattes",["fire","bug"],0],[851,"Scolocendre",["fire","bug"],1],[852,"Poulpaf",["fighting"],0],[853,"Krakos",["fighting"],1],[854,"Théffroi",["ghost"],0],[855,"Polthégeist",["ghost"],1],[856,"Bibichut",["psychic"],0],[857,"Chapotus",["psychic"],1],[858,"Sorcilence",["psychic","fairy"],2],[859,"Grimalin",["dark","fairy"],0],[860,"Fourbelin",["dark","fairy"],1],[861,"Angoliath",["dark","fairy"],2],[862,"Ixon",["dark","normal"],2],[863,"Berserkatt",["steel"],1],[864,"Corayôme",["ghost"],1],[865,"Palarticho",["fighting"],1],[866,"M. Glaquette",["ice","psychic"],1],[867,"Tutétékri",["ground","ghost"],1],[868,"Crèmy",["fairy"],0],[869,"Charmilly",["fairy"],1],[870,"Hexadron",["fighting"],0],[871,"Wattapik",["electric"],0],[872,"Frissonille",["ice","bug"],0],[873,"Beldeneige",["ice","bug"],1],[874,"Dolman",["rock"],0],[875,"Bekaglaçon",["ice"],0],[876,"Wimessir",["psychic","normal"],0],[877,"Morpeko",["electric","dark"],0],[878,"Charibari",["steel"],0],[879,"Pachyradjah",["steel"],1],[880,"Galvagon",["electric","dragon"],0],[881,"Galvagla",["electric","ice"],0],[882,"Hydragon",["water","dragon"],0],[883,"Hydragla",["water","ice"],0],[884,"Duralugon",["steel","dragon"],0],[885,"Fantyrm",["dragon","ghost"],0],[886,"Dispareptil",["dragon","ghost"],1],[887,"Lanssorien",["dragon","ghost"],2],[888,"Zacian",["fairy"],0],[889,"Zamazenta",["fighting"],0],[890,"Éthernatos",["poison","dragon"],0],[891,"Wushours",["fighting"],0],[892,"Shifours",["fighting","dark"],1],[893,"Zarude",["dark","grass"],0],[894,"Regieleki",["electric"],0],[895,"Regidrago",["dragon"],0],[896,"Blizzeval",["ice"],0],[897,"Spectreval",["ghost"],0],[898,"Sylveroy",["psychic","grass"],0],[899,"Cerbyllin",["normal","psychic"],1],[900,"Hachécateur",["bug","rock"],1],[901,"Ursaking",["ground","normal"],2],[902,"Paragruel",["water","ghost"],1],[903,"Farfurex",["fighting","poison"],1],[904,"Qwilpik",["dark","poison"],1],[905,"Amovénus",["fairy","flying"],0],[906,"Poussacha",["grass"],0],[907,"Matourgeon",["grass"],1],[908,"Miascarade",["grass","dark"],2],[909,"Chochodile",["fire"],0],[910,"Crocogril",["fire"],1],[911,"Flâmigator",["fire","ghost"],2],[912,"Coiffeton",["water"],0],[913,"Canarbello",["water"],1],[914,"Palmaval",["water","fighting"],2],[915,"Gourmelet",["normal"],0],[916,"Fragroin",["normal"],1],[917,"Tissenboule",["bug"],0],[918,"Filentrappe",["bug"],1],[919,"Lilliterelle",["bug"],0],[920,"Gambex",["bug","dark"],1],[921,"Pohm",["electric"],0],[922,"Pohmotte",["electric","fighting"],1],[923,"Pohmarmotte",["electric","fighting"],2],[924,"Compagnol",["normal"],0],[925,"Famignol",["normal"],1],[926,"Pâtachiot",["fairy"],0],[927,"Briochien",["fairy"],1],[928,"Olivini",["grass","normal"],0],[929,"Olivado",["grass","normal"],1],[930,"Arboliva",["grass","normal"],2],[931,"Tapatoès",["normal","flying"],0],[932,"Selutin",["rock"],0],[933,"Amassel",["rock"],1],[934,"Gigansel",["rock"],2],[935,"Charbambin",["fire"],0],[936,"Carmadura",["fire","psychic"],1],[937,"Malvalame",["fire","ghost"],1],[938,"Têtampoule",["electric"],0],[939,"Ampibidou",["electric"],1],[940,"Zapétrel",["electric","flying"],0],[941,"Fulgulairo",["electric","flying"],1],[942,"Grondogue",["dark"],0],[943,"Dogrino",["dark"],1],[944,"Gribouraigne",["poison","normal"],0],[945,"Tag-Tag",["poison","normal"],1],[946,"Virovent",["grass","ghost"],0],[947,"Virevorreur",["grass","ghost"],1],[948,"Terracool",["ground","grass"],0],[949,"Terracruel",["ground","grass"],1],[950,"Craparoi",["rock"],0],[951,"Pimito",["grass"],0],[952,"Scovilain",["grass","fire"],1],[953,"Léboulérou",["bug"],0],[954,"Bérasca",["bug","psychic"],1],[955,"Flotillon",["psychic"],0],[956,"Cléopsytra",["psychic"],1],[957,"Forgerette",["fairy","steel"],0],[958,"Forgella",["fairy","steel"],1],[959,"Forgelina",["fairy","steel"],2],[960,"Taupikeau",["water"],0],[961,"Triopikeau",["water"],1],[962,"Lestombaile",["flying","dark"],0],[963,"Dofin",["water"],0],[964,"Superdofin",["water"],1],[965,"Vrombi",["steel","poison"],0],[966,"Vrombotor",["steel","poison"],1],[967,"Motorizard",["dragon","normal"],0],[968,"Ferdeter",["steel"],0],[969,"Germéclat",["rock","poison"],0],[970,"Floréclat",["rock","poison"],1],[971,"Toutombe",["ghost"],0],[972,"Tomberro",["ghost"],1],[973,"Flamenroule",["flying","fighting"],0],[974,"Piétacé",["ice"],0],[975,"Balbalèze",["ice"],1],[976,"Délestin",["water","psychic"],0],[977,"Oyacata",["water"],0],[978,"Nigirigon",["dragon","water"],0],[979,"Courrousinge",["fighting","ghost"],2],[980,"Terraiste",["poison","ground"],1],[981,"Farigiraf",["normal","psychic"],1],[982,"Deusolourdo",["normal"],1],[983,"Scalpereur",["dark","steel"],2],[984,"Fort-Ivoire",["ground","fighting"],0],[985,"Hurle-Queue",["fairy","psychic"],0],[986,"Fongus-Furie",["grass","dark"],0],[987,"Flotte-Mèche",["ghost","fairy"],0],[988,"Rampe-Ailes",["bug","fighting"],0],[989,"Pelage-Sablé",["electric","ground"],0],[990,"Roue-de-Fer",["ground","steel"],0],[991,"Hotte-de-Fer",["ice","water"],0],[992,"Paume-de-Fer",["fighting","electric"],0],[993,"Têtes-de-Fer",["dark","flying"],0],[994,"Mite-de-Fer",["fire","poison"],0],[995,"Épine-de-Fer",["rock","electric"],0],[996,"Frigodo",["dragon","ice"],0],[997,"Cryodo",["dragon","ice"],1],[998,"Glaivodo",["dragon","ice"],2],[999,"Mordudor",["ghost"],0],[1000,"Gromago",["steel","ghost"],1],[1001,"Chongjian",["dark","grass"],0],[1002,"Baojian",["dark","ice"],0],[1003,"Dinglu",["dark","ground"],0],[1004,"Yuyu",["dark","fire"],0],[1005,"Rugit-Lune",["dragon","dark"],0],[1006,"Garde-de-Fer",["fairy","fighting"],0],[1007,"Koraidon",["fighting","dragon"],0],[1008,"Miraidon",["electric","dragon"],0],[1009,"Serpente-Eau",["water","dragon"],0],[1010,"Vert-de-Fer",["grass","psychic"],0],[1011,"Pomdramour",["grass","dragon"],1],[1012,"Poltchageist",["grass","ghost"],0],[1013,"Théffroyable",["grass","ghost"],1],[1014,"Félicanis",["poison","fighting"],0],[1015,"Fortusimia",["poison","psychic"],0],[1016,"Favianos",["poison","fairy"],0],[1017,"Ogerpon",["grass"],0],[1018,"Pondralugon",["steel","dragon"],1],[1019,"Pomdorochi",["grass","dragon"],2],[1020,"Feu-Perçant",["fire","dragon"],0],[1021,"Ire-Foudre",["electric","dragon"],0],[1022,"Roc-de-Fer",["rock","psychic"],0],[1023,"Chef-de-Fer",["steel","psychic"],0],[1024,"Terapagos",["normal"],0],[1025,"Pêchaminus",["poison","ghost"],0]];
+
+function loadPokedex() {
+  state.pokemon = POKEDEX.map((r,i)=>({
+    id:"p"+i, num:r[0], name:r[1], displayName:r[1],
+    gameTypes:r[2], stage:STAGES[r[3]]
+  }));
+  state.pokemon.sort((a,b)=>a.num-b.num || a.displayName.localeCompare(b.displayName,"fr"));
+  state.loaded=true;
+  render();
+}
+
+renderTypeFilter();
+renderStageFilter();
+render();
+loadPokedex();
+</script>
+</body>
+</html>
