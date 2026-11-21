@@ -112,7 +112,7 @@ input[type="number"] {
 }
 #validateBtn { margin-top:2px; padding:8px; font-size:14px; }
 header { display:flex; align-items:center; gap:8px; }
-.tabs { display:flex; gap:4px; margin:0 auto 0 14px; }
+.tabs { display:flex; gap:4px; margin:0 auto 0 0; }
 .tab { padding:3px 12px; font-size:13px; background:transparent; border-color:transparent; color:var(--muted); }
 .tab.active { background:var(--soft); border-color:var(--accent); color:var(--accent); }
 body[data-view="voisins"] #viewCartodle { display:none; }
@@ -278,7 +278,6 @@ header button { padding:3px 10px; font-size:12px; }
 }
 @media(max-width:470px) {
   header { padding:8px 12px; gap:4px; }
-  .tabs { margin-left:8px; }
   .tab { padding:3px 8px; }
   main { padding:7px; gap:7px; }
   .panel { padding:9px; }
@@ -293,9 +292,8 @@ header button { padding:3px 10px; font-size:12px; }
 </head>
 <body>
 <header>
-  <span class="brand">Cartodle</span>
   <nav class="tabs" role="tablist">
-    <button class="tab active" role="tab" data-view="cartodle" aria-selected="true">Jeu</button>
+    <button class="tab active" role="tab" data-view="cartodle" aria-selected="true">Cartodle</button>
     <button class="tab" role="tab" data-view="voisins" aria-selected="false">Voisins</button>
   </nav>
   <button id="resetBtn">Réinitialiser</button>
@@ -1099,12 +1097,13 @@ const Voisins = (() => {
     updateDeg(); clearResults();
   };
 
+  rowTypes.forEach((_, i) => renderTypes(i)); // emplacements / bouton « + Type » dès l'arrivée
   updateDeg(); // les 9 cartes démarrent vides ; le bouton « Exemple » les remplit
   setOpen(true);
   return { readCards, shared, solveCards, genOf, fromEntry, byName, norm };
 })();
 
-// ---------- Sélecteur de vues (Jeu / Voisins) ----------
+// ---------- Sélecteur de vues (Cartodle / Voisins) ----------
 function setView(view) {
   document.body.dataset.view = view;
   document.querySelectorAll(".tab").forEach(b => {
