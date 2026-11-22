@@ -401,7 +401,7 @@ span.c-fb { cursor:default; }
     flex:none; display:flex; align-items:center; gap:10px;
     width:100%; padding:10px 12px; font-size:15px;
   }
-  .filters-toggle .summary { flex:1; text-align:right; font-size:12px; font-weight:500; color:var(--muted); }
+  .filters-toggle .summary { flex:1; min-width:0; padding-left:30px; text-align:center; font-size:22px; font-weight:800; color:var(--text, #fff); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .filters-toggle svg { transition:transform .2s; }
   body.filters-open .filters-toggle svg { transform:rotate(180deg); }
   aside.panel { display:none; }
@@ -513,7 +513,6 @@ span.c-fb { cursor:default; }
 </header>
 <main id="viewCartodle">
   <button id="filtersToggle" class="filters-toggle" aria-expanded="true" aria-controls="filtersPanel">
-    <span>Filtres</span>
     <span id="filtersSummary" class="summary"></span>
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
   </button>
@@ -943,8 +942,23 @@ function appendTypes(container,p) {
 function render() {
   $("refNumber").textContent=String(state.ref).padStart(3,"0");
   $("interval").textContent="N° "+state.lo+" – "+state.hi;
+  const refP=state.pokemon.find(p=>p.num===state.ref), refName=refP?refP.name:"";
   $("filtersSummary").textContent=
-    "ID "+String(state.ref).padStart(3,"0")+" · N° "+state.lo+" – "+state.hi;
+    refName;
+  if(refP) {
+    // Fond = couleur du type ; double type = deux moitiés (gauche / droite), image SVG pour résister au mode nuit.
+    const cs=refP.gameTypes.map(t=>GAME_COLORS[t]||"#888888"), a=cs[0], b=cs[1]||cs[0];
+    const mix=h=>[h.slice(1,3),h.slice(3,5),h.slice(5,7)].map(x=>parseInt(x,16));
+    const m=mix(a).map((v,i)=>Math.round((v+mix(b)[i])/2));
+    const fg=textOn("#"+m.map(v=>v.toString(16).padStart(2,"0")).join(""));
+    const tg=$("filtersToggle"), sm=$("filtersSummary");
+    tg.style.backgroundImage=cs.length>1
+      ? "url(data:image/svg+xml,"+_enc("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 1' preserveAspectRatio='none'><rect width='1' height='1' fill='"+a+"'/><rect x='1' width='1' height='1' fill='"+b+"'/></svg>")+")"
+      : solid(a);
+    tg.style.backgroundSize="100% 100%"; tg.style.backgroundRepeat="no-repeat";
+    tg.style.color=fg; tg.style.borderColor=fg==="#ffffff"?"rgba(255,255,255,.35)":"rgba(0,0,0,.3)";
+    const k=ink(fg); sm.style.color=k.color; sm.style.textShadow=k.shadow;
+  }
   const rows=$("rows");rows.innerHTML="";
   if(!state.loaded) {
     $("count").textContent="Chargement…";
