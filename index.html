@@ -2375,7 +2375,7 @@ const Voltorb = (() => {
   }
 
   $("fClear").onclick = () => { S.cells.fill(0); save(); refresh(); };
-  const reset = () => { S = blank(); order.forEach(el => { el.value = ""; }); save(); refresh(); };
+  const reset = () => { S = blank(); order.forEach(el => { el.value = ""; }); save(); refresh(); order[0].focus(); };
   $("fNew").onclick = reset;
   refresh();
   return { reset, solveBoard };
