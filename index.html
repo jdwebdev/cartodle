@@ -142,6 +142,37 @@ body:not([data-view="cartodle"]) #viewCartodle { display:none; }
 body:not([data-view="voisins"]) #viewVoisins { display:none; }
 body:not([data-view="coffre"]) #viewCoffre { display:none; }
 body:not([data-view="connexions"]) #viewConnexions { display:none; }
+/* Vue Voltorbataille */
+#viewVoltorb { display:flex; flex-direction:column; align-items:center; overflow:auto; max-width:520px; width:100%; margin:0 auto; }
+body:not([data-view="voltorb"]) #viewVoltorb { display:none; }
+.f-panel { width:100%; }
+.f-board { margin:8px 0; padding:10px; border:3px solid transparent; border-radius:18px; background-repeat:repeat,no-repeat,no-repeat; background-size:14px 14px,100% 100%,100% 100%; background-origin:padding-box,padding-box,border-box; background-clip:padding-box,padding-box,border-box; }
+.f-grid { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:5px; }
+.f-rail { z-index:0; background-size:100% 100%; background-repeat:no-repeat; }
+.f-rail.is-row { height:6px; align-self:center; }
+.f-rail.is-col { width:6px; justify-self:center; }
+.f-cell { --tx:#0d3a22; aspect-ratio:1/1; min-width:0; padding:0; display:block; border:0; border-radius:0; background:transparent; position:relative; z-index:1; }
+.f-tl { position:absolute; left:0; top:0; width:100%; height:100%; pointer-events:none; }
+.f-tx { position:absolute; left:0; top:0; width:100%; height:100%; padding-bottom:7%; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; line-height:1.1; }
+.f-p, .f-s, .f-star { color:transparent; text-shadow:0 0 0 var(--tx); }
+.f-p { font-size:15px; font-weight:800; }
+.f-big { font-size:26px; }
+.f-s { font-size:9px; opacity:.85; white-space:nowrap; }
+.f-star { position:absolute; top:1px; right:4px; font-size:11px; text-shadow:0 0 0 #ffd24a; }
+.f-clue { position:relative; z-index:1; aspect-ratio:1/1; min-width:0; background-size:100% 100%; background-repeat:no-repeat; }
+.f-in { border:0; background:transparent; padding:0; margin:0; text-align:center; font:inherit; font-weight:800; min-width:0; width:100%; color:transparent; border-radius:0; }
+.f-in.p { position:absolute; left:0; top:6%; height:44%; font-size:18px; caret-color:#2b2a26; text-shadow:0 0 0 #2b2a26; }
+.f-in.p::placeholder { color:transparent; text-shadow:0 0 0 #b9b9b9; }
+.f-in.v { width:18px; height:100%; font-size:16px; caret-color:#fff; text-shadow:0 0 0 #fff; }
+.f-in.v::placeholder { color:transparent; text-shadow:0 0 0 #ffffffa0; }
+.f-in:focus { outline:2px solid #14261c; outline-offset:-2px; border-radius:6px; }
+.f-clue-v { position:absolute; left:0; right:0; top:57%; height:30%; display:flex; align-items:center; justify-content:center; gap:3px; }
+.f-vi { width:16px; height:16px; flex:none; }
+.f-mode { display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin:4px 0; }
+.f-mode button { width:38px; padding:5px 0; font-size:14px; }
+.f-advice { margin:8px 0; font-size:13px; line-height:1.5; }
+.f-advice b { color:var(--accent); }
+.f-advice .small { display:block; margin-top:2px; }
 body[data-view="coffre"] #resetBtn { visibility:hidden; }
 header button { padding:3px 10px; font-size:12px; }
 .dex-header,.pokemon-row {
@@ -440,7 +471,7 @@ span.c-fb { cursor:default; }
 @media(max-width:470px) {
   header { padding:8px 8px; gap:2px; min-width:0; }
   .tabs { gap:0; min-width:0; }
-  .tab { padding:3px 6px; font-size:12px; }
+  .tab { padding:3px 3px; font-size:11.5px; }
   header #resetBtn { padding:3px 7px; font-size:11px; flex:none; white-space:nowrap; }
   main { padding:7px; gap:7px; }
   .panel { padding:9px; }
@@ -453,6 +484,15 @@ span.c-fb { cursor:default; }
   .card-sub { margin-left:30px; }
   .cs-row { grid-template-columns:minmax(0,1.2fr) 62px 28px minmax(0,1fr); gap:4px; font-size:11px; }
   .cs-types .type-badge { font-size:8.5px; padding:1px 3px; }
+}
+@media(max-width:470px) {
+  #viewVoltorb { padding:7px; }
+  .f-board { padding:7px; }
+  .f-grid { gap:4px; }
+  .f-p { font-size:13px; }
+  .f-big { font-size:22px; }
+  .f-in.p { font-size:16px; }
+  .f-s { font-size:8.5px; }
 }
 @media(max-width:360px) {
   .tab { padding:3px 4px; font-size:11px; }
@@ -467,6 +507,7 @@ span.c-fb { cursor:default; }
     <button class="tab" role="tab" data-view="voisins" aria-selected="false">Voisins</button>
     <button class="tab" role="tab" data-view="coffre" aria-selected="false">Coffre</button>
     <button class="tab" role="tab" data-view="connexions" aria-selected="false">Connexions</button>
+    <button class="tab" role="tab" data-view="voltorb" aria-selected="false">Voltorbe</button>
   </nav>
   <button id="resetBtn">Réinitialiser</button>
 </header>
@@ -581,6 +622,18 @@ span.c-fb { cursor:default; }
     <h2>Groupes</h2>
     <div id="xPillsTop" class="x-pills x-pills-top"></div>
     <div id="xOut"></div>
+  </section>
+</main>
+
+<main id="viewVoltorb" class="f-view">
+  <section class="panel f-panel">
+    <h2>Voltorbataille</h2>
+    <div class="f-board"><div id="fGrid" class="f-grid"></div></div>
+    <div id="fAdvice" class="f-advice"></div>
+    <div class="v-bar">
+      <button id="fClear">Effacer les cases</button>
+      <button id="fNew">Nouvelle partie</button>
+    </div>
   </section>
 </main>
 
@@ -2091,10 +2144,247 @@ const Coffre = (() => {
   return { ALL, feedback, fbKey, candidatesFor, bestGuess, state: () => ({ history, cands, cur, over }) };
 })();
 
+// ---------- Voltorbataille (aide à la résolution) ----------
+const Voltorb = (() => {
+  // Configurations officielles : [nombre de 2, nombre de 3, nombre de Voltorbe] (8 niveaux × 5 configurations).
+  const CONFIGS = [
+    [3,1,6],[0,3,6],[5,0,6],[2,2,6],[4,1,6],
+    [1,3,7],[6,0,7],[3,2,7],[0,4,7],[5,1,7],
+    [2,3,8],[7,0,8],[4,2,8],[1,4,8],[6,1,8],
+    [3,3,8],[0,5,8],[8,0,10],[5,2,10],[2,4,10],
+    [7,1,10],[4,3,10],[1,5,10],[9,0,10],[6,2,10],
+    [3,4,10],[0,6,10],[8,1,10],[5,3,10],[2,5,10],
+    [7,2,10],[4,4,10],[1,6,13],[9,1,13],[6,3,10],
+    [0,7,10],[8,2,10],[5,4,10],[2,6,10],[7,3,10]
+  ];
+  const FACT = [1]; for (let i = 1; i <= 25; i++) FACT[i] = FACT[i - 1] * i;
+  // Poids d'un plateau = 1 / (nombre de placements possibles de sa configuration).
+  const CFG = new Map(CONFIGS.map(([a, b, v]) =>
+    [a + "," + b + "," + v, FACT[a] * FACT[b] * FACT[v] * FACT[25 - a - b - v] / FACT[25]]));
+
+  // SOLVER-START
+  // rp/rv : points et Voltorbe de chaque ligne ; cp/cv : idem pour les colonnes ; cells : 0 = cachée, 1..3 = retournée.
+  function solveBoard(rp, rv, cp, cv, cells) {
+    const sum = a => a.reduce((x, y) => x + y, 0);
+    if (sum(rp) !== sum(cp) || sum(rv) !== sum(cv)) return { n: 0 };
+    const cand = [];
+    for (let r = 0; r < 5; r++) {
+      const list = [];
+      for (let m = 0; m < 1024; m++) {
+        const vals = [m & 3, (m >> 2) & 3, (m >> 4) & 3, (m >> 6) & 3, (m >> 8) & 3];
+        let s = 0, v = 0, ok = true;
+        for (let c = 0; c < 5; c++) {
+          const x = vals[c], k = cells[r * 5 + c];
+          if (k && k !== x) { ok = false; break; }
+          if (x === 0) v++; else s += x;
+        }
+        if (ok && s === rp[r] && v === rv[r]) list.push(vals);
+      }
+      if (!list.length) return { n: 0 };
+      cand.push(list);
+    }
+    const ord = [0, 1, 2, 3, 4].sort((a, b) => cand[a].length - cand[b].length);
+    const acc = new Float64Array(100), pick = [];
+    const colS = [0, 0, 0, 0, 0], colV = [0, 0, 0, 0, 0], cnt = [0, 0, 0, 0];
+    let total = 0, n = 0, steps = 0, aborted = false;
+    const dfs = r => {
+      if (aborted) return;
+      if (r === 5) {
+        for (let c = 0; c < 5; c++) if (colS[c] !== cp[c] || colV[c] !== cv[c]) return;
+        const w = CFG.get(cnt[2] + "," + cnt[3] + "," + cnt[0]);
+        if (!w) return;
+        total += w; n++;
+        for (let rr = 0; rr < 5; rr++) for (let cc = 0; cc < 5; cc++) acc[(rr * 5 + cc) * 4 + pick[rr][cc]] += w;
+        return;
+      }
+      const rem = 4 - r;
+      for (const vals of cand[ord[r]]) {
+        if (++steps > 30000000) { aborted = true; return; }
+        for (let c = 0; c < 5; c++) { colS[c] += vals[c]; if (vals[c] === 0) colV[c]++; cnt[vals[c]]++; }
+        let ok = true;
+        for (let c = 0; c < 5; c++)
+          if (colS[c] > cp[c] || colS[c] + 3 * rem < cp[c] || colV[c] > cv[c] || colV[c] + rem < cv[c]) { ok = false; break; }
+        if (ok) { pick[ord[r]] = vals; dfs(r + 1); }
+        for (let c = 0; c < 5; c++) { colS[c] -= vals[c]; if (vals[c] === 0) colV[c]--; cnt[vals[c]]--; }
+        if (aborted) return;
+      }
+    };
+    dfs(0);
+    return { n, total, acc, aborted };
+  }
+  // SOLVER-END
+
+  const KEY = "cartodle.voltorb";
+  const blank = () => ({ rp: Array(5).fill(null), rv: Array(5).fill(null), cp: Array(5).fill(null), cv: Array(5).fill(null), cells: Array(25).fill(0), mode: 1 });
+  let S = blank();
+  try {
+    const j = JSON.parse(localStorage.getItem(KEY));
+    const arr = (a, n, f) => Array.isArray(a) && a.length === n && a.every(f);
+    const nul = x => x === null || (Number.isInteger(x) && x >= 0 && x <= 15);
+    if (j && ["rp", "rv", "cp", "cv"].every(k => arr(j[k], 5, nul)) && arr(j.cells, 25, x => [0, 1, 2, 3].includes(x))) S = { ...blank(), ...j, mode: [1, 2, 3].includes(j.mode) ? j.mode : 1 };
+  } catch (e) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+
+  const grid = $("fGrid"), adv = $("fAdvice"), order = [], cellEls = [];
+
+  // ----- Visuel : toutes les couleurs sont dans des images SVG (le mode nuit de Brave ne les modifie pas) -----
+  const svgData = s => "data:image/svg+xml," + encodeURIComponent(s).replace(/'/g, "%27");
+  const svgUrl = s => 'url("' + svgData(s) + '")';
+  const EDGE = "#14261c";
+  const RAIL = ["#e5735d", "#3fa65a", "#e3a234", "#3a8bd6", "#a95fd0"];
+  const TINT = ["#fdeee9", "#e9f6ec", "#fdf1dc", "#e6f0fb", "#f3e9fa"];
+  const solid = c => svgUrl("<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 1 1' preserveAspectRatio='none'><rect width='1' height='1' fill='" + c + "'/></svg>");
+  const STRIPES = "M40 0L0 40M80 0L0 80M120 0L0 120M160 0L0 160M200 0L0 200";
+  const tileSvg = (face, stripe, edge, ew) => svgData(
+    "<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 100 100' preserveAspectRatio='none'><defs><clipPath id='c'><rect x='3' y='3' width='94' height='88' rx='16'/></clipPath>" +
+    (Array.isArray(face) ? "<linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='" + face[0] + "'/><stop offset='1' stop-color='" + face[1] + "'/></linearGradient>" : "") + "</defs>" +
+    "<rect x='3' y='9' width='94' height='88' rx='16' fill='" + EDGE + "'/>" +
+    "<rect x='3' y='3' width='94' height='88' rx='16' fill='" + (Array.isArray(face) ? "url(#g)" : face) + "'/>" +
+    (stripe ? "<g clip-path='url(#c)'><path d='" + STRIPES + "' stroke='" + stripe + "' stroke-width='9' fill='none'/></g>" : "") +
+    "<rect x='3' y='3' width='94' height='88' rx='16' fill='none' stroke='" + (edge || EDGE) + "' stroke-width='" + (ew || 4) + "'/></svg>");
+  const clueSvg = i => svgUrl(
+    "<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 100 100' preserveAspectRatio='none'><defs><clipPath id='k'><rect x='3' y='3' width='94' height='88' rx='14'/></clipPath></defs>" +
+    "<rect x='3' y='9' width='94' height='88' rx='14' fill='" + EDGE + "'/>" +
+    "<g clip-path='url(#k)'><rect x='0' y='0' width='100' height='54' fill='" + TINT[i] + "'/><rect x='0' y='54' width='100' height='40' fill='" + RAIL[i] + "'/></g>" +
+    "<rect x='3' y='3' width='94' height='88' rx='14' fill='none' stroke='" + EDGE + "' stroke-width='4'/></svg>");
+  const VOLT = "data:image/svg+xml," + encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><circle cx='20' cy='20' r='17' fill='#fff' stroke='#111' stroke-width='2.5'/><path d='M3 21a17 17 0 0 1 34 0z' fill='#e3350d' stroke='#111' stroke-width='2.5' stroke-linejoin='round'/><path d='M9.5 13.5 17.5 16.6 16.6 19.6 10 18.6z' fill='#fff' stroke='#111' stroke-width='1.6' stroke-linejoin='round'/><path d='M30.5 13.5 22.5 16.6 23.4 19.6 30 18.6z' fill='#fff' stroke='#111' stroke-width='1.6' stroke-linejoin='round'/><circle cx='14.6' cy='17.6' r='1.7' fill='#111'/><circle cx='25.4' cy='17.6' r='1.7' fill='#111'/><ellipse cx='12' cy='9' rx='4.2' ry='2' fill='#fff' opacity='0.6' transform='rotate(-30 12 9)'/></svg>").replace(/'/g, "%27");
+  // classe de case : [face, rayures, texte, bord, épaisseur du bord]
+  const TILE = {
+    "": ["#3fa86a", "#49b777", "#0d3a22"],
+    "f-safe": ["#5fd493", "#72e0a5", "#06351d"],
+    "f-safe1": ["#37945e", "#3fa068", "#d3f1e0"],
+    "f-lo": ["#d8d65c", "#e3e170", "#3a3608"],
+    "f-mid": ["#f2a64c", "#f6b762", "#4a2606"],
+    "f-hi": ["#e8645d", "#ef7973", "#ffffff"],
+    "f-best": ["#5fd493", "#72e0a5", "#06351d", "#ffd24a", 7],
+    "f-rev1": ["#f7eedb", null, "#2b2a26"],
+    "f-rev2": [["#fbe28f", "#efb232"], null, "#5a3a06"]
+  };
+  const css = [".f-board{background-image:" + svgUrl("<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14'><circle cx='3' cy='3' r='1.4' fill='#3aab69'/><circle cx='10' cy='10' r='1.4' fill='#3aab69'/></svg>") + "," + solid("#2e9c5c") + "," + solid(EDGE) + "}"];
+  const TILEURL = {};
+  Object.entries(TILE).forEach(([k, v]) => { TILEURL[k] = tileSvg(v[0], v[1], v[3], v[4]); css.push(".f-cell" + (k ? "." + k : "") + "{--tx:" + v[2] + "}"); });
+  const styleEl = document.createElement("style"); styleEl.textContent = css.join("\n"); document.head.appendChild(styleEl);
+
+  const focusNext = el => { const n = order[order.indexOf(el) + 1]; if (n) n.focus(); else el.blur(); };
+  const mkIn = (key, i, kind, label) => {
+    const el = document.createElement("input");
+    el.className = "f-in " + kind; el.type = "text"; el.inputMode = "numeric"; el.maxLength = 2;
+    el.autocomplete = "off"; el.enterKeyHint = "next"; el.placeholder = kind === "p" ? "00" : "0";
+    el.setAttribute("aria-label", label);
+    const pad = () => { if (kind === "p" && S[key][i] != null) el.value = String(S[key][i]).padStart(2, "0"); };
+    if (S[key][i] != null) { el.value = S[key][i]; pad(); }
+    el.addEventListener("input", () => {
+      const t = el.value.replace(/\D/g, "");
+      const v = t === "" ? null : Math.min(+t, kind === "p" ? 15 : 5);
+      el.value = v == null ? "" : String(v);
+      S[key][i] = v; save(); refresh();
+      if (v != null && (kind === "v" || t.length >= 2 || v >= 2 || t === "0")) focusNext(el);
+    });
+    el.addEventListener("blur", pad);
+    el.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); focusNext(el); } });
+    el.addEventListener("focus", () => el.select());
+    return el;
+  };
+  const mkInd = (keyP, keyV, i, what) => {
+    const d = document.createElement("div"); d.className = "f-clue"; d.style.backgroundImage = clueSvg(i);
+    const p = mkIn(keyP, i, "p", "Total de points " + what), v = mkIn(keyV, i, "v", "Nombre de Voltorbe " + what);
+    const b = document.createElement("div"); b.className = "f-clue-v";
+    const ic = document.createElement("img"); ic.className = "f-vi"; ic.alt = ""; ic.src = VOLT;
+    b.append(ic, v); d.append(p, b);
+    return [d, p, v];
+  };
+  // Rails colorés (derrière les cases) : une couleur par ligne et par colonne.
+  for (let i = 0; i < 5; i++) {
+    const rr = document.createElement("span"); rr.className = "f-rail is-row"; rr.style.gridArea = (i + 1) + " / 1 / " + (i + 2) + " / 7"; rr.style.backgroundImage = solid(RAIL[i]);
+    const rc = document.createElement("span"); rc.className = "f-rail is-col"; rc.style.gridArea = "1 / " + (i + 1) + " / 7 / " + (i + 2); rc.style.backgroundImage = solid(RAIL[i]);
+    grid.append(rr, rc);
+  }
+  // Ordre de saisie : lignes (points puis Voltorbe), puis colonnes.
+  for (let r = 0; r < 5; r++) { const x = mkInd("rp", "rv", r, "ligne " + (r + 1)); x[0].style.gridArea = (r + 1) + " / 6"; order.push(x[1], x[2]); grid.appendChild(x[0]); }
+  for (let c = 0; c < 5; c++) { const x = mkInd("cp", "cv", c, "colonne " + (c + 1)); x[0].style.gridArea = "6 / " + (c + 1); order.push(x[1], x[2]); grid.appendChild(x[0]); }
+  for (let r = 0; r < 5; r++) {
+    for (let c = 0; c < 5; c++) {
+      const b = document.createElement("button"), i = r * 5 + c;
+      b.className = "f-cell"; b.type = "button"; b.style.gridArea = (r + 1) + " / " + (c + 1);
+      b.setAttribute("aria-label", "Ligne " + (r + 1) + " colonne " + (c + 1));
+      b.onclick = () => { S.cells[i] = (S.cells[i] + 1) % 4; save(); refresh(); };
+      const im = document.createElement("img"); im.className = "f-tl"; im.alt = ""; im.src = TILEURL[""];
+      const tx = document.createElement("span"); tx.className = "f-tx";
+      b.append(im, tx); b._im = im; b._tx = tx;
+      cellEls.push(b); grid.appendChild(b);
+    }
+  }
+
+  const pct = p => p <= 1e-9 ? "0 %" : p < 0.01 ? "<1 %" : Math.round(p * 100) + " %";
+  // Chance que la case soit sûre (pas de Voltorbe) : jamais arrondie à 100 % tant qu'un risque existe.
+  const safe = pv => pv <= 1e-9 ? "100 %" : pv >= 1 - 1e-9 ? "0 %" : (1 - pv) < 0.01 ? "<1 %" : Math.min(99, Math.round((1 - pv) * 100)) + " %";
+  const name = i => "L" + (Math.floor(i / 5) + 1) + " C" + (i % 5 + 1);
+
+  // Peint une case : la face est une vraie image <img> (le mode nuit de Brave retouche les fonds CSS clairs).
+  const paint = (el, cls, html) => {
+    el.className = "f-cell" + (cls ? " " + cls : "");
+    const u = TILEURL[cls];
+    if (el._im.getAttribute("src") !== u) el._im.src = u;
+    el._tx.innerHTML = html;
+  };
+  function refresh() {
+    const missing = [...S.rp, ...S.rv, ...S.cp, ...S.cv].filter(x => x == null).length;
+    let res = null, html = "";
+    if (!missing) {
+      res = solveBoard(S.rp, S.rv, S.cp, S.cv, S.cells);
+      if (res.aborted) { html = "Trop de plateaux possibles pour le calcul : vérifiez les indicateurs."; res = null; }
+      else if (!res.n) { html = "Aucun plateau ne correspond : vérifiez les indicateurs et les cases retournées."; res = null; }
+    }
+    const info = []; let bestIdx = -1;
+    if (res) {
+      for (let i = 0; i < 25; i++) {
+        if (S.cells[i]) continue;
+        const a = res.acc, p = [0, 1, 2, 3].map(v => a[i * 4 + v] / res.total);
+        info[i] = { i, pv: p[0], p23: p[2] + p[3], sure: p.findIndex((x, v) => v && x > 1 - 1e-9) };
+      }
+      const open = info.filter(Boolean);
+      const best = open.slice().sort((x, y) => x.pv - y.pv || y.p23 - x.p23)[0];
+      const gains = open.filter(x => x.p23 > 1e-9).length;
+      if (!open.length) html = "Toutes les cases sont retournées.";
+      else if (!gains) html = "<b>Plus rien à gagner :</b> il ne reste aucun 2 ni 3. Vous pouvez empocher.";
+      else {
+        const safeG = open.filter(x => x.pv <= 1e-9 && x.p23 > 1e-9).sort((x, y) => y.p23 - x.p23);
+        if (safeG.length) {
+          const b = safeG[0];
+          bestIdx = b.i;
+          html = "<b>À retourner : " + name(b.i) + "</b> (sûre, 2 ou 3 : " + pct(b.p23) + ")";
+          if (safeG.length > 1) html += '<span class="small">Autres cases sûres à gain : ' + safeG.slice(1, 8).map(x => name(x.i) + " (" + pct(x.p23) + ")").join(", ") + (safeG.length > 8 ? "…" : "") + "</span>";
+        } else {
+          html = "<b>Aucune case sûre à gain.</b> La moins risquée : " + name(best.i) + " (sûre à " + safe(best.pv) + ", 2 ou 3 : " + pct(best.p23) + ")";
+          const s1 = open.filter(x => x.pv <= 1e-9);
+          if (s1.length) html += '<span class="small">Cases sûres sans gain (des 1) : ' + s1.slice(0, 8).map(x => name(x.i)).join(", ") + ". À retourner d’abord si vous risquez une case douteuse (cela limite la perte de niveau).</span>";
+        }
+      }
+      html += '<span class="small">' + res.n + " plateau" + (res.n > 1 ? "x" : "") + " possible" + (res.n > 1 ? "s" : "") + ".</span>";
+    }
+    for (let i = 0; i < 25; i++) {
+      const el = cellEls[i], x = info[i];
+      if (S.cells[i]) { paint(el, S.cells[i] === 1 ? "f-rev1" : "f-rev2", '<span class="f-p f-big">' + S.cells[i] + "</span>"); continue; }
+      if (!x) { paint(el, "", ""); continue; }
+      let cls = x.pv <= 1e-9 ? (x.p23 > 1e-9 ? "f-safe" : "f-safe1") : x.pv < 0.15 ? "f-lo" : x.pv < 0.35 ? "f-mid" : "f-hi";
+      if (i === bestIdx) cls = "f-best";
+      const sub = x.sure > 0 ? "= " + x.sure : x.pv >= 1 - 1e-9 ? "Voltorbe" : "2/3 : " + pct(x.p23).replace(" ", "");
+      paint(el, cls, '<span class="f-p">' + safe(x.pv) + '</span><span class="f-s">' + sub + "</span>" + (cls === "f-best" ? '<span class="f-star">★</span>' : ""));
+    }
+    adv.innerHTML = html;
+  }
+
+  $("fClear").onclick = () => { S.cells.fill(0); save(); refresh(); };
+  const reset = () => { S = blank(); order.forEach(el => { el.value = ""; }); save(); refresh(); };
+  $("fNew").onclick = reset;
+  refresh();
+  return { reset, solveBoard };
+})();
+
 // Le bouton « Réinitialiser » de l'en-tête agit sur la vue affichée (Cartodle ou Voisins).
 $("resetBtn").onclick = () => {
   const v = document.body.dataset.view;
-  if (v === "voisins") Voisins.reset(); else if (v === "connexions") Connexions.reset(); else reset();
+  if (v === "voisins") Voisins.reset(); else if (v === "connexions") Connexions.reset(); else if (v === "voltorb") Voltorb.reset(); else reset();
 };
 
 // Safari iOS ignore user-scalable=no : on bloque aussi les gestes de zoom (pincement) à la main.
@@ -2113,7 +2403,7 @@ function setView(view) {
   if (view === "cartodle") render(); // recentre le listing une fois visible
 }
 document.querySelectorAll(".tab").forEach(b => { b.onclick = () => setView(b.dataset.view); });
-setView(["voisins", "coffre", "connexions"].includes(location.hash.slice(1)) ? location.hash.slice(1) : "cartodle");
+setView(["voisins", "coffre", "connexions", "voltorb"].includes(location.hash.slice(1)) ? location.hash.slice(1) : "cartodle");
 
 renderTypeFilter();
 renderStageFilter();
