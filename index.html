@@ -483,8 +483,9 @@ span.c-fb { cursor:default; }
   .type-badge { font-size:9px; padding:2px 3px; }
   .pokemon-stage { font-size:9px; }
   .card-sub { margin-left:30px; }
-  .cs-row { grid-template-columns:minmax(0,1.2fr) 62px 28px minmax(0,1fr); gap:4px; font-size:11px; }
+  .cs-row { grid-template-columns:minmax(0,1fr) 52px 28px minmax(0,1.5fr); gap:4px; font-size:11px; }
   .cs-types .type-badge { font-size:8.5px; padding:1px 3px; }
+  .cs-ext { white-space:normal; line-height:1.25; }
 }
 @media(max-width:470px) {
   #viewVoltorb { padding:7px; }
@@ -1079,7 +1080,7 @@ function buildCardSub(p) {
       const tag=CARD_STAGE_CLASS[c.stage]!==normal?`<em class="cs-stage">${CARD_STAGE_LABEL[c.stage]}</em>`:"";
       const types=TCG.filter((_,i)=>c.types&(1<<i)).map(tcgBadge).join("");
       const ext=EXTENSIONS[c.set];
-      return `<div class="cs-row"><span class="cs-name"><span class="cs-n" title="${esc(name)}">${esc(name)}</span>${tag}</span><span class="cs-types">${types}</span><span class="cs-hp">${c.hp}</span><span class="cs-ext" title="${esc(ext[0])} (${ext[2]})">${esc(ext[0])}</span></div>`;
+      return `<div class="cs-row"><span class="cs-name"><span class="cs-n" title="${esc(name)}">${esc(name)}</span>${tag}</span><span class="cs-types">${types}</span><span class="cs-hp">${c.hp}</span><span class="cs-ext" title="${ext[2]} - ${esc(ext[0])}">${ext[2]} - ${esc(ext[0])}</span></div>`;
     }).join("");
   return div;
 }
