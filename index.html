@@ -191,7 +191,8 @@ header button { padding:3px 10px; font-size:12px; }
   cursor:pointer; border-radius:3px;
 }
 .pokemon-row:hover { background:var(--hover); }
-.pokemon-row.reference { position:relative; background-image:var(--ref-img); background-size:100% 100%; }
+.pokemon-row.reference { position:relative; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%233d4691'/%3E%3C/svg%3E"); background-size:100% 100%; }
+.pokemon-row.reference .dexnum, .pokemon-row.reference .pokemon-stage { color:#ffffff; text-shadow:none; }
 .pokemon-row.reference::before { content:""; position:absolute; left:0; top:0; bottom:0; width:4px; border-radius:2px; background:var(--accent-img); background-size:100% 100%; }
 .pokemon-row.outside { opacity:.3; filter:grayscale(1); }
 .dexnum { color:transparent; text-shadow:0 0 0 #8d93a6; font-size:11px; font-variant-numeric:tabular-nums; }
@@ -402,8 +403,8 @@ span.c-fb { cursor:default; }
     width:100%; padding:10px 12px; font-size:15px;
   }
   .filters-toggle .summary { flex:1; min-width:0; padding-left:30px; text-align:center; font-size:22px; font-weight:800; color:var(--text, #fff); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .filters-toggle svg { transition:transform .2s; }
-  body.filters-open .filters-toggle svg { transform:rotate(180deg); }
+  .filters-toggle svg, .filters-toggle img { flex:none; transition:transform .2s; }
+  body.filters-open .filters-toggle svg, body.filters-open .filters-toggle img { transform:rotate(180deg); }
   aside.panel { display:none; }
   body.filters-open aside.panel { display:block; flex:1; }
   section.results-panel { flex:1; }
@@ -514,7 +515,7 @@ span.c-fb { cursor:default; }
 <main id="viewCartodle">
   <button id="filtersToggle" class="filters-toggle" aria-expanded="true" aria-controls="filtersPanel">
     <span id="filtersSummary" class="summary"></span>
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    <img id="filtersArrow" width="20" height="20" alt="">
   </button>
   <aside class="panel" id="filtersPanel">
     <section class="section">
@@ -760,7 +761,7 @@ const EXT_FIRST = 0, EXT_LAST = EXTENSIONS.length - 1;
   const sel=$(id); let grp=null, cur=-1;
   EXTENSIONS.forEach((e,k)=>{
     if(e[1]!==cur){ cur=e[1]; grp=document.createElement("optgroup"); grp.label=EXT_SERIES[cur]; sel.appendChild(grp); }
-    grp.appendChild(new Option(e[0]+" ("+e[2]+")",k));
+    grp.appendChild(new Option(e[2]+" - "+e[0],k));
   });
 });
 $("extMin").value=EXT_FIRST;
@@ -956,6 +957,8 @@ function render() {
       ? "url(data:image/svg+xml,"+_enc("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 1' preserveAspectRatio='none'><rect width='1' height='1' fill='"+a+"'/><rect x='1' width='1' height='1' fill='"+b+"'/></svg>")+")"
       : solid(a);
     tg.style.backgroundSize="100% 100%"; tg.style.backgroundRepeat="no-repeat";
+    // Flèche en image : le mode nuit de Brave recolore un SVG intégré, pas une <img>.
+    $("filtersArrow").src="data:image/svg+xml,"+_enc("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='"+fg+"' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>");
     tg.style.color=fg; tg.style.borderColor=fg==="#ffffff"?"rgba(255,255,255,.35)":"rgba(0,0,0,.3)";
     const k=ink(fg); sm.style.color=k.color; sm.style.textShadow=k.shadow;
   }
